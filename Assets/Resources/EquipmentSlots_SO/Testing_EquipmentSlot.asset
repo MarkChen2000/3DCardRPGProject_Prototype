@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c553c6285e9520c4688717f884712f95, type: 3}
+  m_Name: Testing_EquipmentSlot
+  m_EditorClassIdentifier: 
+  Weapon: {fileID: 11400000, guid: 15150d6c8cd1c5e478df80da2b425fc3, type: 2}
+  Armor_Head: {fileID: 11400000, guid: 75b54c78e5aac4641bd6c6a6284079c7, type: 2}
+  Armor_Body: {fileID: 11400000, guid: cab8388baa35f2c4fb052a50d0dedc72, type: 2}
+  Armor_Bottom: {fileID: 11400000, guid: 9c9c37cfeb3a4ee43b2528c24e8899e6, type: 2}
+  Ornamental_A: {fileID: 11400000, guid: 7c5a01c27cd160f4fa89de86c48c7204, type: 2}
+  Ornamental_B: {fileID: 11400000, guid: 3e0d3d443af715847a7a43da2bdc8fee, type: 2}
+  EquipmentSlotList:
+  - {fileID: 11400000, guid: 15150d6c8cd1c5e478df80da2b425fc3, type: 2}
+  - {fileID: 11400000, guid: 75b54c78e5aac4641bd6c6a6284079c7, type: 2}
+  - {fileID: 11400000, guid: cab8388baa35f2c4fb052a50d0dedc72, type: 2}
+  - {fileID: 11400000, guid: 9c9c37cfeb3a4ee43b2528c24e8899e6, type: 2}
+  - {fileID: 11400000, guid: 7c5a01c27cd160f4fa89de86c48c7204, type: 2}
+  - {fileID: 11400000, guid: 3e0d3d443af715847a7a43da2bdc8fee, type: 2}

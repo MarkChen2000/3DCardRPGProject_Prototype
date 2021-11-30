@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: de3e7e16261c6344a8b710902952a7a3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - battelCardList: {fileID: 11400000, guid: 9454a92a3f3ba3741b786b11e7345a7e, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

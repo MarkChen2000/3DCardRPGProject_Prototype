@@ -44,7 +44,7 @@ public class EquipmentSlotController : MonoBehaviour
         Inv_Con = GetComponent<InventoryController>();
         Trans_EquipmentSlotPanel = transform.GetChild(0).GetChild(2);
         Trans_PlayerStatusPanel = Trans_EquipmentSlotPanel.GetChild(0);
-        Trans_EquipmentSlotGridGroup = Trans_EquipmentSlotPanel.GetChild(1);
+        Trans_EquipmentSlotGridGroup = Trans_EquipmentSlotPanel.GetChild(2);
         GetTextCom();
     }
 

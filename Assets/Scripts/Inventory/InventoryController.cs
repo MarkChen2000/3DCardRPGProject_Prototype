@@ -35,7 +35,7 @@ public class InventoryController : MonoBehaviour
         Trans_InventoryCanvas = transform.GetChild(0).GetComponent<Transform>();
         Canvas_Inventory = Trans_InventoryCanvas.GetComponent<Canvas>();
         Trans_InvCardsGridGroup = Trans_InventoryCanvas.GetChild(1).GetChild(0).transform;
-        TMP_PageNum = Trans_InventoryCanvas.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
+        TMP_PageNum = Trans_InventoryCanvas.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
 
         LoadDatafromListAsset();
     }

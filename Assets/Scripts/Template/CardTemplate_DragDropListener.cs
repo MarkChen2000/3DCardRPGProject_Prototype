@@ -53,12 +53,13 @@ public class CardTemplate_DragDropListener: MonoBehaviour, IPointerEnterHandler,
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        OriginPos = RTrans_Template.anchoredPosition;
+        //Temporary stop the drag and drop function.
+        //OriginPos = RTrans_Template.anchoredPosition;
     }
 
     public void OnDrag(PointerEventData eventData) // when dragging, call by every frame.
     {
-        RTrans_Template.anchoredPosition += eventData.delta / Canvas_Invetory.scaleFactor ;
+        //RTrans_Template.anchoredPosition += eventData.delta / Canvas_Invetory.scaleFactor ;
         // Anchorposition is the anchor position of the Object. // eventData.delta mean the mouse movement data. 
         // the Object transform will be affect by the canvas scale, so mouse movement delta should division by the scale.
         //Debug.Log("Dragging");
@@ -66,9 +67,9 @@ public class CardTemplate_DragDropListener: MonoBehaviour, IPointerEnterHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        RTrans_Template.anchoredPosition = OriginPos;
+        //RTrans_Template.anchoredPosition = OriginPos;
 
-        switch (_TemplateType)
+        /*switch (_TemplateType)
         {
             case TemplateType.InventoryTem:
                 if (true) // if drag on a dropzone that is OK to transfer card.
@@ -99,7 +100,7 @@ public class CardTemplate_DragDropListener: MonoBehaviour, IPointerEnterHandler,
                 {
                 }
                 break;
-        }
+        }*/
     }
 
     public void OnPointerClick(PointerEventData eventData) // Whenever call by mouse Up on the Object.

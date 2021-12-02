@@ -29,7 +29,7 @@ public class BattleManager : MonoBehaviour
 
     public void executeCard(CardData card)
     {
-        Debug.Log(this.monster);
+        //Debug.Log(this.monster);
         if (monster != null)
         {
             this.card.ExecuteCardFunction(this.card.CardName, this.monster, this.playerStatus);
@@ -40,5 +40,9 @@ public class BattleManager : MonoBehaviour
     public void currentCard(CardData card)
     {
         this.card = card;
+    }
+
+    public void DrawCard() {
+        GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().DrawCard();
     }
 }

@@ -54,10 +54,12 @@ public class InventoryController : MonoBehaviour
             if (Canvas_Inventory.enabled == true)
             {
                 Canvas_Inventory.enabled = false;
+                GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().Activate(true);
             }
             else
             {
                 Canvas_Inventory.enabled = true;
+                GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().Activate(false);
             }
         }
     }
@@ -84,7 +86,7 @@ public class InventoryController : MonoBehaviour
         }
 
         if (Inventory_CardList.Count == 0) MaxPage = 1; // if there is a list but dont have any data in it, Set MaxPage = 1.
-        else MaxPage = (int)Mathf.Ceil((float)IC_CardListAsset.GetDiffCardNum() / (float)TemplateNum); // µL±ø¥ó¶i¦ì maxpage
+        else MaxPage = (int)Mathf.Ceil((float)IC_CardListAsset.GetDiffCardNum() / (float)TemplateNum); // ï¿½Lï¿½ï¿½ï¿½ï¿½iï¿½ï¿½ maxpage
 
         if (CurrentPage > MaxPage) CurrentPage = MaxPage; // Sometime due to template change make maxpage lower then currentpage, so make currentpage equal maxpage. 
 

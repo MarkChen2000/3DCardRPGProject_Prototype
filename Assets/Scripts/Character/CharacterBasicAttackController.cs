@@ -6,17 +6,20 @@ public class CharacterBasicAttackController : MonoBehaviour
 {
     public Camera MainCamera;
     private Transform Trans_Camera;
+    private CharacterMovementController Character_MoveCon;
 
-    public float Player_AttackCD = 1f;
+    public float Character_AttackCD = 1f;
     private float AttackCDTimer = 0;
 
-    public float TurningSmoothTime = 0.1f; // the time of character turning to target angle.
-    float tunringsmooth_velocity;
+    [Tooltip("The time that make character turn in inidle state, which will make character stop turning toward the moveing direction.")]
+    public float Character_AttackInidleTime = 2f;
 
-    // Start is called before the first frame update
+    public float AttackTurningSmoothTime = 0.001f; // the time of character turning to target angle.
+    float attacktunringsmooth_velocity;
+
     void Awake()
     {
-        
+        Character_MoveCon = GetComponent<CharacterMovementController>();
     }
 
     private void Start()
@@ -25,13 +28,11 @@ public class CharacterBasicAttackController : MonoBehaviour
         Trans_Camera = MainCamera.GetComponent<Transform>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if ( Input.GetMouseButtonDown(0)) // left mouse click
         {
             BasicAttack();
-            
         }
     }
 
@@ -52,16 +53,15 @@ public class CharacterBasicAttackController : MonoBehaviour
             // Rotate character to the attack point.
             Vector3 face_dir = (MouseClickPos - transform.position).normalized;
             float targetangle = Mathf.Atan2(face_dir.x, face_dir.z) * Mathf.Rad2Deg + Trans_Camera.eulerAngles.y;
-            float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref tunringsmooth_velocity, TurningSmoothTime);
+            float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref attacktunringsmooth_velocity, AttackTurningSmoothTime);
             transform.rotation = Quaternion.Euler(0f, smoothed_targetangle, 0f);
 
-
-
+            Character_MoveCon.RefreshInidleTimer(Character_AttackInidleTime);
             Debug.Log("Attack! Target:" + MouseClickPos);
         }
         else Debug.Log("Attack fail! didn't find a target!");
 
-        AttackCDTimer = Time.time + Player_AttackCD;
+        AttackCDTimer = Time.time + Character_AttackCD;
     }
 
 }

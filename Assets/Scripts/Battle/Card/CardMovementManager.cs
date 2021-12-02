@@ -12,6 +12,7 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
     void Start()
     {
         initPosition = this.GetComponent<RectTransform>().position;
+        this.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
     }
 
     // Update is called once per frame
@@ -78,5 +79,6 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
         GameObject.Find("BattleManager").GetComponent<BattleManager>().executeCard(this.gameObject.GetComponent<BattleCard_LoaderAndDisplay>()._CardData);
         GameObject.Find("BattleManager").GetComponent<BattleManager>().currentCard(null);
         Destroy(this.gameObject);
+        GameObject.Find("BattleManager").GetComponent<BattleManager>().DrawCard();
     }
 }

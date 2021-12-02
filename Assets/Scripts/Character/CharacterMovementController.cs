@@ -6,7 +6,7 @@ public class CharacterMovementController : MonoBehaviour
 {
     [Tooltip("According to this camera direction, define which direction is forward.")]
     public Transform Trans_Camera;
-
+    [HideInInspector]
     public bool Can_Control = true;
 
     private CharacterController player_controller;
@@ -15,12 +15,16 @@ public class CharacterMovementController : MonoBehaviour
     public float MoveActSpeed = 0.1f;
     [Tooltip("Control the turning smoothness.")]
     public float TurningSmoothTime = 0.1f;
+    [HideInInspector]
+    public bool Is_Idle = true; // Idle mean didn't do any behaviour except for moving, when character is in idle state,
+                                // it will start rotating to the player moveing direction. 
+
+    private float Gravity_Speed = -9.8f;
     private Vector3 Move_Dir = new Vector3();
     private Vector3 Last_Dir = new Vector3();
     float tunringsmooth_velocity;
 
     public float Dash_CD = 1f;
-    private float dashtimer = 0f;
     public float Dash_Speed = 100f;
 
     private void Awake()
@@ -31,15 +35,17 @@ public class CharacterMovementController : MonoBehaviour
     }
 
     private void Start()
-    {    
+    {
+        Last_Dir = transform.forward;
     }
 
     private void Update()
     {
-
         if (Can_Control == false) return; // All the character control function has to be write down at below.
         Move_Dir = PlayerMovementInput();
         if (Input.GetKeyDown(KeyCode.Space)) Character_Dash();
+
+        Is_Idle = Is_IdleCheck();
     }
 
     private void FixedUpdate()
@@ -52,21 +58,25 @@ public class CharacterMovementController : MonoBehaviour
             // multiply by Rad2Deg can conversion the radian to angle.
             // And by plusing the rotation around Y Axis of camera, can conversion the facing direction by camera direction.
             
-            float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref tunringsmooth_velocity, TurningSmoothTime);
-            // get the angle that is been smoothlize
-            transform.rotation = Quaternion.Euler(0f, smoothed_targetangle, 0f);
-            // Rotate the character to the targetangle, which is an eulerangle (angle around Y Axis).
-            
             Vector3 adjusted_movedir = Quaternion.Euler(0f, targetangle, 0f) * Vector3.forward;
             // conversion the adjusted angle into a vector,
             // which is relative to camera facing direction,
             // multiply by character default direction (forward(0,0,1))
             // meaning getting a new vector after orginal vector is rotated by the quaternion.
 
-            Last_Dir = adjusted_movedir;
             player_controller.Move(adjusted_movedir * PlayerMovementSpeed * Time.fixedDeltaTime);
-            // Because the Move function is using world coordinate, so it has to conversion.
+            // Because the Move function is using world coordinate, so it has to be conversion.
+            Last_Dir = adjusted_movedir;
+
+            if ( Is_Idle ) // when character is in idle state, it will start rotating to the player moveing direction.
+            {
+                float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref tunringsmooth_velocity, TurningSmoothTime);
+                // get the angle that is been smoothlize
+                transform.rotation = Quaternion.Euler(0f, smoothed_targetangle, 0f);
+                // Rotate the character to the targetangle, which is an eulerangle (angle around Y Axis).
+            }
         }
+        player_controller.Move(new Vector3(0f, Gravity_Speed*Time.fixedDeltaTime, 0f));
     }
 
     private Vector3 PlayerMovementInput()
@@ -79,6 +89,7 @@ public class CharacterMovementController : MonoBehaviour
         // this is the direction relative to the character default facing direction.
     }
 
+    private float dashtimer = 0f;
     private void Character_Dash()
     {
         if (Time.time < dashtimer)
@@ -91,5 +102,18 @@ public class CharacterMovementController : MonoBehaviour
         // transform.Translate(Vector3.forward * Dash_Distance);
         // Translate function is defautly using local coordinate, so it can simply use forward to represent character facing direction.
         dashtimer = Time.time + Dash_CD;
+    }
+
+    private float idlewaitingtimer = 0f;
+    private bool Is_IdleCheck()
+    {
+        idlewaitingtimer = Mathf.Clamp(idlewaitingtimer - Time.deltaTime,0f,10f);
+        if (idlewaitingtimer > 0) return false;
+        else return true;
+    }
+
+    public void RefreshInidleTimer(float wait_sec)
+    {
+        idlewaitingtimer = wait_sec;
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum CardListType { BattleCardList, InventoryCrdList }
 
-[CreateAssetMenu(fileName ="New CardList",menuName = "Inventory/CardList")]
-public class CardList : ScriptableObject 
+[CreateAssetMenu(fileName = "New CardList", menuName = "Inventory/CardList")]
+public class CardList : ScriptableObject
 {
     public string CardListName = "DefaultCardListName";
 
@@ -18,7 +18,7 @@ public class CardList : ScriptableObject
     public void SortListinAsset() // Sort the cards in the list.
     {
         CardAmountInList = _CardList.Count;
-        if ( CardAmountInList==0 )
+        if (CardAmountInList == 0)
         {
             Debug.Log("Didnt have card inside the CardLIst !");
         }
@@ -32,7 +32,7 @@ public class CardList : ScriptableObject
 
     public void RemoveAllEmptyElement()
     {
-        for (int i = 0; i < _CardList.Count ; i++)
+        for (int i = 0; i < _CardList.Count; i++)
         {
             if (_CardList[i] == null)
             {
@@ -48,9 +48,9 @@ public class CardList : ScriptableObject
 
         SortListinAsset();
         int differnrtcount = 1;
-        for (int i = 0; i < _CardList.Count-1 ; i++)
+        for (int i = 0; i < _CardList.Count - 1; i++)
         {
-            if ( _CardList[i]!=_CardList[i+1] )
+            if (_CardList[i] != _CardList[i + 1])
             {
                 differnrtcount++;
             }

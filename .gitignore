@@ -38,3 +38,4 @@ sysinfo.txt
 Logs/ApiUpdaterCheck.txt
 Logs/AssetImportWorker0.log
 Logs/shadercompiler-AssetImportWorker0.log
+*.log

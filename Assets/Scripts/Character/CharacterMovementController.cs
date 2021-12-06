@@ -16,8 +16,7 @@ public class CharacterMovementController : MonoBehaviour
     [Tooltip("Control the turning smoothness.")]
     public float TurningSmoothTime = 0.1f;
     [HideInInspector]
-    public bool Is_Idle = true; // Idle mean didn't do any behaviour except for moving, when character is in idle state,
-                                // it will start rotating to the player moveing direction. 
+    public bool Is_Staring = false; // Staring state mean the character will not rotate with moveing direction.
 
     private float Gravity_Speed = -9.8f;
     private Vector3 Move_Dir = new Vector3();
@@ -45,7 +44,7 @@ public class CharacterMovementController : MonoBehaviour
         Move_Dir = PlayerMovementInput();
         if (Input.GetKeyDown(KeyCode.Space)) Character_Dash();
 
-        Is_Idle = Is_IdleCheck();
+        Is_Staring = Is_StaringCheck(); //
     }
 
     private void FixedUpdate()
@@ -68,12 +67,10 @@ public class CharacterMovementController : MonoBehaviour
             // Because the Move function is using world coordinate, so it has to be conversion.
             Last_Dir = adjusted_movedir;
 
-            if ( Is_Idle ) // when character is in idle state, it will start rotating to the player moveing direction.
+            if ( !Is_Staring ) // when character isn't in staring state, it will rotate with the moveing direction.
             {
                 float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref tunringsmooth_velocity, TurningSmoothTime);
-                // get the angle that is been smoothlize
                 transform.rotation = Quaternion.Euler(0f, smoothed_targetangle, 0f);
-                // Rotate the character to the targetangle, which is an eulerangle (angle around Y Axis).
             }
         }
         player_controller.Move(new Vector3(0f, Gravity_Speed*Time.fixedDeltaTime, 0f));
@@ -104,16 +101,16 @@ public class CharacterMovementController : MonoBehaviour
         dashtimer = Time.time + Dash_CD;
     }
 
-    private float idlewaitingtimer = 0f;
-    private bool Is_IdleCheck()
+    private float staringdurationtimer = 0f;
+    private bool Is_StaringCheck()
     {
-        idlewaitingtimer = Mathf.Clamp(idlewaitingtimer - Time.deltaTime,0f,10f);
-        if (idlewaitingtimer > 0) return false;
-        else return true;
+        staringdurationtimer = Mathf.Clamp(staringdurationtimer - Time.deltaTime,0f,10f);
+        if (staringdurationtimer > 0) return true;
+        else return false;
     }
 
-    public void RefreshInidleTimer(float wait_sec)
+    public void RefreshStaringDurationTimer(float wait_sec)
     {
-        idlewaitingtimer = wait_sec;
+        staringdurationtimer = wait_sec;
     }
 }

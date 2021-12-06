@@ -56,7 +56,7 @@ public class CharacterBasicAttackController : MonoBehaviour
             float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref attacktunringsmooth_velocity, AttackTurningSmoothTime);
             transform.rotation = Quaternion.Euler(0f, smoothed_targetangle, 0f);
 
-            Character_MoveCon.RefreshInidleTimer(Character_AttackInidleTime);
+            Character_MoveCon.RefreshStaringDurationTimer(Character_AttackInidleTime);
             Debug.Log("Attack! Target:" + MouseClickPos);
         }
         else Debug.Log("Attack fail! didn't find a target!");

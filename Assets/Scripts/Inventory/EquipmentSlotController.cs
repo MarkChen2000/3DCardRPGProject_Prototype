@@ -13,53 +13,28 @@ public class EquipmentSlotController : MonoBehaviour
 
     private InventoryController Inv_Con;
     public EquipmentSlot ES_EquipmentSlotAsset;
+    public PlayerStatus playerStatus;
 
     private Transform Trans_EquipmentSlotPanel;
     private Transform Trans_PlayerStatusPanel;
     private Transform Trans_EquipmentSlotGridGroup;
-    private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerMP, TMP_PlayerAP, TMP_PlayerDP;
+    private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerPW, TMP_PlayerMP, TMP_PlayerMananRT, TMP_WeaponAPnCR, TMP_ArmorDP;
 
     [Space]
-    /*
-    public int Player_LV = 1; // Level    public int Player_BaseMaxHP = 100; //Health Point
-    public int Player_BaseMaxHP = 100;
-    private int Player_CurrentMaxHP;
-    private int Player_CurrentHP;
-    public int Player_BaseMaxMP = 10; //Mana Point
-    private int Player_CurrentMaxMP; 
-    private int Player_CurrentMP;
-    public int Player_BaseAP = 10; //Attack Point
-    private int Player_CurrentAP; 
-    public int Player_BaseDP = 10; //Defend Point
-    private int Player_CurrentDP; 
 
+    public int Player_LV; // Level
+    public int Player_BaseMaxHP = 100; //Health Point
+    private int Player_BaseMP; 
+    public int Player_BasePW; // Power
+    public int Player_BaseMaxMana;
+    public int Player_BaseManaRT; // Mana Recovery Time
+
+    private int Weapon_AP = 0;
+    private int Weapon_CR = 0;
+    private int Armor_DP = 0;
     private int EquipmentBonusHP = 0;
+    private int EquipmentBonusPW = 0;
     private int EquipmentBonusMP = 0;
-    private int EquipmentBonusAP = 0;
-    private int EquipmentBonusDP = 0;
-    */
-
-    public int Player_LV; // Level    public int Player_BaseMaxHP = 100; //Health Point
-    public int Player_BaseMaxHP;
-    private int Player_CurrentMaxHP;
-    private int Player_CurrentHP;
-    public int Player_BaseMaxMP; //Mana Point
-    private int Player_CurrentMaxMP;
-    private int Player_CurrentMP;
-    public int Player_BaseAP; //Attack Point
-    private int Player_CurrentAP;
-    public int Player_BaseDP; //Defend Point
-    private int Player_CurrentDP;
-
-    private int EquipmentBonusHP = 0;
-    private int EquipmentBonusMP = 0;
-    private int EquipmentBonusAP = 0;
-    private int EquipmentBonusDP = 0;
-
-
-    private PlayerStatus playerStatus;
-
-
 
     private void Awake()
     {
@@ -75,7 +50,7 @@ public class EquipmentSlotController : MonoBehaviour
         LoadDatafromAsset();
         SpawnAllTemplateandGetCom();
         DisplayAllEquipmenttoTem();
-        GetAllBonusfromEquipments();
+        GetEquipmentValue();
         InitializeStatusNum();
         UpdateAllStatusDisplay();
     }
@@ -86,12 +61,11 @@ public class EquipmentSlotController : MonoBehaviour
         {
             ES_EquipmentSlotAsset = Resources.Load<EquipmentSlot>("EquipmentSlots_SO/Testing_EquipmentSlot");
         }
-        playerStatus = Resources.Load<PlayerStatus>("Player/MainPlayer");
-        Player_LV = playerStatus.lv;
-        Player_BaseMaxHP = playerStatus.max_hp;
-        Player_BaseMaxMP = playerStatus.max_mp;
-        Player_BaseAP = playerStatus.attack;
-        Player_BaseDP = playerStatus.defense;
+        if ( playerStatus == null )
+        {
+            playerStatus = Resources.Load<PlayerStatus>("Player/MainPlayer");
+        }
+        LoadPlayerStatusValue();
     }
 
     private void SpawnAllTemplateandGetCom()
@@ -117,61 +91,94 @@ public class EquipmentSlotController : MonoBehaviour
     {
         TMP_PlayerLV = Trans_PlayerStatusPanel.GetChild(0).GetComponent<TMP_Text>();
         TMP_PlayerHP = Trans_PlayerStatusPanel.GetChild(1).GetComponent<TMP_Text>();
-        TMP_PlayerMP = Trans_PlayerStatusPanel.GetChild(2).GetComponent<TMP_Text>();
-        TMP_PlayerAP = Trans_PlayerStatusPanel.GetChild(3).GetComponent<TMP_Text>();
-        TMP_PlayerDP = Trans_PlayerStatusPanel.GetChild(4).GetComponent<TMP_Text>();
+        TMP_PlayerPW = Trans_PlayerStatusPanel.GetChild(2).GetComponent<TMP_Text>();
+        TMP_PlayerMP = Trans_PlayerStatusPanel.GetChild(3).GetComponent<TMP_Text>();
+        TMP_PlayerMananRT = Trans_PlayerStatusPanel.GetChild(4).GetComponent<TMP_Text>();
+        TMP_WeaponAPnCR = Trans_PlayerStatusPanel.GetChild(5).GetComponent<TMP_Text>();
+        TMP_ArmorDP = Trans_PlayerStatusPanel.GetChild(6).GetComponent<TMP_Text>();
     }
 
     private void InitializeStatusNum()
     {
-        UpdateStatusNum();
-        Player_CurrentHP = Player_CurrentMaxHP;
-        Player_CurrentMP = Player_CurrentMaxMP;
+        UpdateStatusValue();
     }
 
-    private void UpdateStatusNum()
+    private void LoadPlayerStatusValue()
     {
-        Player_CurrentMaxHP = Player_BaseMaxHP + EquipmentBonusHP;
-        Player_CurrentMaxMP = Player_BaseMaxMP + EquipmentBonusMP;
-        Player_CurrentAP = Player_BaseAP + EquipmentBonusAP;
-        Player_CurrentDP = Player_BaseDP + EquipmentBonusDP;
+        Player_LV = playerStatus.LV;
+        Player_BaseMaxHP = playerStatus.baseMaxHP;
+        Player_BaseMP = playerStatus.baseMP;
+        Player_BasePW = playerStatus.basePW;
+        Player_BaseMaxMana = playerStatus.baseMaxMana;
+        Player_BaseManaRT = playerStatus.baseManaRT;
+    }
 
-        // Watch out! This will be call whenever equipment is changed! Not sure if this will possibly be a problem.
-        Player_CurrentHP = Player_CurrentMaxHP;
-        Player_CurrentMP = Player_CurrentMaxMP;
+    private void UpdateStatusValue()
+    {
+        LoadPlayerStatusValue();
+        Player_BaseMaxHP = Player_BaseMaxHP + EquipmentBonusHP;
+        Player_BasePW = Player_BasePW + EquipmentBonusPW;
+        Player_BaseMP = Player_BaseMP + EquipmentBonusMP;
     }
 
     private void UpdateAllStatusDisplay()
     {
-        TMP_PlayerLV.text = "LV : " + Player_LV.ToString();
-        TMP_PlayerHP.text = "HP : " + Player_BaseMaxHP + " ( " + EquipmentBonusHP + " ) " + " / " + Player_CurrentHP;
-        TMP_PlayerMP.text = "MP : " + Player_BaseMaxMP + " ( " + EquipmentBonusMP + " ) " + " / " + Player_CurrentMP;
-        TMP_PlayerAP.text = "AP : " + Player_BaseAP + " ( " + EquipmentBonusAP + " ) ";
-        TMP_PlayerDP.text = "DP : " + Player_BaseDP + " ( " + EquipmentBonusDP + " ) ";
+        TMP_PlayerLV.text = "LV : " + Player_LV;
+        TMP_PlayerHP.text = "HP : " + Player_BaseMaxHP + " ( " + EquipmentBonusHP + " ) " ;
+        TMP_PlayerPW.text = "Power : " + Player_BasePW;
+        TMP_PlayerMP.text = "MP : " + Player_BaseMP + " ( " + EquipmentBonusMP + " ) " ;
+        TMP_PlayerMananRT.text = "Mana/Recovery : " + Player_BaseMaxMana + " ( " + EquipmentBonusMP + " ) /" + Player_BaseManaRT;
+        TMP_WeaponAPnCR.text = "Waepon AP/CR : " + Weapon_AP + "/" + Weapon_CR + "%";
+        TMP_ArmorDP.text = "Armor DP : " + Armor_DP ;
     }
 
-    private void GetAllBonusfromEquipments()
+    private void GetEquipmentValue()
     {
-        EquipmentBonusAP = 0;
+        Weapon_AP = 0;
+        Weapon_CR = 0;
+        Armor_DP = 0;
+        EquipmentBonusPW = 0;
         EquipmentBonusMP = 0;
-        EquipmentBonusDP = 0;
+        EquipmentBonusHP = 0;
 
         foreach (CardData carddata in ES_EquipmentSlotAsset.EquipmentSlotList)
         {
             if (carddata == null) continue;
-            switch (carddata._BonusType)
+            switch (carddata._EquipmentType)
             {
-                case BonusType.AttackPoint:
-                    EquipmentBonusAP += carddata.BonusNum;
+                case EquipmentType.Weapon:
+                    Weapon_AP = carddata.WaeponAP;
+                    Weapon_CR = carddata.WeaponCR;
+                    continue;
+                case EquipmentType.Armor:
+                    Armor_DP += carddata.ArmorDP;
                     break;
-                case BonusType.ManaPoint:
-                    EquipmentBonusMP += carddata.BonusNum;
+                case EquipmentType.Ornament:
+
                     break;
-                case BonusType.DefendPoint:
-                    EquipmentBonusDP += carddata.BonusNum;
+                case EquipmentType.NotEquip:
+                    Debug.Log("This is not Equip!");
                     break;
             }
 
+            switch ( carddata._BonusType )
+            {
+                case BonusType.HP:
+                    EquipmentBonusHP += carddata.BonusNum;
+                    break;
+                case BonusType.PW:
+                    EquipmentBonusPW += carddata.BonusNum;
+                    break;
+                case BonusType.MP:
+                    EquipmentBonusMP += carddata.BonusNum;
+                    break;
+                case BonusType.Null:
+
+                    break;
+                case BonusType.NotEquip:
+                    Debug.Log("This is not Equipment!");
+                    break;
+            }
         }
     }
 
@@ -194,10 +201,10 @@ public class EquipmentSlotController : MonoBehaviour
                     ES_EquipmentSlotAsset.Armor_Bottom = null;
                     break;
                 case 4:
-                    ES_EquipmentSlotAsset.Ornamental_A = null;
+                    ES_EquipmentSlotAsset.Ornament_A = null;
                     break;
                 case 5:
-                    ES_EquipmentSlotAsset.Ornamental_B = null;
+                    ES_EquipmentSlotAsset.Ornament_B = null;
                     break;
             }
             ES_EquipmentSlotAsset.UpdateEquipmentList();
@@ -220,7 +227,6 @@ public class EquipmentSlotController : MonoBehaviour
                     if (ES_EquipmentSlotAsset.Weapon == null)
                     {
                         ES_EquipmentSlotAsset.Weapon = carddata;
-                        ES_EquipmentSlotAsset.UpdateEquipmentList();
                         WhenEquipmentChange();
                         return true;
                     }
@@ -236,7 +242,6 @@ public class EquipmentSlotController : MonoBehaviour
                             if (ES_EquipmentSlotAsset.Armor_Head == null)
                             {
                                 ES_EquipmentSlotAsset.Armor_Head = carddata;
-                                ES_EquipmentSlotAsset.UpdateEquipmentList();
                                 WhenEquipmentChange();
                                 return true;
                             }
@@ -249,7 +254,6 @@ public class EquipmentSlotController : MonoBehaviour
                             if (ES_EquipmentSlotAsset.Armor_Body == null)
                             {
                                 ES_EquipmentSlotAsset.Armor_Body = carddata;
-                                ES_EquipmentSlotAsset.UpdateEquipmentList();
                                 WhenEquipmentChange();
                                 return true;
                             }
@@ -262,7 +266,6 @@ public class EquipmentSlotController : MonoBehaviour
                             if (ES_EquipmentSlotAsset.Armor_Bottom == null)
                             {
                                 ES_EquipmentSlotAsset.Armor_Bottom = carddata;
-                                ES_EquipmentSlotAsset.UpdateEquipmentList();
                                 WhenEquipmentChange();
                                 return true;
                             }
@@ -271,31 +274,35 @@ public class EquipmentSlotController : MonoBehaviour
                                 Debug.Log("There is already an Armor(Bottom)! fail to transfer!");
                                 return false;
                             }
+                        case ArmorType.NotArmor:
+                            Debug.Log("This is not Armor!");
+                            break;
                     }
                     break;
                 case EquipmentType.Ornament:
-                    if (ES_EquipmentSlotAsset.Ornamental_A != null && ES_EquipmentSlotAsset.Ornamental_B != null)
+                    if (ES_EquipmentSlotAsset.Ornament_A != null && ES_EquipmentSlotAsset.Ornament_B != null)
                     {
                         Debug.Log("There is already have 2 Ornament! fail to transfer!");
                         return false;
                     }
                     else
                     {
-                        if (ES_EquipmentSlotAsset.Ornamental_A == null)
+                        if (ES_EquipmentSlotAsset.Ornament_A == null)
                         {
-                            ES_EquipmentSlotAsset.Ornamental_A = carddata;
-                            ES_EquipmentSlotAsset.UpdateEquipmentList();
+                            ES_EquipmentSlotAsset.Ornament_A = carddata;
                             WhenEquipmentChange();
                             return true;
                         }
                         else
                         {
-                            ES_EquipmentSlotAsset.Ornamental_B = carddata;
-                            ES_EquipmentSlotAsset.UpdateEquipmentList();
+                            ES_EquipmentSlotAsset.Ornament_B = carddata;
                             WhenEquipmentChange();
                             return true;
                         }
                     }
+                case EquipmentType.NotEquip:
+                    Debug.Log("This is not Equipment!");
+                    break;
             }
             return true;
         }
@@ -305,23 +312,8 @@ public class EquipmentSlotController : MonoBehaviour
     {
         ES_EquipmentSlotAsset.UpdateEquipmentList();
         DisplayAllEquipmenttoTem();
-        GetAllBonusfromEquipments();
-        UpdateStatusNum();
+        GetEquipmentValue();
+        UpdateStatusValue();
         UpdateAllStatusDisplay();
-    }
-
-
-    public Dictionary<string, int> GetStatus()
-    {
-        Dictionary<string, int> statusDict = new Dictionary<string, int>();
-        statusDict.Add("LV", Player_LV);
-        statusDict.Add("CurrentHP", Player_CurrentHP);
-        statusDict.Add("MaxHP", Player_CurrentMaxHP);
-        statusDict.Add("CurrentMP", Player_CurrentMP);
-        statusDict.Add("MaxMP", Player_CurrentMaxMP);
-        statusDict.Add("Attack", Player_CurrentAP);
-        statusDict.Add("Defense", Player_CurrentDP);
-
-        return statusDict;
     }
 }

@@ -60,13 +60,6 @@ public class BattleCard_LoaderAndDisplay : MonoBehaviour
                 TMP_CardCost.text = _CardData.CardCost.ToString();
                 TMP_CardType.text = "Spells";
                 break;
-            /*case CardType.Weapon :
-                TMP_CardType.text = "Weapon";
-                break;
-            case CardType.Armor:
-                TMP_CardType.text = "Armor";
-                break;*/
-            // Only need 2 type temporaryly.
             case CardType.Equipment:
                 TMP_CardLV.text = _CardData.CardLv.ToString();
                 TMP_CardType.text = "Equipment";

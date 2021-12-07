@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
-    private GameObject monster;
+    //private GameObject monster;
     private CardData card;
     private PlayerStatus playerStatus;
+    private GameObject currentPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         playerStatus = Resources.Load<PlayerStatus>("Player/MainPlayer");
-        this.monster = null;
+        //this.monster = null;
+
     }
 
     // Update is called once per frame
@@ -23,18 +25,13 @@ public class BattleManager : MonoBehaviour
 
     public void currentTarget(GameObject gameObject)
     {
-        this.monster = gameObject;
-        //Debug.Log(this.monster.ToString());
+        //this.monster = gameObject;
     }
 
-    public void executeCard(CardData card)
+    public void executeCard(CardData card, Vector3 mousePosition)
     {
-        //Debug.Log(this.monster);
-        if (monster != null)
-        {
-            this.card.ExecuteCardFunction(this.card.CardName, this.monster, this.playerStatus);
-            GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().updateStatus(this.card);
-        }
+        this.card.ExecuteCardFunction(this.card.CardName, mousePosition, this.playerStatus, currentPrefab);
+        GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().updateStatus(this.card);
     }
 
     public void currentCard(CardData card)
@@ -42,7 +39,8 @@ public class BattleManager : MonoBehaviour
         this.card = card;
     }
 
-    public void DrawCard() {
+    public void DrawCard()
+    {
         GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().DrawCard();
     }
 }

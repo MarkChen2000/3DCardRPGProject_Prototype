@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c4108816d3f02347860c670d28bfcfc, type: 3}
-  m_Name: Magic Neacklace
+  m_Name: Ornament_Magic Neacklace
   m_EditorClassIdentifier: 
   CardID: 0
   Card_Image: {fileID: 0}
@@ -19,7 +19,10 @@ MonoBehaviour:
   _CardType: 1
   CardCost: 0
   CardLv: 4
-  _EquipmentType: 2
-  _ArmorType: 0
-  _BonusType: 2
+  _EquipmentType: 3
+  _BonusType: 4
   BonusNum: 5
+  WaeponAP: 0
+  WeaponCR: 0
+  _ArmorType: 0
+  ArmorDP: 0

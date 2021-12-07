@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: MainPlayer
   m_EditorClassIdentifier: 
   lv: 1
-  max_hp: 100
-  max_mp: 10
-  attack: 10
-  defense: 10
+  baseMaxHP: 100
+  baseMaxMP: 10
+  baseAttack: 10
+  baseDefense: 10
+  currentMaxHP: 100
+  currentMaxMP: 20
+  currentHP: 100
+  currentMP: 8
+  currentAttack: 20
+  currentDefense: 23

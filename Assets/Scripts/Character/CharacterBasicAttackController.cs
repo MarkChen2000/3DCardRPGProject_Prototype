@@ -6,13 +6,15 @@ public class CharacterBasicAttackController : MonoBehaviour
 {
     public Camera MainCamera;
     private Transform Trans_Camera;
+    public Transform AttackPointTrans;
     private CharacterMovementController Character_MoveCon;
 
+    public float AttackRangeRadius = 5f;
     public float Character_AttackCD = 1f;
     private float AttackCDTimer = 0;
 
-    [Tooltip("The time that make character turn in inidle state, which will make character stop turning toward the moveing direction.")]
-    public float Character_AttackInidleTime = 2f;
+    [Tooltip("The time that make character turn in Staring state, which will make character stop turning toward the moveing direction.")]
+    public float Character_AttackStaringTime = 2f;
 
     public float AttackTurningSmoothTime = 0.001f; // the time of character turning to target angle.
     float attacktunringsmooth_velocity;
@@ -20,6 +22,7 @@ public class CharacterBasicAttackController : MonoBehaviour
     void Awake()
     {
         Character_MoveCon = GetComponent<CharacterMovementController>();
+        //AttackPointTrans = transform.GetChild(1);
     }
 
     private void Start()
@@ -56,12 +59,32 @@ public class CharacterBasicAttackController : MonoBehaviour
             float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref attacktunringsmooth_velocity, AttackTurningSmoothTime);
             transform.rotation = Quaternion.Euler(0f, smoothed_targetangle, 0f);
 
-            Character_MoveCon.RefreshStaringDurationTimer(Character_AttackInidleTime);
-            Debug.Log("Attack! Target:" + MouseClickPos);
+            Character_MoveCon.RefreshStaringDurationTimer(Character_AttackStaringTime);
+
+            AttackCheck();
+
+            //Debug.Log("Attack! Target:" + MouseClickPos);
         }
         else Debug.Log("Attack fail! didn't find a target!");
 
         AttackCDTimer = Time.time + Character_AttackCD;
     }
 
+    private void AttackCheck()
+    {
+        Collider[] detectedcolliders = Physics.OverlapSphere(AttackPointTrans.position, AttackRangeRadius);
+        foreach (Collider item in detectedcolliders)
+        {
+            if ( item.gameObject.tag == "Monster")
+            {
+                Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(255f, 0f, 0f);
+        Gizmos.DrawWireSphere(AttackPointTrans.position, AttackRangeRadius);
+    }
 }

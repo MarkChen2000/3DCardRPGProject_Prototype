@@ -67,18 +67,19 @@ public class CradBattleUIController : MonoBehaviour
 
     public void DisplayStatus()
     {
-        Dictionary<string, int> statusDict = GameObject.Find("InventoryManager").GetComponent<EquipmentSlotController>().GetStatus();
+        Dictionary<string, int> statusDict = Resources.Load<PlayerStatus>("Player/MainPlayer").GetStatus();
         this.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = "LV: " + statusDict["LV"];
-        this.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = "HP: " + statusDict["CurrentHP"] + "/" + statusDict["MaxHP"];
-        this.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TMP_Text>().text = "MP: " + statusDict["CurrentMP"] + "/" + statusDict["MaxMP"];
-        this.transform.GetChild(0).GetChild(1).GetChild(3).GetComponent<TMP_Text>().text = "Atk: " + statusDict["Attack"];
-        this.transform.GetChild(0).GetChild(1).GetChild(4).GetComponent<TMP_Text>().text = "Def: " + statusDict["Defense"];
+        this.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = "HP: " + statusDict["currentHP"] + "/" + statusDict["currentMaxHP"];
+        this.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TMP_Text>().text = "MP: " + statusDict["currentMP"] + "/" + statusDict["currentMaxMP"];
+        this.transform.GetChild(0).GetChild(1).GetChild(3).GetComponent<TMP_Text>().text = "Atk: " + statusDict["currentAttack"];
+        this.transform.GetChild(0).GetChild(1).GetChild(4).GetComponent<TMP_Text>().text = "Def: " + statusDict["currentDefense"];
     }
 
     public void updateStatus(CardData card)
     {
-        Dictionary<string, int> statusDict = GameObject.Find("InventoryManager").GetComponent<EquipmentSlotController>().GetStatus();
-        this.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TMP_Text>().text = "MP: " + (10 - card.CardCost) + "/" + statusDict["MaxMP"];
+        Dictionary<string, int> statusDict = Resources.Load<PlayerStatus>("Player/MainPlayer").GetStatus();
+        this.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TMP_Text>().text = "MP: " + (statusDict["currentMP"] - card.CardCost) + "/" + statusDict["currentMaxMP"];
+        Resources.Load<PlayerStatus>("Player/MainPlayer").UpdateStatus("currentMana", -card.CardCost);
     }
 
     public void DrawCard()

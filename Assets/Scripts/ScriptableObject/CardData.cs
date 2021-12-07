@@ -3,24 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CardType
+public enum CardType // Every card will be either spells or equipment.
 {
     Spells, Equipment
 }
 
-public enum BonusType
+public enum BonusType // Only Equipment have Bonus Value
 {
-    AttackPoint, DefendPoint, ManaPoint,
+    NotEquip, Null, PW, HP, MP
 }
 
-public enum EquipmentType
+public enum EquipmentType 
 {
-    Weapon, Armor, Ornament
+    NotEquip, Weapon, Armor, Ornament 
 }
 
 public enum ArmorType
 {
-    Head, Body, Bottom
+    NotArmor, Head, Body, Bottom, 
 }
 
 [CreateAssetMenu(fileName = "New Card Data", menuName = "Inventory/CardData")]
@@ -31,7 +31,7 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     public Sprite Card_Image;
     public string CardName = "DefaultName";
     public string CardDescription = "DefaultDes";
-    public CardType _CardType;
+    public CardType _CardType = CardType.Spells;
 
     [Space]
     [Header("For Spell Card")]
@@ -40,22 +40,28 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     [Space]
     [Header("For Equipment Card")]
     public int CardLv = 0;
-    public EquipmentType _EquipmentType;
-    public ArmorType _ArmorType;
-    public BonusType _BonusType;
+    public EquipmentType _EquipmentType = EquipmentType.NotEquip;
+    public BonusType _BonusType = BonusType.NotEquip;
     public int BonusNum = 0;
+
+    [Header("For Waepon")]
+    public int WaeponAP = 0;
+    public int WeaponCR = 0; //Critical Rate
+
+    [Header("For Armor")]
+    public ArmorType _ArmorType = ArmorType.NotArmor;
+    public int ArmorDP = 0;
+
 
     // public int CardHoldNum = 1; // doesnt need holdnum now because that one element in list is meaning one single card.
 
-
-    public void ExecuteCardFunction(string cardName, GameObject target, PlayerStatus playerStatus) // run the card function at here.
+    public void ExecuteCardFunction(string cardName, Vector3 direction, PlayerStatus playerStatus, GameObject prefab) // run the card function at here.
     {
         if (CardName == "Fire Ball")
         {
-            if (target.tag == "Monster")
-            {
-                target.GetComponent<Monster_StatusController>().beAttacked(6 + playerStatus.attack);
-            }
+            Debug.Log("Fireball casted toward: " + direction);
+            prefab = GameObject.Find("BattleManager").GetComponent<PrefabController>().fireballPrefab;
+            Instantiate(prefab, GameObject.Find("Player").transform.position, GameObject.Find("Player").transform.rotation);
         }
     }
 

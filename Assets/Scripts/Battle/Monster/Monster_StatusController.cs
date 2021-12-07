@@ -12,9 +12,9 @@ public class Monster_StatusController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _text = this.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        _text = this.transform.parent.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         Debug.Log(_text.text.ToString());
-        currentHP = Resources.Load<MonsterStatus>("Monster/Monster001").max_hp;
+        currentHP = Instantiate(Resources.Load<MonsterStatus>("Monster/Monster001")).max_hp;
     }
 
     // Update is called once per frame

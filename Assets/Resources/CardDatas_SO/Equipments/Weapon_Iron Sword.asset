@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c4108816d3f02347860c670d28bfcfc, type: 3}
-  m_Name: Iron Helmet
+  m_Name: Weapon_Iron Sword
   m_EditorClassIdentifier: 
   CardID: 0
   Card_Image: {fileID: 0}
-  CardName: Iron Helmet
+  CardName: Iron Sword
   CardDescription: Equipment
   _CardType: 1
   CardCost: 0
   CardLv: 3
   _EquipmentType: 1
+  _BonusType: 0
+  BonusNum: 0
+  WaeponAP: 10
+  WeaponCR: 10
   _ArmorType: 0
-  _BonusType: 1
-  BonusNum: 5
+  ArmorDP: 0

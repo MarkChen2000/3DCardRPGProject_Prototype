@@ -10,14 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c4108816d3f02347860c670d28bfcfc, type: 3}
-  m_Name: Wooden Sword
+  m_Name: Armor_Leather Boots
   m_EditorClassIdentifier: 
   CardID: 0
   Card_Image: {fileID: 0}
-  CardName: Wodden Sword
-  CardDescription: Weapon
+  CardName: Leather Boots
+  CardDescription: Equipment
   _CardType: 1
   CardCost: 0
   CardLv: 1
-  _BonusType: 0
-  BonusNum: 5
+  _EquipmentType: 2
+  _BonusType: 1
+  BonusNum: 0
+  WaeponAP: 0
+  WeaponCR: 0
+  _ArmorType: 3
+  ArmorDP: 3

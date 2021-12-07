@@ -13,8 +13,16 @@ MonoBehaviour:
   m_Name: Armor Up!
   m_EditorClassIdentifier: 
   CardID: 5
-  CardCost: 5
   Card_Image: {fileID: 0}
   CardName: Armor Up!
   CardDescription: Gain 5 Armor, Draw a card.
   _CardType: 0
+  CardCost: 5
+  CardLv: 0
+  _EquipmentType: 0
+  _BonusType: 0
+  BonusNum: 0
+  WaeponAP: 0
+  WeaponCR: 0
+  _ArmorType: 0
+  ArmorDP: 0

@@ -5,33 +5,64 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New PlayerStatus", menuName = "PlayerStatus")]
 public class PlayerStatus : ScriptableObject
 {
-
     public int LV = 1;
+    [HideInInspector] public int EXP = 0;
+    public int nextLVEXP = 100; // how much exp till level up.
     public int baseMaxHP = 100;
-    private int currentHP;
+    [HideInInspector] public int currentMaxHP; // after plusing equipment buff.
+    [HideInInspector] public int currentHP;
     public int basePW = 10;
+    [HideInInspector] public int currentPW; // after plusing equipment buff.
     public int baseMP = 10; // Magic Power is difference with Amount of Mana.
-    public int baseMaxMana = 10;
-    private int currentMana;
+    [HideInInspector] public int currentMP; // after plusing equipment buff.
+    public int baseMaxMana = 10; // will not increase with lv.
+    [HideInInspector] public int currentMaxMana; // after plusing equipment buff.
+    [HideInInspector] public int currentMana;
     public int baseManaRT = 10; // it mean how much time will regain mana.
-    private int weaponAP;
-    private int weaponCR; //Weapon critical rate.
-    private int armorDP;
+    public int Money = 0;
+
+    public int baseMaxSpeed = 1; // will not increase with lv.
+    [HideInInspector] public int currentMaxSpeed;
+    [HideInInspector] public int currentSpeed;
+
+    private void OnEnable() 
+    {
+        InitializeStatus();
+    }
+
+    private void InitializeStatus()
+    {
+        currentMaxHP = baseMaxHP;
+        currentHP = baseMaxHP;
+        currentPW = basePW;
+        currentMP = baseMP;
+        currentMaxMana = baseMaxMana;
+        currentMana = baseMaxMana;
+        currentMaxSpeed = baseMaxSpeed;
+        currentSpeed = baseMaxSpeed;
+    }
 
     public Dictionary<string, int> GetStatus()
     {
         Dictionary<string, int> statusDict = new Dictionary<string, int>();
         statusDict.Add("LV", this.LV);
+        statusDict.Add("EXP", this.EXP);
+        statusDict.Add("nextLVEXP", this.nextLVEXP);
         statusDict.Add("baseMaxHP", this.baseMaxHP);
+        statusDict.Add("currentMaxHP", this.currentMaxHP);
         statusDict.Add("currentHP", this.currentHP);
         statusDict.Add("basePW", this.basePW);
+        statusDict.Add("currentPW", this.currentPW);
         statusDict.Add("baseMP", this.baseMP);
+        statusDict.Add("currentMP", this.currentMP);
         statusDict.Add("baseMaxMana", this.baseMaxMana);
+        statusDict.Add("currentMaxMana", this.currentMaxMana);
         statusDict.Add("currentMana", this.currentMana);
         statusDict.Add("baseManaRecoveryTime", this.baseManaRT);
-        statusDict.Add("WeaponAP", this.weaponAP);
-        statusDict.Add("WeaponCR", this.weaponCR);
-        statusDict.Add("ArmorDP", this.armorDP);
+        statusDict.Add("baseMaxSpeed", this.baseMaxSpeed);
+        statusDict.Add("currentMaxSpeed", this.currentMaxSpeed);
+        statusDict.Add("currentSpeed", this.currentSpeed);
+        statusDict.Add("Money", this.Money);
 
         return statusDict;
     }

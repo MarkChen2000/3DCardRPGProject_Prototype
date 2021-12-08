@@ -7,6 +7,8 @@ using TMPro;
 public class Monster_StatusController : MonoBehaviour
 {
     TextMeshProUGUI _text;
+    private BattleValueCalculator BattleValueCal;
+    public MonsterStatus _MonsterStatus;
     private int currentHP;
 
     // Start is called before the first frame update
@@ -14,7 +16,14 @@ public class Monster_StatusController : MonoBehaviour
     {
         _text = this.transform.parent.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         Debug.Log(_text.text.ToString());
-        currentHP = Instantiate(Resources.Load<MonsterStatus>("Monster/Monster001")).max_hp;
+
+        if ( _MonsterStatus==null )
+        {
+            _MonsterStatus = Resources.Load<MonsterStatus>("Monster/Monster001");
+        }
+        currentHP = _MonsterStatus.max_hp;
+
+        BattleValueCal = GameObject.Find("BattleManager").GetComponent<BattleValueCalculator>();
     }
 
     // Update is called once per frame
@@ -28,6 +37,7 @@ public class Monster_StatusController : MonoBehaviour
 
     public void beAttacked(int damage)
     {
+        damage = BattleValueCal.EnemyTakeDamageCalculate(damage); 
         updateStatus(damage);
         Debug.Log(damage);
     }

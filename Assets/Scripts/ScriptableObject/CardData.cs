@@ -45,7 +45,7 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     public int BonusNum = 0;
 
     [Header("For Waepon")]
-    public int WaeponAP = 0;
+    public int WeaponAP = 0;
     public int WeaponCR = 0; //Critical Rate
 
     [Header("For Armor")]

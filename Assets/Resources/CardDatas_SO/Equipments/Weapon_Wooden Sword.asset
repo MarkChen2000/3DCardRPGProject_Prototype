@@ -22,7 +22,7 @@ MonoBehaviour:
   _EquipmentType: 1
   _BonusType: 0
   BonusNum: 0
-  WaeponAP: 5
+  WeaponAP: 5
   WeaponCR: 5
   _ArmorType: 0
   ArmorDP: 0

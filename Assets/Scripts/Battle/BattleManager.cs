@@ -31,7 +31,7 @@ public class BattleManager : MonoBehaviour
     public void executeCard(CardData card, Vector3 mousePosition)
     {
         this.card.ExecuteCardFunction(this.card.CardName, mousePosition, this.playerStatus, currentPrefab);
-        GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().updateStatus(this.card);
+        GameObject.Find("BattleUI").GetComponent<CardBattleController>().updateStatus(card);
     }
 
     public void currentCard(CardData card)
@@ -41,6 +41,6 @@ public class BattleManager : MonoBehaviour
 
     public void DrawCard()
     {
-        GameObject.Find("BattleUI").GetComponent<CradBattleUIController>().DrawCard();
+        GameObject.Find("BattleUI").GetComponent<CardBattleController>().DrawCard();
     }
 }

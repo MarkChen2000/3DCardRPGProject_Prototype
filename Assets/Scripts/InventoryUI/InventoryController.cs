@@ -71,7 +71,7 @@ public class InventoryController : MonoBehaviour
 
     private void InitializeLoadinData()
     {
-        InvCardList = _InvCardListAsset._CardList;
+        InvCardList = _InvCardListAsset._CardList; // List is refernece-type
         RemoveAllEmptyElementinInvList();
     }
 

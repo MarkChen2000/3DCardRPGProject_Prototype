@@ -10,22 +10,16 @@ public enum AttackType // Every attack will either magic-type or physics-type. B
 public class BattleValueCalculator : MonoBehaviour
 {
 
-    public PlayerStatus _PlayerStatus;
-    public EquipmentSlot _EquipmentSlot;
+    private PlayerStatusController PlayerStatusCon;
+    private EquipmentSlotController EquipmentSlotCon;
 
     [Header("This magnification will diverse magic and physics attack.")]
     public float MagicAttackMagnification = 1.5f;
 
     private void Start()
     {
-        if ( _PlayerStatus==null )
-        {
-            _PlayerStatus = Resources.Load<PlayerStatus>("Player/MainPlayer");
-        }
-        if ( _EquipmentSlot==null )
-        {
-            _EquipmentSlot = Resources.Load<EquipmentSlot>("EquipmentSlots_SO/Testing_EquipmentSlot");
-        }
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        EquipmentSlotCon = GameObject.Find("InventoryManager").GetComponent<EquipmentSlotController>();
     }
     // This function will do the player's and enemy's damage value calculation uniformly, All the damage formula can adjust at here.
 
@@ -38,11 +32,11 @@ public class BattleValueCalculator : MonoBehaviour
         switch ( type )
         {
             case AttackType.Magic:
-                finaldamage = (_PlayerStatus.baseMP + _EquipmentSlot.EquipmentBonusMP) * spellsvalue * MagicAttackMagnification;
+                finaldamage = (PlayerStatusCon.baseMP + EquipmentSlotCon.EquipmentBonusMP) * spellsvalue * MagicAttackMagnification;
                 break;
             case AttackType.Physics:
-                if (_EquipmentSlot.Weapon == null) finaldamage = _PlayerStatus.basePW;
-                else finaldamage = (_PlayerStatus.basePW + _EquipmentSlot.EquipmentBonusPW) * _EquipmentSlot.Weapon.WeaponAP;
+                if (EquipmentSlotCon.Weapon == null) finaldamage = PlayerStatusCon.basePW;
+                else finaldamage = (PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW) * EquipmentSlotCon.Weapon.WeaponAP;
                 break;
             case AttackType.Null:
                 Debug.Log("This player's attack didnt have type!");
@@ -56,7 +50,7 @@ public class BattleValueCalculator : MonoBehaviour
     {
         float finaldamage = 0;
 
-        finaldamage = damagevalue - _EquipmentSlot.Armor_DP;
+        finaldamage = damagevalue - EquipmentSlotCon.Armor_DP;
 
         return (int)Mathf.Round(finaldamage);
     }

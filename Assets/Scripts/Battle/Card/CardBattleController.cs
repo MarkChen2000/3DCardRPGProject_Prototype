@@ -16,6 +16,12 @@ public class CardBattleController : MonoBehaviour
     private Transform Trans_HandCardsPanel;
 
     private StatusUIManager _StstusUIManager;
+    private PlayerStatusController PlayerStatusCon;
+
+    private void Awake()
+    {
+        
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +34,7 @@ public class CardBattleController : MonoBehaviour
         }
 
         _StstusUIManager = GetComponent<StatusUIManager>();
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
     public void Activate(bool b)
@@ -64,9 +71,9 @@ public class CardBattleController : MonoBehaviour
 
     public void updateStatus(CardData card)
     {
-        Dictionary<string, int> statusDict = Resources.Load<PlayerStatus>("Player/MainPlayer").GetStatus();
-        Resources.Load<PlayerStatus>("Player/MainPlayer").UpdateStatus("currentMana", -card.CardCost);
-        _StstusUIManager.DisplayStatus();
+        Dictionary<string, int> statusDict = PlayerStatusCon.GetStatus(); 
+        PlayerStatusCon.UpdateStatus("currentMana", -card.CardCost);
+        _StstusUIManager.UpdateOneStatusDisplay(StatusType.Mana);
     }
 
     public void DrawCard()

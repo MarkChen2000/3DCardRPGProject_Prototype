@@ -4,13 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum StatusType
+{
+    LVEXP,HP,Mana
+}
+
+
 public class StatusUIManager : MonoBehaviour
 {
     private TMP_Text TMP_PlayerLV, TMP_PlayerEXP, TMP_PlayerCHP, TMP_PlayerCMana;
     private Slider Slider_PlayerEXP, Slider_PlayerCHP, Slider_PlayerCMana;
     private Transform Trans_UpStatusPanel;
 
-    public PlayerStatus _PlayerStatus;
+    private PlayerStatusController PlayerStatusCon;
 
     private void Awake()
     {
@@ -26,27 +32,50 @@ public class StatusUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_PlayerStatus == null) _PlayerStatus = Resources.Load<PlayerStatus>("Player/MainPlayer");
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         InitializeDisplay();
     }
     
     private void InitializeDisplay()
     {
-        DisplayStatus();
+        UpdateAllStatusDisplay();
     }
 
-    public void DisplayStatus()
+    public void UpdateAllStatusDisplay()
     {
-        TMP_PlayerLV.text = "LV : " + _PlayerStatus.LV;
-        TMP_PlayerEXP.text = _PlayerStatus.nextLVEXP + " / " + _PlayerStatus.EXP;
-        TMP_PlayerCHP.text = _PlayerStatus.currentMaxHP + " / " + _PlayerStatus.currentHP;
-        TMP_PlayerCMana.text = _PlayerStatus.currentMaxMana + " / " + _PlayerStatus.currentMana;
-        Slider_PlayerEXP.maxValue = _PlayerStatus.nextLVEXP;
-        Slider_PlayerEXP.value = _PlayerStatus.EXP;
-        Slider_PlayerCHP.maxValue = _PlayerStatus.currentMaxHP;
-        Slider_PlayerCHP.value = _PlayerStatus.currentHP;
-        Slider_PlayerCMana.maxValue = _PlayerStatus.currentMaxMana;
-        Slider_PlayerCMana.value = _PlayerStatus.currentMana;
+        TMP_PlayerLV.text = "LV : " + PlayerStatusCon.LV;
+        TMP_PlayerEXP.text = PlayerStatusCon.nextLVEXP + " / " + PlayerStatusCon.EXP;
+        TMP_PlayerCHP.text = PlayerStatusCon.currentMaxHP + " / " + PlayerStatusCon.currentHP;
+        TMP_PlayerCMana.text = PlayerStatusCon.currentMaxMana + " / " + PlayerStatusCon.currentMana;
+        Slider_PlayerEXP.maxValue = PlayerStatusCon.nextLVEXP;
+        Slider_PlayerEXP.value = PlayerStatusCon.EXP;
+        Slider_PlayerCHP.maxValue = PlayerStatusCon.currentMaxHP;
+        Slider_PlayerCHP.value = PlayerStatusCon.currentHP;
+        Slider_PlayerCMana.maxValue = PlayerStatusCon.currentMaxMana;
+        Slider_PlayerCMana.value = PlayerStatusCon.currentMana;
+    }
+
+    public void UpdateOneStatusDisplay(StatusType type)
+    {
+        switch ( type )
+        {
+            case StatusType.LVEXP:
+                TMP_PlayerLV.text = "LV : " + PlayerStatusCon.LV;
+                TMP_PlayerEXP.text = PlayerStatusCon.nextLVEXP + " / " + PlayerStatusCon.EXP;
+                Slider_PlayerEXP.maxValue = PlayerStatusCon.nextLVEXP;
+                Slider_PlayerEXP.value = PlayerStatusCon.EXP;
+                break;
+            case StatusType.HP:
+                TMP_PlayerCHP.text = PlayerStatusCon.currentMaxHP + " / " + PlayerStatusCon.currentHP;
+                Slider_PlayerCHP.maxValue = PlayerStatusCon.currentMaxHP;
+                Slider_PlayerCHP.value = PlayerStatusCon.currentHP;
+                break;
+            case StatusType.Mana:
+                TMP_PlayerCMana.text = PlayerStatusCon.currentMaxMana + " / " + PlayerStatusCon.currentMana;
+                Slider_PlayerCMana.maxValue = PlayerStatusCon.currentMaxMana;
+                Slider_PlayerCMana.value = PlayerStatusCon.currentMana;
+                break;
+        }
     }
 
 }

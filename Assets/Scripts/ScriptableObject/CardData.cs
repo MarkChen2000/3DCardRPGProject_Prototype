@@ -55,8 +55,9 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
 
     // public int CardHoldNum = 1; // doesnt need holdnum now because that one element in list is meaning one single card.
 
-    public void ExecuteCardFunction(string cardName, Vector3 direction, PlayerStatus playerStatus, GameObject prefab) // run the card function at here.
+    public void ExecuteCardFunction(string cardName, Vector3 direction, PlayerStatusController playerStatusCon, GameObject prefab) // run the card function at here.
     {
+        // 12.12 change playerstatus to playerstatuscontroller for the SO usage change.
         if (CardName == "Fire Ball")
         {
             Debug.Log("Fireball casted toward: " + direction);

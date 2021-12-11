@@ -16,3 +16,6 @@ MonoBehaviour:
   max_hp: 300
   attack: 30
   defense: 10
+  Drop_Exp: 50
+  DropMoney: 50
+  DropCard: {fileID: 0}

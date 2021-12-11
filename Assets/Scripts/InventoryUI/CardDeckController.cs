@@ -12,22 +12,25 @@ public class CardDeckController : MonoBehaviour
     private Transform Trans_DeckCardGridGroup;
     private TMP_Text TMP_DeckCapacityNumText;
 
-    [InspectorName("CardDeckController_CardListAsset")]
-    public CardList CDC_CardListAsset; // CardList-type asset.
-    [HideInInspector]
-    public List<CardData> CDC_CardDeck = new List<CardData>() ;
     private List<DeckCard_DataLoaderAndDisplay> TemplateComponent = new List<DeckCard_DataLoaderAndDisplay>();
 
-    [Space]
     public int DeckHoldLimit = 30;
+
+    [Space]
+    public CardList _CardDeckAsset; // CardList-type asset.
+    public List<CardData> DeckCardList = new List<CardData>();
+    private int CardAmountInList;
 
     private void Awake()
     {
+        SaveandLoadCardDeck(true); // Load
+        if (_CardDeckAsset == null) _CardDeckAsset = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
+        // Load initial DeckCardList asset first, this may be replaced by Save and Load System before build!
+        InitializeLoadinData();
+
         Inv_Con = GetComponent<InventoryController>();
         Trans_DeckCardGridGroup = transform.GetChild(0).GetChild(0).GetChild(0);
         TMP_DeckCapacityNumText = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
-
-        LoadDatafromListAsset();
     }
 
     private void Start()
@@ -37,20 +40,67 @@ public class CardDeckController : MonoBehaviour
         UpdateCardNum();
     }
 
-    private void LoadDatafromListAsset()
+    private void InitializeLoadinData()
     {
-        if (CDC_CardListAsset == null)
-        {
-            CDC_CardListAsset = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
-        }
-        CDC_CardDeck = CDC_CardListAsset._CardList;
+        DeckCardList = _CardDeckAsset._CardList;
+        RemoveAllEmptyElementinDeck();
+    }
 
-        CDC_CardListAsset.RemoveAllEmptyElement();
+    private void SaveandLoadCardDeck(bool SorL)
+    {
+        // save and load system.
+        if (SorL )
+        { }
+        else 
+        { }
+    }
+
+    private void SortDeckList() // Sort the cards in the list.
+    {
+        CardAmountInList = DeckCardList.Count;
+        if (CardAmountInList == 0)
+        {
+            Debug.Log("Didnt have card inside the CardLIst !");
+        }
+        else
+        {
+            // Because Carddata-type data is not the regular type like int or string that can be sorted defaulty.
+            // Have to use "IComparble" to compare the data (CardCost) of elements in list, with self-made sort function.
+            DeckCardList.Sort(); // Sort by the Cost of Card.
+        }
+    }
+
+    private void RemoveAllEmptyElementinDeck()
+    {
+        for (int i = 0; i < DeckCardList.Count; i++)
+        {
+            if (DeckCardList[i] == null)
+            {
+                DeckCardList.Remove(DeckCardList[i]);
+                Debug.Log("Element in _CardList[" + i + "] is empty! Removing the empty element.");
+            }
+        }
+    }
+
+    private int GetDiffCardNuminDeck() // Get how many DIFFERENT Card in the list;
+    {
+        if (DeckCardList.Count == 0) return 0;
+
+        SortDeckList();
+        int differnrtcount = 1;
+        for (int i = 0; i < DeckCardList.Count - 1; i++)
+        {
+            if (DeckCardList[i] != DeckCardList[i + 1])
+            {
+                differnrtcount++;
+            }
+        }
+        return differnrtcount;
     }
 
     private void SpawnAllTemplateandGetCom()
     {
-        for (int i = 0; i < CDC_CardListAsset.GetDiffCardNum() ; i++)
+        for (int i = 0; i < GetDiffCardNuminDeck() ; i++)
         {
             SpawnOneTemplateandGetCom();
         }
@@ -63,16 +113,16 @@ public class CardDeckController : MonoBehaviour
 
     private void DisplayAllCardtoDeck()
     {
-        if (CDC_CardListAsset.GetDiffCardNum() == 0) return;
+        if (GetDiffCardNuminDeck() == 0) return;
 
         int cardnumcount = 1;
-        for (int i = 0, k = 0; i < CDC_CardListAsset.GetDiffCardNum(); k++) // i as template count, k as the count of elements in list.
+        for (int i = 0, k = 0; i < GetDiffCardNuminDeck(); k++) // i as template count, k as the count of elements in list.
         {
             //Debug.Log("A"); //for bug fixing.
-            if (i != CDC_CardListAsset.GetDiffCardNum() - 1)
+            if (i != GetDiffCardNuminDeck() - 1)
             {
                 //Debug.Log("B"); //for bug fixing.
-                if (CDC_CardDeck[k] == CDC_CardDeck[k + 1]) // if two near element is same, then counter +1.
+                if (DeckCardList[k] == DeckCardList[k + 1]) // if two near element is same, then counter +1.
                 {
                     //Debug.Log("C"); //for bug fixing.
                     cardnumcount++;
@@ -81,7 +131,7 @@ public class CardDeckController : MonoBehaviour
                 {
                     //Debug.Log("D"); //for bug fixing.
                     TemplateComponent[i].HoldNum = cardnumcount;
-                    TemplateComponent[i].DisplaytoTemplate(CDC_CardDeck[k]);
+                    TemplateComponent[i].DisplaytoTemplate(DeckCardList[k]);
                     i++;
                     cardnumcount = 1;
                 }
@@ -89,9 +139,9 @@ public class CardDeckController : MonoBehaviour
             else // if it is the last different card in the list.
             { 
                 //Debug.Log("E"+i+k); //for bug fixing.
-                TemplateComponent[i].HoldNum = CDC_CardDeck.Count - k;
+                TemplateComponent[i].HoldNum = DeckCardList.Count - k;
                 //Debug.Log("F"); //for bug fixing.
-                TemplateComponent[i].DisplaytoTemplate(CDC_CardDeck[k]);
+                TemplateComponent[i].DisplaytoTemplate(DeckCardList[k]);
                 i++;
             }
         }
@@ -100,7 +150,7 @@ public class CardDeckController : MonoBehaviour
 
     private void UpdateCardNum()
     {
-        int currentcardnum = CDC_CardDeck.Count;
+        int currentcardnum = DeckCardList.Count;
         TMP_DeckCapacityNumText.text = currentcardnum + "\n/\n" + DeckHoldLimit;
     }
 
@@ -112,13 +162,13 @@ public class CardDeckController : MonoBehaviour
         {
             if (card_template.HoldNum > 1) // it means that doesn't need to remove the template, but remove one of the carddata from list. 
             {
-                CDC_CardDeck.Remove(card_template._CardData);
+                DeckCardList.Remove(card_template._CardData);
                 WhenDeckListChange(true);
             }
             else if (card_template.HoldNum == 1)
             {
                 int tem_pos;
-                CDC_CardDeck.Remove(card_template._CardData);
+                DeckCardList.Remove(card_template._CardData);
                 tem_pos = card_template.transform.GetSiblingIndex(); // Get the position under parent in the hierarchy, which is also equal the component index in the list.
                 Destroy(card_template.gameObject);
                 TemplateComponent.RemoveAt(tem_pos); // and remove the component at that index.
@@ -137,21 +187,21 @@ public class CardDeckController : MonoBehaviour
         switch (carddata._CardType) // check what type of this card.
         {
             case CardType.Spells:
-                if (DeckHoldLimit > CDC_CardDeck.Count) // If there still have space for card.
+                if (DeckHoldLimit > DeckCardList.Count) // If there still have space for card.
                 {
-                    if (CDC_CardDeck.Exists(x => x == carddata)) // Find if there is same carddata.
+                    if (DeckCardList.Exists(x => x == carddata)) // Find if there is same carddata.
                                                                               // If so, only need to add carddata to list.
                     {
                         if (true) // if the holdnum of that card reach limit or not ( not neccesary feature )
                         {
-                            CDC_CardDeck.Add(carddata);
+                            DeckCardList.Add(carddata);
                             WhenDeckListChange(true);
                             return true;
                         }
                     }
                     else // if there are not same card in deck, need to add carddata to list and create new template.
                     {
-                        CDC_CardDeck.Add(carddata);
+                        DeckCardList.Add(carddata);
                         SpawnOneTemplateandGetCom();
                         WhenDeckTemplateChange(true);
                         return true;
@@ -173,7 +223,7 @@ public class CardDeckController : MonoBehaviour
     {
         if (AddorRemove) //Add
         {
-            CDC_CardListAsset.SortListinAsset();
+            SortDeckList();
         }
         else //Remove
         {
@@ -186,7 +236,7 @@ public class CardDeckController : MonoBehaviour
     {
         if (AddorRemove) //Add
         {
-            CDC_CardListAsset.SortListinAsset();
+            SortDeckList();
             DisplayAllCardtoDeck();
         }
         else //Remove

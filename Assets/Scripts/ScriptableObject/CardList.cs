@@ -13,13 +13,20 @@ public class CardList : ScriptableObject
 
     public List<CardData> _CardList = new List<CardData>();
 
-    private int CardAmountInList;
+    // 12.12 note:
+    // Because of some mistake, we have to cancle these scriptable object function.
+    // By orgin thought, we thought these SO can do the storage function and take/change these variables in it,
+    // but now these SO should only have "setting initial value" function for now on,
+    // and load in their value to controller at game start,
+    // so we move these functions to their own controller.
 
-    public void SortListinAsset() // Sort the cards in the list.
+    //private int CardAmountInList;
+
+    /*public void SortListinAsset() // Sort the cards in the list.
     {
         CardAmountInList = _CardList.Count;
         if (CardAmountInList == 0)
-        {
+        { 
             Debug.Log("Didnt have card inside the CardLIst !");
         }
         else
@@ -56,7 +63,7 @@ public class CardList : ScriptableObject
             }
         }
         return differnrtcount;
-    }
+    }*/
 
     public int getLength()
     {

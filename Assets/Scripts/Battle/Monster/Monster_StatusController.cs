@@ -8,6 +8,7 @@ public class Monster_StatusController : MonoBehaviour
 {
     TextMeshProUGUI _text;
     private BattleValueCalculator BattleValueCal;
+    private PlayerStatusLevelupSystem PlayerLevelupSystem;
     public MonsterStatus _MonsterStatus;
     private int currentHP;
 
@@ -24,21 +25,24 @@ public class Monster_StatusController : MonoBehaviour
         currentHP = _MonsterStatus.max_hp;
 
         BattleValueCal = GameObject.Find("BattleManager").GetComponent<BattleValueCalculator>();
+        PlayerLevelupSystem = GameObject.Find("PlayerManager").GetComponent<PlayerStatusLevelupSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentHP <= 0)
-        {
-            Destroy(this.gameObject);
-        }
     }
 
     public void beAttacked(int damage)
     {
         damage = BattleValueCal.EnemyTakeDamageCalculate(damage); 
         updateStatus(damage);
+
+        if (currentHP <= 0)
+        {
+            MonsterDead();
+        }
+
         Debug.Log(damage);
     }
 
@@ -48,4 +52,12 @@ public class Monster_StatusController : MonoBehaviour
         _text.text = "HP :" + (currentHP - number);
         currentHP = currentHP - number;
     }
+
+    private void MonsterDead()
+    {
+        PlayerLevelupSystem.GainExp(_MonsterStatus.Drop_Exp);
+
+        Destroy(this.gameObject);
+    }
+
 }

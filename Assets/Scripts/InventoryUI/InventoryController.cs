@@ -14,9 +14,6 @@ public class InventoryController : MonoBehaviour
     private TMP_Text TMP_PageNum;
 
     public GameObject CardTemplatePrefab; // the template that display on the panel
-    [Tooltip("InventoryController_CardListAsset")]
-    public CardList IC_CardListAsset; // InventoryController_CardList, the CardList-type asset
-    private List<CardData> Inventory_CardList = new List<CardData>(); // CardList that store at this script
 
     private Transform Trans_InvCardsGridGroup; // locattion of the InvCardGridGroup
     private List<Card_DataLoaderAndDisplay> TemplateComponent = new List<Card_DataLoaderAndDisplay>(); // Each Template Component which is Display 
@@ -26,9 +23,18 @@ public class InventoryController : MonoBehaviour
     private int CurrentPage = 1;
     private int MaxPage = 1;
 
+    [Space]
+    public CardList _InvCardListAsset; // InventoryController_CardList, the CardList-type asset
+    public List<CardData> InvCardList = new List<CardData>(); // CardList that store at this script
+    private int CardAmountInList;
+
+
     private void Awake()
     {
-        //GetComponentofTemplates();
+        SaveandLoadInvCardList(true); // Load
+        if (_InvCardListAsset == null) _InvCardListAsset = Resources.Load<CardList>("CardLists_SO/Testing_InventoryCardList");
+        // Load initial InvCardList asset first, this may be replaced by Save and Load System before build!
+        InitializeLoadinData();
 
         EquipSlot_Con = GetComponent<EquipmentSlotController>();
         CardDeck_Con = GetComponent<CardDeckController>();
@@ -37,7 +43,6 @@ public class InventoryController : MonoBehaviour
         Trans_InvCardsGridGroup = Trans_InventoryCanvas.GetChild(1).GetChild(0).transform;
         TMP_PageNum = Trans_InventoryCanvas.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
 
-        LoadDatafromListAsset();
     }
 
     private void Start()
@@ -64,29 +69,74 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void LoadDatafromListAsset()
+    private void InitializeLoadinData()
     {
-        if (IC_CardListAsset == null)
+        InvCardList = _InvCardListAsset._CardList;
+        RemoveAllEmptyElementinInvList();
+    }
+
+    private void SaveandLoadInvCardList(bool SorL)
+    {
+        // save and load system.
+        if (SorL)
+        { }
+        else
+        { }
+    }
+
+    private void SortListinAssetinInvList() // Sort the cards in the list.
+    {
+        CardAmountInList = InvCardList.Count;
+        if (CardAmountInList == 0)
         {
-            IC_CardListAsset = Resources.Load<CardList>("CardLists_SO/Testing_InventoryCardList"); // Because only CardListAsset can use Sort function, so it has to be load in as a asset.
+            Debug.Log("Didnt have card inside the CardLIst !");
         }
-        // Load CardList-type of data, which have to put into "Resources" file, then get the CardData-type List in it.
+        else
+        {
+            // Because Carddata-type data is not the regular type like int or string that can be sorted defaulty.
+            // Have to use "IComparble" to compare the data (CardCost) of elements in list, with self-made sort function.
+            InvCardList.Sort(); // Sort by the Cost of Card.
+        }
+    }
 
-        Inventory_CardList = IC_CardListAsset._CardList;
+    private void RemoveAllEmptyElementinInvList()
+    {
+        for (int i = 0; i < InvCardList.Count; i++)
+        {
+            if (InvCardList[i] == null)
+            {
+                InvCardList.Remove(InvCardList[i]);
+                Debug.Log("Element in _CardList[" + i + "] is empty! Removing the empty element.");
+            }
+        }
+    }
 
-        IC_CardListAsset.RemoveAllEmptyElement(); // All the load-in asset need to be formalize to edit.
+    private int GetDiffCardNuminInvList() // Get how many DIFFERENT Card in the list;
+    {
+        if (InvCardList.Count == 0) return 0;
+
+        SortListinAssetinInvList();
+        int differnrtcount = 1;
+        for (int i = 0; i < InvCardList.Count - 1; i++)
+        {
+            if (InvCardList[i] != InvCardList[i + 1])
+            {
+                differnrtcount++;
+            }
+        }
+        return differnrtcount;
     }
 
     private void UpdatePageNum()
     {
-        if (Inventory_CardList == null)
+        if (InvCardList == null)
         {
             TMP_PageNum.text = "1/X";
             return; // if there is no list data, return.
         }
 
-        if (Inventory_CardList.Count == 0) MaxPage = 1; // if there is a list but dont have any data in it, Set MaxPage = 1.
-        else MaxPage = (int)Mathf.Ceil((float)IC_CardListAsset.GetDiffCardNum() / (float)TemplateNum); // �L����i�� maxpage
+        if (InvCardList.Count == 0) MaxPage = 1; // if there is a list but dont have any data in it, Set MaxPage = 1.
+        else MaxPage = (int)Mathf.Ceil((float)GetDiffCardNuminInvList() / (float)TemplateNum); // �L����i�� maxpage
 
         if (CurrentPage > MaxPage) CurrentPage = MaxPage; // Sometime due to template change make maxpage lower then currentpage, so make currentpage equal maxpage. 
 
@@ -106,8 +156,8 @@ public class InventoryController : MonoBehaviour
 
     private void SpawnAllTemplateAndGetCom() // Spawn templates, which number is the number of differnet card in list.
     {
-        if (IC_CardListAsset.GetDiffCardNum() == 0) return;
-        for (int i = 0; i < IC_CardListAsset.GetDiffCardNum(); i++)
+        if (GetDiffCardNuminInvList() == 0) return;
+        for (int i = 0; i < GetDiffCardNuminInvList(); i++)
         {
             SpawnOneTemplateAndGetCom();
         }
@@ -121,29 +171,29 @@ public class InventoryController : MonoBehaviour
 
     private void DisplayAllCardtoInventory()
     {
-        if (IC_CardListAsset.GetDiffCardNum() == 0) return;
+        if (GetDiffCardNuminInvList() == 0) return;
 
         int cardnumcount = 1;
-        for (int i = 0, k = 0; i < IC_CardListAsset.GetDiffCardNum() ;k++) // i as template count, k as the count of elements in list.
+        for (int i = 0, k = 0; i < GetDiffCardNuminInvList() ;k++) // i as template count, k as the count of elements in list.
         {
-            if ( i != IC_CardListAsset.GetDiffCardNum()-1 )
+            if ( i != GetDiffCardNuminInvList()-1 )
             {
-                if (Inventory_CardList[k] == Inventory_CardList[k + 1]) // if two near element is same, then counter +1.
+                if (InvCardList[k] == InvCardList[k + 1]) // if two near element is same, then counter +1.
                 {
                     cardnumcount++;
                 }
                 else 
                 {
                     TemplateComponent[i].HoldNum = cardnumcount;
-                    TemplateComponent[i].DisplaytoTemplate(Inventory_CardList[k]);
+                    TemplateComponent[i].DisplaytoTemplate(InvCardList[k]);
                     i++;
                     cardnumcount = 1;
                 }
             }
             else // if it is the last different card in the list.
             {
-                TemplateComponent[i].HoldNum = Inventory_CardList.Count - k ;
-                TemplateComponent[i].DisplaytoTemplate(Inventory_CardList[k]);
+                TemplateComponent[i].HoldNum = InvCardList.Count - k ;
+                TemplateComponent[i].DisplaytoTemplate(InvCardList[k]);
                 i++;
             }
         }
@@ -175,13 +225,13 @@ public class InventoryController : MonoBehaviour
                 {
                     if (card_template.HoldNum > 1) // it means that doesn't need to remove the template, but remove one of the carddata from list. 
                     {
-                        Inventory_CardList.Remove(card_template._CardData);
+                        InvCardList.Remove(card_template._CardData);
                         WhenInvListChange(false);
                     }
                     else if (card_template.HoldNum == 1)
                     {
                         int tem_pos;
-                        Inventory_CardList.Remove(card_template._CardData);
+                        InvCardList.Remove(card_template._CardData);
                         tem_pos = card_template.transform.GetSiblingIndex(); // Get the position under parent in the hierarchy, which is also equal the component index in the list.
                         Destroy(card_template.gameObject);
                         TemplateComponent.RemoveAt(tem_pos); // and remove the component at that index.
@@ -199,13 +249,13 @@ public class InventoryController : MonoBehaviour
                 {
                     if (card_template.HoldNum > 1)
                     {
-                        Inventory_CardList.Remove(card_template._CardData);
+                        InvCardList.Remove(card_template._CardData);
                         WhenInvListChange(false);
                     }
                     else if (card_template.HoldNum == 1)
                     {
                         int tem_pos;
-                        Inventory_CardList.Remove(card_template._CardData);
+                        InvCardList.Remove(card_template._CardData);
                         tem_pos = card_template.transform.GetSiblingIndex();
                         Destroy(card_template.gameObject);
                         TemplateComponent.RemoveAt(tem_pos);
@@ -222,19 +272,19 @@ public class InventoryController : MonoBehaviour
 
     public bool ReceiveCard(CardData carddata) // Receive a carddata from other list, check if it is ok to receive.
     {
-        if (Inventory_CardList.Exists(x => x == carddata)) // Find if there is same carddata.
+        if (InvCardList.Exists(x => x == carddata)) // Find if there is same carddata.
                                                      // If so, only need to add carddata to list.
         {
             if (true) // if the holdnum of that card reach limit or not ( not neccesary feature )
             {
-                Inventory_CardList.Add(carddata);
+                InvCardList.Add(carddata);
                 WhenInvListChange(true);
                 return true;
             }
         }
         else // if there are not same card in deck, need to add carddata to list and create new template.
         {
-            Inventory_CardList.Add(carddata);
+            InvCardList.Add(carddata);
             SpawnOneTemplateAndGetCom();
             WhenInvTemplateChange(true);
             return true;
@@ -245,7 +295,7 @@ public class InventoryController : MonoBehaviour
     {
         if ( AddorRemove ) //Add
         {
-            IC_CardListAsset.SortListinAsset();
+            SortListinAssetinInvList();
             DisplayAllCardtoInventory();
             UpdatePageNum();
         }
@@ -260,7 +310,7 @@ public class InventoryController : MonoBehaviour
     {
         if (AddorRemove) //Add
         {
-            IC_CardListAsset.SortListinAsset();
+            SortListinAssetinInvList();
             DisplayAllCardtoInventory();
             UpdatePageNum();
         }
@@ -269,53 +319,4 @@ public class InventoryController : MonoBehaviour
             UpdatePageNum();
         }
     }
-
-    // This is Original Method to Display Templates by particular page down below.
-
-    /*private void GetComponentofTemplates()
-    {
-        Trans_BPCardDisplayBGPanel = transform.GetChild(0).GetChild(0) ;
-
-        for (int i = 0; i < TemplateNum ; i++) // Get each CardTemplate
-        {
-            DisplayTemplateComponent.Add(Trans_BPCardDisplayBGPanel.GetChild(i).GetComponent<Card_DataLoaderAndDisplay>()); // Currently the List is empty, so use "add" instead of "=".
-        }
-    }*/
-
-    /*public void DisplayAllCardtoInventory(int page) // put in which page should display
-    {
-        int displaytime = page*TemplateNum ;
-
-        for (int i = (page-1)*TemplateNum , j = 0 ; i < displaytime ; i++, j++) 
-        // "i" mean the count of the elements in the list. "j" mean the count of the template in a page.  
-        {
-            Card_DataLoaderAndDisplay cardloader;
-            cardloader = DisplayTemplateComponent[j];
-
-            if ( IC_CardListAsset.GetDiffCardNum() > i ) // if the list is shortter then displaynum, then stop try to get element, there is no element in the list.
-            {
-
-                int cardnumcount = 1;
-
-                for (int k = i; true ; k++)
-                {
-                    if ( Inventory_CardList[k]==Inventory_CardList[k+1] )
-                    {
-                        cardnumcount++;
-                    }
-                    else
-                    {
-                        cardloader.DisplaytoTemplates(Inventory_CardList[i]);
-                        cardloader.HoldNum = cardnumcount;
-                        i = k + 1;
-                        break;
-                    }
-                }
-            }
-            else 
-            {
-                cardloader.DisplaytoTemplates(null);
-            }
-        }
-    }*/
 }

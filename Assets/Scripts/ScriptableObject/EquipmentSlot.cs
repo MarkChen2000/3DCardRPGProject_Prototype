@@ -5,6 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New EquipmentSlot",menuName = "Inventory/EquipmentSlot")]
 public class EquipmentSlot : ScriptableObject
 {
+    // 12.12 note:
+    // Because of some mistake, we have to cancle these scriptable object function.
+    // By orgin thought, we thought these SO can do the storage function and take/change these variables in it,
+    // but now these SO should only have "setting initial value" function for now on,
+    // and load in their value to controller at game start,
+    // so we move these functions to their own controller.
+
     public CardData Weapon, Armor_Head, Armor_Body, Armor_Bottom, Ornament_A, Ornament_B;
     private List<CardData> EquipmentSlotList = new List<CardData>(); // using list for visialize and because of the sequentiality.
     // private Dictionary<string,CardData> _EquipmentSlotDic = new Dictionary<string, CardData>();
@@ -12,27 +19,27 @@ public class EquipmentSlot : ScriptableObject
     // e.g. they are all like a string and store in a Carddata variable.
     // so didn't have to use dictionary.
 
-    [HideInInspector] public int Weapon_AP = 0;
+    /*[HideInInspector] public int Weapon_AP = 0;
     [HideInInspector] public int Weapon_CR = 0;
     [HideInInspector] public int Armor_DP = 0;
     [HideInInspector] public int EquipmentBonusHP = 0;
     [HideInInspector] public int EquipmentBonusPW = 0;
-    [HideInInspector] public int EquipmentBonusMP = 0;
+    [HideInInspector] public int EquipmentBonusMP = 0;*/
 
     private void OnEnable()
     {
-        InitializeEquipmentList();
+        //InitializeEquipmentList();
     }
 
-    private void InitializeEquipmentList()
+    /*private void InitializeEquipmentList()
     {
-        /*_EquipmentSlotDic.Clear();
+        *//*_EquipmentSlotDic.Clear();
         _EquipmentSlotDic.Add("Weapon", Weapon);
         _EquipmentSlotDic.Add("Armor_Head", Armor_Head);
         _EquipmentSlotDic.Add("Armor_Body", Armor_Body);
         _EquipmentSlotDic.Add("Armor_Bottom", Armor_Bottom);
         _EquipmentSlotDic.Add("Ornament_A", Ornament_A);
-        _EquipmentSlotDic.Add("Ornament_B", Ornament_B);*/
+        _EquipmentSlotDic.Add("Ornament_B", Ornament_B);*//*
 
         EquipmentSlotList.Clear();
         EquipmentSlotList.Add(Weapon);
@@ -45,12 +52,12 @@ public class EquipmentSlot : ScriptableObject
 
     private void UpdateEquipmentList()
     {
-        /*_EquipmentSlotDic["Weapon"] = Weapon;
+        *//*_EquipmentSlotDic["Weapon"] = Weapon;
         _EquipmentSlotDic["Armor_Head"] = Armor_Head;
         _EquipmentSlotDic["Armor_Body"] = Armor_Body;
         _EquipmentSlotDic["Armor_Bottom"] = Armor_Bottom;
         _EquipmentSlotDic["Ornament_A"] = Ornament_A;
-        _EquipmentSlotDic["Ornament_B"] = Ornament_B;*/
+        _EquipmentSlotDic["Ornament_B"] = Ornament_B;*//*
 
         EquipmentSlotList[0] = Weapon;
         EquipmentSlotList[1] = Armor_Head;
@@ -110,5 +117,5 @@ public class EquipmentSlot : ScriptableObject
                     break;
             }
         }
-    }
+    }*/
 }

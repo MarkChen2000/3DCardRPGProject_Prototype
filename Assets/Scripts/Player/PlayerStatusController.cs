@@ -2,43 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New PlayerStatus", menuName = "PlayerStatus")]
-public class PlayerStatus : ScriptableObject
+public class PlayerStatusController : MonoBehaviour
 {
-    // 12.12 note:
-    // Because of some mistake, we have to cancle these scriptable object function.
-    // By orgin thought, we thought these SO can do the storage function and take/change these variables in it,
-    // but now these SO should only have "setting initial value" function for now on,
-    // and load in their value to controller at game start,
-    // so we move these functions to their own controller.
 
+    public PlayerStatus _PlayerStatus;
+
+    // "base/baseMax" mean the character basic value
+    // "currentMax" mean the value was plused by equipment bonus.
+    // "current" mean the the current remaining amount of value.
     public int LV = 1;
-    public int EXP = 0;
+    [HideInInspector] public int EXP = 0;
     public int nextLVEXP = 100; // how much exp till level up.
     public int baseMaxHP = 100;
-    //[HideInInspector] public int currentMaxHP; 
-    //[HideInInspector] public int currentHP;
+    [HideInInspector] public int currentMaxHP;
+    [HideInInspector] public int currentHP;
     public int basePW = 10;
-    //[HideInInspector] public int currentPW; 
+    [HideInInspector] public int currentPW;
     public int baseMP = 10; // Magic Power is difference with Amount of Mana.
-    //[HideInInspector] public int currentMP; 
+    [HideInInspector] public int currentMP;
     public int baseMaxMana = 10; // will not increase with lv.
-    //[HideInInspector] public int currentMaxMana; 
-    //[HideInInspector] public int currentMana;
-    public int baseManaRT = 10; 
+    [HideInInspector] public int currentMaxMana;
+    [HideInInspector] public int currentMana;
+    public int baseManaRT = 10;
 
     public int baseMaxSpeed = 1; // will not increase with lv.
-    //[HideInInspector] public int currentMaxSpeed;
+    [HideInInspector] public int currentMaxSpeed;
 
     public int Money = 0;
 
-    private void OnEnable() 
+    // Start is called before the first frame update
+    void Awake()
     {
-        //InitializeStatus();
+        SaveandLoadPlayerStatus(true); // Load
+        if (_PlayerStatus == null) _PlayerStatus = Resources.Load<PlayerStatus>("Player/MainPlayer");
+        // Load initial player status asset first, this may be replaced by Save and Load System before build.
+        InitializeLoadinData();
+
     }
 
-    /*private void InitializeStatus()
+    public void SaveandLoadPlayerStatus(bool SorL )
     {
+        // save and load system
+        if ( SorL )
+        {
+        }
+        else
+        {
+        }
+    }
+
+
+    private void InitializeLoadinData()
+    {
+        LV = _PlayerStatus.LV;
+        EXP = _PlayerStatus.EXP;
+        nextLVEXP = _PlayerStatus.nextLVEXP;
+        baseMaxHP = _PlayerStatus.baseMaxHP;
+        basePW = _PlayerStatus.basePW;
+        baseMP = _PlayerStatus.baseMP;
+        baseMaxMana = _PlayerStatus.baseMaxMana;
+        baseManaRT = _PlayerStatus.baseManaRT;
+        baseMaxSpeed = _PlayerStatus.baseMaxSpeed;
+        Money = _PlayerStatus.Money;
+
         currentMaxHP = baseMaxHP;
         currentHP = baseMaxHP;
         currentPW = basePW;
@@ -46,9 +72,9 @@ public class PlayerStatus : ScriptableObject
         currentMaxMana = baseMaxMana;
         currentMana = baseMaxMana;
         currentMaxSpeed = baseMaxSpeed;
-    }*/
+    }
 
-    /*public Dictionary<string, int> GetStatus()
+    public Dictionary<string, int> GetStatus()
     {
         Dictionary<string, int> statusDict = new Dictionary<string, int>();
         statusDict.Add("LV", this.LV);
@@ -72,10 +98,11 @@ public class PlayerStatus : ScriptableObject
         return statusDict;
     }
 
-    public void UpdateStatus(string name, int value) {
+    public void UpdateStatus(string name, int value)
+    {
         if (name.Equals("currentMana"))
         {
             this.currentMana += value;
         }
-    }*/
+    }
 }

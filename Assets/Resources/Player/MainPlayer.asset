@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd7c6d0c3fa19549a151e01d0c5e4f8, type: 3}
   m_Name: MainPlayer
   m_EditorClassIdentifier: 
-  lv: 1
+  LV: 1
+  EXP: 0
+  nextLVEXP: 100
   baseMaxHP: 100
-  baseMaxMP: 10
-  baseAttack: 10
-  baseDefense: 10
-  currentMaxHP: 100
-  currentMaxMP: 20
-  currentHP: 100
-  currentMP: 8
-  currentAttack: 20
-  currentDefense: 23
+  basePW: 10
+  baseMP: 10
+  baseMaxMana: 10
+  baseManaRT: 10
+  baseMaxSpeed: 1
+  Money: 100

@@ -12,15 +12,22 @@ public class CardBattleController : MonoBehaviour
     private List<BattleCard_LoaderAndDisplay> displayTemplateComponent = new List<BattleCard_LoaderAndDisplay>();
     private System.Random rnd = new System.Random();
     //private PlayerStatus playerStatus;
-    private CardList tempBattleCardList;
     private Transform Trans_HandCardsPanel;
 
     private StatusUIManager _StstusUIManager;
     private PlayerStatusController PlayerStatusCon;
 
+    [Space]
+    public CardList tempBattleCardList;
+    public List<CardData> BattleCardList = new List<CardData>(); // CardList that store at this script
+
     private void Awake()
     {
-        
+        SaveandLoadBattleCardList(true); // Load
+        if (tempBattleCardList == null) tempBattleCardList = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
+        // Load initial BattleCardList asset first, this may be replaced by Save and Load System before build!
+        InitializeLoadinData();
+
     }
 
     // Start is called before the first frame update
@@ -37,15 +44,36 @@ public class CardBattleController : MonoBehaviour
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
+    private void InitializeLoadinData()
+    {
+        // InvCardList = _InvCardListAsset._CardList; // only copy it's reference.
+
+        BattleCardList.Clear();
+        for (int i = 0; i < tempBattleCardList._CardList.Count; i++) // copy the value from SO asset list.
+        {
+            BattleCardList.Add(tempBattleCardList._CardList[i]);
+        }
+    }
+
+    private void SaveandLoadBattleCardList(bool SorL)
+    {
+        // save and load system.
+        if (SorL)
+        { }
+        else
+        { }
+    }
+
+
     public void Activate(bool b)
     {
         if (b)
         {
             Trans_HandCardsPanel.gameObject.SetActive(true);
-            if (this.tempBattleCardList == null)
+            /*if (this.tempBattleCardList == null) // not sure what is this code's function. - Chen
             {
                 tempBattleCardList = Instantiate(Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList"));
-            }
+            }*/
             DisplayCard();
         }
         else
@@ -56,15 +84,15 @@ public class CardBattleController : MonoBehaviour
 
     public void DisplayCard()
     {
-        if (this.tempBattleCardList.getLength() < this.maxCardAtOnce)
+        if (this.BattleCardList.Count < this.maxCardAtOnce)
         {
-            this.maxCardAtOnce = this.tempBattleCardList.getLength();
+            this.maxCardAtOnce = this.BattleCardList.Count;
         }
         for (int i = 0; i < maxCardAtOnce; i++)
         {
-            int temp = rnd.Next(tempBattleCardList.getLength() - i);
-            displayTemplateComponent[i].DisplaytoTemplate(tempBattleCardList._CardList[temp]); // the GetData function will be replace by DisplaytoTemplates function, pls check the card_loadanddisplay script.
-            tempBattleCardList._CardList.RemoveAt(temp);
+            int temp = rnd.Next(BattleCardList.Count - i);
+            displayTemplateComponent[i].DisplaytoTemplate(BattleCardList[temp]); // the GetData function will be replace by DisplaytoTemplates function, pls check the card_loadanddisplay script.
+            BattleCardList.RemoveAt(temp);
         }
         this.maxCardAtOnce = 5;
     }
@@ -78,12 +106,13 @@ public class CardBattleController : MonoBehaviour
 
     public void DrawCard()
     {
-        if (this.tempBattleCardList.getLength() > 0)
+        if (this.BattleCardList.Count > 0)
         {
-            int temp = rnd.Next(tempBattleCardList.getLength());
+            int temp = rnd.Next(BattleCardList.Count);
             GameObject newCard = Instantiate(card, GameObject.Find("BattleCardTemplates").transform);
-            newCard.gameObject.GetComponent<BattleCard_LoaderAndDisplay>().DisplaytoTemplate(tempBattleCardList._CardList[temp]);
-            tempBattleCardList._CardList.RemoveAt(temp);
+            newCard.gameObject.GetComponent<BattleCard_LoaderAndDisplay>().DisplaytoTemplate(BattleCardList[temp]);
+            BattleCardList.RemoveAt(temp);
         }
     }
+
 }

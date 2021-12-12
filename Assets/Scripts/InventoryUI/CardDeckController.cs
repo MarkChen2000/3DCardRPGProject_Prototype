@@ -19,7 +19,6 @@ public class CardDeckController : MonoBehaviour
     [Space]
     public CardList _CardDeckAsset; // CardList-type asset.
     public List<CardData> DeckCardList = new List<CardData>();
-    private int CardAmountInList;
 
     private void Awake()
     {
@@ -42,8 +41,13 @@ public class CardDeckController : MonoBehaviour
 
     private void InitializeLoadinData()
     {
-        DeckCardList = _CardDeckAsset._CardList;
-        RemoveAllEmptyElementinDeck();
+        //DeckCardList = _CardDeckAsset._CardList; // only copy by reference
+
+        DeckCardList.Clear();
+        for (int i = 0; i < _CardDeckAsset._CardList.Count; i++) // copy the value.
+        {
+            DeckCardList.Add(_CardDeckAsset._CardList[i]);
+        }
     }
 
     private void SaveandLoadCardDeck(bool SorL)
@@ -57,8 +61,7 @@ public class CardDeckController : MonoBehaviour
 
     private void SortDeckList() // Sort the cards in the list.
     {
-        CardAmountInList = DeckCardList.Count;
-        if (CardAmountInList == 0)
+        if (DeckCardList.Count == 0)
         {
             Debug.Log("Didnt have card inside the CardLIst !");
         }
@@ -67,18 +70,6 @@ public class CardDeckController : MonoBehaviour
             // Because Carddata-type data is not the regular type like int or string that can be sorted defaulty.
             // Have to use "IComparble" to compare the data (CardCost) of elements in list, with self-made sort function.
             DeckCardList.Sort(); // Sort by the Cost of Card.
-        }
-    }
-
-    private void RemoveAllEmptyElementinDeck()
-    {
-        for (int i = 0; i < DeckCardList.Count; i++)
-        {
-            if (DeckCardList[i] == null)
-            {
-                DeckCardList.Remove(DeckCardList[i]);
-                Debug.Log("Element in _CardList[" + i + "] is empty! Removing the empty element.");
-            }
         }
     }
 

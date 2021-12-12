@@ -20,13 +20,16 @@ public class CardList : ScriptableObject
     // and load in their value to controller at game start,
     // so we move these functions to their own controller.
 
-    //private int CardAmountInList;
-
-    /*public void SortListinAsset() // Sort the cards in the list.
+    void OnEnable() // when this SO get refernece, sort and remove empty element in list first.
     {
-        CardAmountInList = _CardList.Count;
-        if (CardAmountInList == 0)
-        { 
+        SortListinAsset();
+        RemoveAllEmptyElement();
+    }
+
+    private void SortListinAsset() // Sort the cards in the list.
+    {
+        if (_CardList.Count == 0)
+        {
             Debug.Log("Didnt have card inside the CardLIst !");
         }
         else
@@ -37,7 +40,7 @@ public class CardList : ScriptableObject
         }
     }
 
-    public void RemoveAllEmptyElement()
+    private void RemoveAllEmptyElement()
     {
         for (int i = 0; i < _CardList.Count; i++)
         {
@@ -49,7 +52,7 @@ public class CardList : ScriptableObject
         }
     }
 
-    public int GetDiffCardNum() // Get how many DIFFERENT Card in the list;
+    /*private int GetDiffCardNum() // Get how many DIFFERENT Card in the list;
     {
         if (_CardList.Count == 0) return 0;
 
@@ -65,9 +68,9 @@ public class CardList : ScriptableObject
         return differnrtcount;
     }*/
 
-    public int getLength()
+    /*private int getLength()
     {
         return _CardList.Count;
-    }
+    }*/
 
 }

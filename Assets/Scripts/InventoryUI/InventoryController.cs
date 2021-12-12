@@ -26,7 +26,6 @@ public class InventoryController : MonoBehaviour
     [Space]
     public CardList _InvCardListAsset; // InventoryController_CardList, the CardList-type asset
     public List<CardData> InvCardList = new List<CardData>(); // CardList that store at this script
-    private int CardAmountInList;
 
 
     private void Awake()
@@ -71,8 +70,13 @@ public class InventoryController : MonoBehaviour
 
     private void InitializeLoadinData()
     {
-        InvCardList = _InvCardListAsset._CardList; // List is refernece-type
-        RemoveAllEmptyElementinInvList();
+        // InvCardList = _InvCardListAsset._CardList; // only copy it's reference.
+
+        InvCardList.Clear();
+        for (int i = 0; i < _InvCardListAsset._CardList.Count; i++) // copy the value.
+        {
+            InvCardList.Add(_InvCardListAsset._CardList[i]);
+        }
     }
 
     private void SaveandLoadInvCardList(bool SorL)
@@ -86,8 +90,7 @@ public class InventoryController : MonoBehaviour
 
     private void SortListinAssetinInvList() // Sort the cards in the list.
     {
-        CardAmountInList = InvCardList.Count;
-        if (CardAmountInList == 0)
+        if (InvCardList.Count == 0)
         {
             Debug.Log("Didnt have card inside the CardLIst !");
         }
@@ -96,18 +99,6 @@ public class InventoryController : MonoBehaviour
             // Because Carddata-type data is not the regular type like int or string that can be sorted defaulty.
             // Have to use "IComparble" to compare the data (CardCost) of elements in list, with self-made sort function.
             InvCardList.Sort(); // Sort by the Cost of Card.
-        }
-    }
-
-    private void RemoveAllEmptyElementinInvList()
-    {
-        for (int i = 0; i < InvCardList.Count; i++)
-        {
-            if (InvCardList[i] == null)
-            {
-                InvCardList.Remove(InvCardList[i]);
-                Debug.Log("Element in _CardList[" + i + "] is empty! Removing the empty element.");
-            }
         }
     }
 

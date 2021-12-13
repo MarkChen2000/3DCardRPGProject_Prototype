@@ -14,6 +14,7 @@ public class InteractController : MonoBehaviour
     private CharacterMovementController Player_MoveCon;
 
     public bool Is_Interacting = false;
+    private bool Is_Dialogue = false;
 
     private void Awake()
     {
@@ -31,25 +32,27 @@ public class InteractController : MonoBehaviour
     {
         if ( Is_Interacting ) // When the conversaion is going.
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Is_Dialogue && Input.GetKeyDown(KeyCode.Space)) // only in convesation will trigger this "next text" botton.
             {
                 if ( !InteractUICon.DisplayNextConversationText() ) // return false mean the dialogu is end.
                 {
-                    Is_Interacting = false;
+                    Is_Dialogue = false;
                     PlayerEndInteract();
                 }
             }
         }
     }
 
-    public void PlayerStartInteract()
+    private void PlayerStartInteract()
     {
+        Is_Interacting = true;
         Player_BasicAttackCon.Can_Attack = false;
         Player_MoveCon.Can_Control = false;
     }
 
     public void PlayerEndInteract()
     {
+        Is_Interacting = false;
         Player_BasicAttackCon.Can_Attack = true;
         Player_MoveCon.Can_Control = true;
         InteractUICon.HideAllInteractUI();
@@ -60,12 +63,12 @@ public class InteractController : MonoBehaviour
         if (template.StringTextList.Count == 0)
         {
             Debug.Log("There is no Text in the Conversation!");
-            PlayerEndInteract();
             return;
         }
 
-        Is_Interacting = true;
-        InteractUICon.StartDisplayConversaionText(template);
+        Is_Dialogue = true;
+        PlayerStartInteract();
+        InteractUICon.StartDisplayConversaionText(template.TalkerName,template.StringTextList);
     }
 
 }

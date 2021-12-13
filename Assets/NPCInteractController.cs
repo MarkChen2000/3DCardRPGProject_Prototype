@@ -36,7 +36,6 @@ public class NPCInteractController : MonoBehaviour
                 switch ( _InteracrType )
                 {
                     case InteractType.Conversation:
-                        InteractCon.PlayerStartInteract();
                         InteractCon.StartConversationInteract(_ConversationTem);
                         break;
                     case InteractType.Transaction:

@@ -55,23 +55,23 @@ public class InteractUIController : MonoBehaviour
     }
 
     private int textlistcount;
-    private ConversationTemplate con_template;
+    private List<string> conversationTextList ;
 
-    public void StartDisplayConversaionText(ConversationTemplate template) // Do conversation function.
+    public void StartDisplayConversaionText(string talkername, List<string> textlist) // Do conversation function.
     {
-        con_template = template;
+        conversationTextList = textlist;
         textlistcount = 0;
         Panel_ConversationUIBG.SetActive(true);
-        TMP_TalkerName.text = con_template.TalkerName;
-        TMP_ConversationText.text = con_template.StringTextList[textlistcount];
+        TMP_TalkerName.text = talkername;
+        TMP_ConversationText.text = conversationTextList[textlistcount];
     }
 
     public bool DisplayNextConversationText()
     {
         textlistcount++;
-        if ( textlistcount < con_template.StringTextList.Count )
+        if ( textlistcount < conversationTextList.Count )
         {
-            TMP_ConversationText.text = con_template.StringTextList[textlistcount];
+            TMP_ConversationText.text = conversationTextList[textlistcount];
             return true;
         }
         else return false;

@@ -19,7 +19,7 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
     private void Awake()
     {
         _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
-        EquipmentClotCon = GameObject.Find("InventoryManager").GetComponent<EquipmentSlotController>();
+        EquipmentClotCon = GameObject.Find("InventoryAndUIManager").GetComponent<EquipmentSlotController>();
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 

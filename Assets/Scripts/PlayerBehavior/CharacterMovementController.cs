@@ -44,7 +44,7 @@ public class CharacterMovementController : MonoBehaviour
         Move_Dir = PlayerMovementInput();
         if (Input.GetKeyDown(KeyCode.Space)) Character_Dash();
 
-        Is_Staring = Is_StaringCheck(); //
+        Is_Staring = Is_StaringCheck();
     }
 
     private void FixedUpdate()

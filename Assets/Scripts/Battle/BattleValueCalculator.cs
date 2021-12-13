@@ -19,7 +19,7 @@ public class BattleValueCalculator : MonoBehaviour
     private void Start()
     {
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
-        EquipmentSlotCon = GameObject.Find("InventoryManager").GetComponent<EquipmentSlotController>();
+        EquipmentSlotCon = GameObject.Find("InventoryAndUIManager").GetComponent<EquipmentSlotController>();
     }
     // This function will do the player's and enemy's damage value calculation uniformly, All the damage formula can adjust at here.
 
@@ -35,7 +35,7 @@ public class BattleValueCalculator : MonoBehaviour
                 finaldamage = (PlayerStatusCon.baseMP + EquipmentSlotCon.EquipmentBonusMP) * spellsvalue * MagicAttackMagnification;
                 break;
             case AttackType.Physics:
-                if (EquipmentSlotCon.Weapon == null) finaldamage = PlayerStatusCon.basePW;
+                if (EquipmentSlotCon.Weapon == null) finaldamage = PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW;
                 else finaldamage = (PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW) * EquipmentSlotCon.Weapon.WeaponAP;
                 break;
             case AttackType.Null:

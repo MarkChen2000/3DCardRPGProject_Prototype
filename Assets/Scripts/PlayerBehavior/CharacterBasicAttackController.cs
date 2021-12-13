@@ -10,6 +10,8 @@ public class CharacterBasicAttackController : MonoBehaviour
     private CharacterMovementController Character_MoveCon;
     private BattleValueCalculator BattleValueCal;
 
+    public bool Can_Attack = false;
+
     public float AttackRangeRadius = 5f;
     public float Character_AttackCD = 1f;
     private float AttackCDTimer = 0;
@@ -35,7 +37,7 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     void Update()
     {
-        if ( Input.GetMouseButtonDown(0)) // left mouse click
+        if ( Input.GetMouseButtonDown(0) && Can_Attack ) // left mouse click
         {
             BasicAttack();
         }

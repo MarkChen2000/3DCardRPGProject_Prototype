@@ -8,6 +8,7 @@ public class InventoryController : MonoBehaviour
 {
     private CardDeckController CardDeck_Con;
     private EquipmentSlotController EquipSlot_Con;
+    private CharacterBasicAttackController PlayerBasciAttack_Con;
 
     private Transform Trans_InventoryCanvas;
     private Canvas Canvas_Inventory;
@@ -37,11 +38,12 @@ public class InventoryController : MonoBehaviour
 
         EquipSlot_Con = GetComponent<EquipmentSlotController>();
         CardDeck_Con = GetComponent<CardDeckController>();
+        PlayerBasciAttack_Con = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
+
         Trans_InventoryCanvas = transform.GetChild(0).GetComponent<Transform>();
         Canvas_Inventory = Trans_InventoryCanvas.GetComponent<Canvas>();
         Trans_InvCardsGridGroup = Trans_InventoryCanvas.GetChild(1).GetChild(0).transform;
         TMP_PageNum = Trans_InventoryCanvas.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
-
     }
 
     private void Start()
@@ -57,11 +59,13 @@ public class InventoryController : MonoBehaviour
         {
             if (Canvas_Inventory.enabled == true)
             {
+                PlayerBasciAttack_Con.Can_Attack = true;
                 Canvas_Inventory.enabled = false;
                 GameObject.Find("BattleUI").GetComponent<CardBattleController>().Activate(true);
             }
             else
             {
+                PlayerBasciAttack_Con.Can_Attack = false;
                 Canvas_Inventory.enabled = true;
                 GameObject.Find("BattleUI").GetComponent<CardBattleController>().Activate(false);
             }

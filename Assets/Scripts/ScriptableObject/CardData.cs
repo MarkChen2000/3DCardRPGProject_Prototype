@@ -30,6 +30,7 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     public int CardID;
     public Sprite Card_Image;
     public string CardName = "DefaultName";
+    [TextArea]
     public string CardDescription = "DefaultDes";
     public CardType _CardType = CardType.Spells;
 

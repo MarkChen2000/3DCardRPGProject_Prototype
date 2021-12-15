@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Testing_TransactionTemplate
   m_EditorClassIdentifier: 
   ShopKeeperName: ShopKeeperA
-  ShopContainCardList: []
+  PackName: TestingPack
+  CostofOnePack: 100
+  PackCardPoolList: {fileID: 11400000, guid: d2eba8a0999990e4d8f6efaf3c0d2487, type: 2}
   BeforeShopSystemTextList:
   - Hello ! Welcome to my shop!
   LeavingShopSystemTextList:

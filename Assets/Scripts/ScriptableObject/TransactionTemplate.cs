@@ -6,7 +6,9 @@ using UnityEngine;
 public class TransactionTemplate : ScriptableObject
 {
     public string ShopKeeperName = "ShopKeeperA" ;
-    public List<CardData> ShopContainCardList = new List<CardData>();
+    public string PackName = "TestingPack";
+    public int CostofOnePack = 100;
+    public CardList PackCardPoolList ;
 
     [TextArea, Tooltip("Saying these text, before get into the Shop system")]
     public List<string> BeforeShopSystemTextList = new List<string>();

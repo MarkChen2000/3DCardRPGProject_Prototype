@@ -6,6 +6,10 @@ using TMPro;
 
 public class InteractionUIController : MonoBehaviour
 {
+    // This Interaction UI controller only control turn on/off the UI system's panel,
+    // The control of detailed UI in every system is control by each controller of interaction system, such as shop system... , 
+    // ecept for conversation control.
+
     private InteractionController InteractCon;
 
     private GameObject Panel_InteractionInfoBG;

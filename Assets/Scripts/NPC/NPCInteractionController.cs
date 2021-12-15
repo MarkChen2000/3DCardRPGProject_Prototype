@@ -54,6 +54,7 @@ public class NPCInteractionController : MonoBehaviour
 
     public void OnInteractZone()
     {
+        if (_InteractionType == InteractionType.Null) return;
         Can_Interact = true;
     }
 

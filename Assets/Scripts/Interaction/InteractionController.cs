@@ -10,6 +10,7 @@ public enum InteractionType
 public class InteractionController : MonoBehaviour
 {
     private InteractionUIController InteractionUICon;
+    private ShopSystemAndUIController ShopSystemCon;
     private CharacterBasicAttackController Player_BasicAttackCon;
     private CharacterMovementController Player_MoveCon;
 
@@ -22,6 +23,7 @@ public class InteractionController : MonoBehaviour
     private void Awake()
     {
         InteractionUICon = GetComponent<InteractionUIController>();
+        ShopSystemCon = GetComponent<ShopSystemAndUIController>();
         Player_BasicAttackCon = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
         Player_MoveCon = GameObject.Find("Player").GetComponent<CharacterMovementController>();
     }
@@ -129,12 +131,14 @@ public class InteractionController : MonoBehaviour
     {
         Is_Transacting = true;
         InteractionUICon.ShowShopUI();
+        ShopSystemCon.EnterShopSystem(current_transctiontem);
     }
 
     private void DisableShopSystem() // leave shop system.
     {
-        InteractionUICon.HideAllInteractionUI();
         Is_Transacting = false;
+        InteractionUICon.HideAllInteractionUI();
+        ShopSystemCon.LeaveShopSystem();
 
         if (current_transctiontem.LeavingShopSystemTextList.Count != 0) // and run the leaving conversation.
         {

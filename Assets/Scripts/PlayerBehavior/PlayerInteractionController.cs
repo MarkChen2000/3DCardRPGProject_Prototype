@@ -21,19 +21,24 @@ public class PlayerInteractionController : MonoBehaviour
         CheckCanInteract();
     }
 
-    private void CheckCanInteract() // this part may cost a lot of performance, but didn't thank some method is more better.
+    private void CheckCanInteract() 
+        // cheak the zone that is there or not npc in there.
+        // this part may cost a lot of performance, but didn't thank some method is more better.
     {
         Collider[] colliders = Physics.OverlapSphere(Trans_InteractDetectPos.position, PlayerCan_InteractionRadius);
         bool is_npc_near = false;
         foreach (Collider item in colliders)
         {
             //Debug.Log("Collide" + item.name);
-            NPCInteractionController npc_interactioncon = item.gameObject.GetComponent<NPCInteractionController>();
-            if ( npc_interactioncon!=null )
+            if ( item.tag == "NPC" )
             {
-                InteractionUICon.ShowInteractionInfo(npc_interactioncon._InteractionType);
-                npc_interactioncon.OnInteractZone();
-                is_npc_near = true;
+                NPCInteractionController npc_interactioncon = item.gameObject.GetComponent<NPCInteractionController>();
+                if ( npc_interactioncon!=null )
+                {
+                    InteractionUICon.ShowInteractionInfo(npc_interactioncon._InteractionType);
+                    npc_interactioncon.OnInteractZone();
+                    is_npc_near = true;
+                }
             }
         }
         if (is_npc_near == false) InteractionUICon.HideInteractionInfo();

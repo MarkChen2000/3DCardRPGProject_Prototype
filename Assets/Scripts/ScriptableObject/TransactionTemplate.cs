@@ -2,9 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Transaction Template", menuName = "InteractTemplate/Transaction")]
+[CreateAssetMenu(fileName = "New Transaction Template", menuName = "InteractionTemplate/Transaction")]
 public class TransactionTemplate : ScriptableObject
 {
-    public string ShopKeeperName;
+    public string ShopKeeperName = "ShopKeeperA" ;
     public List<CardData> ShopContainCardList = new List<CardData>();
+
+    [TextArea, Tooltip("Saying these text, before get into the Shop system")]
+    public List<string> BeforeShopSystemTextList = new List<string>();
+    [TextArea, Tooltip("Saying these text, before leaving the Shop system")]
+    public List<string> LeavingShopSystemTextList = new List<string>();
+
+    [Tooltip("The cards sell price with multiply by this value.")]
+    public float SellPriceMultiplier = 1f;
+    [Tooltip("The cards buying price will multiply by this value.")]
+    public float BuyPriceMultiplier = 0.5f;
 }

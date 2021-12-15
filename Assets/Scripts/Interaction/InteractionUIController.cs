@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class InteractUIController : MonoBehaviour
+public class InteractionUIController : MonoBehaviour
 {
-    private InteractController InteractCon;
+    private InteractionController InteractCon;
 
-    private GameObject Panel_InteractInfoBG;
-    private TMP_Text TMP_InteractInfo;
+    private GameObject Panel_InteractionInfoBG;
+    private TMP_Text TMP_InteractionInfo;
     private GameObject Panel_ConversationUIBG;
     private TMP_Text TMP_TalkerName;
     private TMP_Text TMP_ConversationText;
@@ -18,40 +18,40 @@ public class InteractUIController : MonoBehaviour
 
     private void Awake()
     {
-        InteractCon = GetComponent<InteractController>();
+        InteractCon = GetComponent<InteractionController>();
 
-        Panel_InteractInfoBG = transform.GetChild(0).GetChild(0).gameObject;
+        Panel_InteractionInfoBG = transform.GetChild(0).GetChild(0).gameObject;
         Panel_ConversationUIBG = transform.GetChild(0).GetChild(1).gameObject;
         TMP_TalkerName = Panel_ConversationUIBG.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         TMP_ConversationText = Panel_ConversationUIBG.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         Panel_ShopUIBG = transform.GetChild(0).GetChild(2).gameObject;
         Panel_MissionUIBG = transform.GetChild(0).GetChild(3).gameObject;
 
-        TMP_InteractInfo = Panel_InteractInfoBG.transform.GetChild(0).GetComponent<TMP_Text>();
+        TMP_InteractionInfo = Panel_InteractionInfoBG.transform.GetChild(0).GetComponent<TMP_Text>();
     }
 
     void Start()
     {
-        HideAllInteractUI();
-        HideInteractInfo();
+        HideAllInteractionUI();
+        HideInteractionInfo();
     }
 
-    public void HideAllInteractUI()
+    public void HideAllInteractionUI()
     {
         Panel_ConversationUIBG.SetActive(false);
-        Panel_MissionUIBG.SetActive(false);
         Panel_ShopUIBG.SetActive(false);
+        Panel_MissionUIBG.SetActive(false);
     }
 
-    public void ShowInteractInfo(InteractType type)
+    public void ShowInteractionInfo(InteractionType type)
     {
-        Panel_InteractInfoBG.SetActive(true);
-        TMP_InteractInfo.text = type.ToString() + " ( E ) ";
+        Panel_InteractionInfoBG.SetActive(true);
+        TMP_InteractionInfo.text = type.ToString() + " ( E ) ";
     }
 
-    public void HideInteractInfo()
+    public void HideInteractionInfo()
     {
-        Panel_InteractInfoBG.SetActive(false);
+        Panel_InteractionInfoBG.SetActive(false);
     }
 
     private int textlistcount;
@@ -61,6 +61,7 @@ public class InteractUIController : MonoBehaviour
     {
         conversationTextList = textlist;
         textlistcount = 0;
+
         Panel_ConversationUIBG.SetActive(true);
         TMP_TalkerName.text = talkername;
         TMP_ConversationText.text = conversationTextList[textlistcount];
@@ -75,6 +76,11 @@ public class InteractUIController : MonoBehaviour
             return true;
         }
         else return false;
+    }
+
+    public void ShowShopUI()
+    {
+        Panel_ShopUIBG.SetActive(true);
     }
 
 }

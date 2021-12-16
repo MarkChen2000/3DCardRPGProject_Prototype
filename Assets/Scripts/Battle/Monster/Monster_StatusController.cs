@@ -9,23 +9,21 @@ public class Monster_StatusController : MonoBehaviour
     TextMeshProUGUI _text;
     private BattleValueCalculator BattleValueCal;
     private PlayerStatusLevelupSystem PlayerLevelupSystem;
+    private PlayerStatusController PlayerStatusCon;
     public MonsterStatus _MonsterStatus;
     private int currentHP;
 
     // Start is called before the first frame update
     void Start()
     {
-        _text = this.transform.parent.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
-        Debug.Log(_text.text.ToString());
+        _text = this.transform.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
 
-        if ( _MonsterStatus==null )
-        {
-            _MonsterStatus = Resources.Load<MonsterStatus>("Monster/Monster001");
-        }
         currentHP = _MonsterStatus.max_hp;
+        this.updateStatus(0);
 
         BattleValueCal = GameObject.Find("BattleManager").GetComponent<BattleValueCalculator>();
         PlayerLevelupSystem = GameObject.Find("PlayerManager").GetComponent<PlayerStatusLevelupSystem>();
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
     // Update is called once per frame
@@ -56,7 +54,7 @@ public class Monster_StatusController : MonoBehaviour
     private void MonsterDead()
     {
         PlayerLevelupSystem.GainExp(_MonsterStatus.Drop_Exp);
-
+        PlayerStatusCon.GainMoney(_MonsterStatus.DropMoney);
         Destroy(this.gameObject);
     }
 

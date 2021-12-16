@@ -10,6 +10,7 @@ public class CardDeckController : MonoBehaviour
 
     public GameObject DeckCardTemplatePrefab;
     private Transform Trans_DeckCardGridGroup;
+    private Transform Trans_InventoryPanelBG;
     private TMP_Text TMP_DeckCapacityNumText;
 
     private List<DeckCard_DataLoaderAndDisplay> TemplateComponent = new List<DeckCard_DataLoaderAndDisplay>();
@@ -22,18 +23,18 @@ public class CardDeckController : MonoBehaviour
 
     private void Awake()
     {
-        SaveandLoadCardDeck(true); // Load
+        Inv_Con = GetComponent<InventoryController>();
+        Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
+        Trans_DeckCardGridGroup = Trans_InventoryPanelBG.GetChild(0).GetChild(0);
+        TMP_DeckCapacityNumText = Trans_InventoryPanelBG.GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
+
         if (_CardDeckAsset == null) _CardDeckAsset = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
         // Load initial DeckCardList asset first, this may be replaced by Save and Load System before build!
-        InitializeLoadinData();
-
-        Inv_Con = GetComponent<InventoryController>();
-        Trans_DeckCardGridGroup = transform.GetChild(0).GetChild(0).GetChild(0);
-        TMP_DeckCapacityNumText = transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
     }
 
     private void Start()
     {
+        InitializeLoadinData();
         SpawnAllTemplateandGetCom();
         DisplayAllCardtoDeck();
         UpdateCardNum();
@@ -50,7 +51,7 @@ public class CardDeckController : MonoBehaviour
         }
     }
 
-    private void SaveandLoadCardDeck(bool SorL)
+    public void SaveandLoadCardDeck(bool SorL)
     {
         // save and load system.
         if (SorL )

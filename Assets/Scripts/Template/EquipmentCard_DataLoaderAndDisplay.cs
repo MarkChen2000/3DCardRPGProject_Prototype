@@ -10,7 +10,7 @@ public class EquipmentCard_DataLoaderAndDisplay : MonoBehaviour
     private Transform Trans_CardPanel;
 
     private TMP_Text TMP_CardLv;
-    private Sprite Sprite_CardImage;
+    private Image Image_CardImage;
     private TMP_Text TMP_CardName;
     private TMP_Text TMP_CardDescription;
 
@@ -23,7 +23,7 @@ public class EquipmentCard_DataLoaderAndDisplay : MonoBehaviour
     private void GetComponentofTemplates()
     {
         TMP_CardLv = Trans_CardPanel.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        Sprite_CardImage = Trans_CardPanel.GetChild(1).GetComponent<Sprite>();
+        Image_CardImage = Trans_CardPanel.GetChild(1).GetChild(0).GetComponent<Image>();
         TMP_CardName = Trans_CardPanel.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
         TMP_CardDescription = Trans_CardPanel.GetChild(3).GetChild(0).GetComponent<TMP_Text>();
     }
@@ -48,7 +48,7 @@ public class EquipmentCard_DataLoaderAndDisplay : MonoBehaviour
         }
 
         TMP_CardLv.text = carddata.CardLv.ToString();
-        Sprite_CardImage = carddata.Card_Image;
+        Image_CardImage.sprite = carddata.Card_ImageSprite;
         TMP_CardName.text = carddata.CardName;
         TMP_CardDescription.text = carddata.CardDescription;
 

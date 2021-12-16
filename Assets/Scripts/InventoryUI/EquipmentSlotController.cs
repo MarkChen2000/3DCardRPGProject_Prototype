@@ -14,7 +14,7 @@ public class EquipmentSlotController : MonoBehaviour
     private InventoryController Inv_Con;
     private PlayerStatusController PlayerStatusCon;
 
-    private Transform Trans_EquipmentSlotPanel;
+    private Transform Trans_InventoryPanelBG;
     private Transform Trans_PlayerStatusPanel;
     private Transform Trans_EquipmentSlotGridGroup;
     private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerPW, TMP_PlayerMP, TMP_PlayerMananRT, TMP_WeaponAPnCR, TMP_ArmorDP;
@@ -31,21 +31,20 @@ public class EquipmentSlotController : MonoBehaviour
 
     private void Awake()
     {
-        SaveandLoadEquipSlot(true); // Load
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        Inv_Con = GetComponent<InventoryController>();
+        Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
+        Trans_PlayerStatusPanel = Trans_InventoryPanelBG.GetChild(2).GetChild(0);
+        Trans_EquipmentSlotGridGroup = Trans_InventoryPanelBG.GetChild(2).GetChild(2);
+        GetTextCom();
+
         if (_EquipmentSlotAsset == null) _EquipmentSlotAsset = Resources.Load<EquipmentSlot>("EquipmentSlots_SO/Testing_EquipmentSlot");
         // Load initial EquipmentSlot asset first, this may be replaced by Save and Load System before build!
-        InitializeLoadinData();
-
-        Inv_Con = GetComponent<InventoryController>();
-        Trans_EquipmentSlotPanel = transform.GetChild(0).GetChild(2);
-        Trans_PlayerStatusPanel = Trans_EquipmentSlotPanel.GetChild(0);
-        Trans_EquipmentSlotGridGroup = Trans_EquipmentSlotPanel.GetChild(2);
-        GetTextCom();
     }
 
     void Start()
     {
-        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        InitializeLoadinData();
         SpawnAllTemplateandGetCom();
         DisplayAllEquipmenttoTem();
         UpdateEquipmentValue();
@@ -61,7 +60,6 @@ public class EquipmentSlotController : MonoBehaviour
         else
         { }
     }
-
 
     private void InitializeLoadinData()
     {

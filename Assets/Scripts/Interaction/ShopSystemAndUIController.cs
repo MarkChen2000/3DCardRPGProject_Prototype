@@ -8,6 +8,7 @@ public class ShopSystemAndUIController : MonoBehaviour
 {
     private PlayerStatusController PlayerStstusCon;
     private InventoryController InventoryCon;
+    private StatusUIManager _StatusUIManager;
 
     public GameObject PackCardTemp;
 
@@ -32,6 +33,7 @@ public class ShopSystemAndUIController : MonoBehaviour
     {
         PlayerStstusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         InventoryCon = GameObject.Find("InventoryAndUIManager").GetComponent<InventoryController>();
+        _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
 
         Trans_ShopUIBGPanel = transform.GetChild(0).GetChild(2);
         Trans_PackCardGridGroup = Trans_ShopUIBGPanel.GetChild(0).GetChild(0);
@@ -64,7 +66,6 @@ public class ShopSystemAndUIController : MonoBehaviour
         if ( Did_Buy )
         {
             DestroyAllPackCardTemplates();
-
         }
     }
 
@@ -101,7 +102,6 @@ public class ShopSystemAndUIController : MonoBehaviour
             return;
         }
 
-        Did_Buy = true;
         PlayerStstusCon.Money -= _CostofOnePack;
         UpdateMoneyText();
 
@@ -112,15 +112,28 @@ public class ShopSystemAndUIController : MonoBehaviour
             Current_BuyingCards.Add( card );
             InventoryCon.ReceiveCard( card ) ; // transfer to inventory
         }
+
         SpawnAndDisplayPackCardTemplate();
+        Did_Buy = true;
     }
 
     private void SpawnAndDisplayPackCardTemplate()
     {
-        for (int i = 0; i < AmountofCardinOnePack; i++)
+        if ( Did_Buy ) // if already bought, don't need to instantiate new template.
         {
-            PackCard_DataLoaderAndDisplay cardtemp = Instantiate(PackCardTemp, Trans_PackCardSlotTransList[i]).GetComponent<PackCard_DataLoaderAndDisplay>();
-            cardtemp.DisplaytoTemplate(Current_BuyingCards[i]);
+            for (int i = 0; i < AmountofCardinOnePack; i++)
+            {
+                PackCard_DataLoaderAndDisplay cardtemp = Trans_PackCardSlotTransList[i].GetChild(0).GetComponent<PackCard_DataLoaderAndDisplay>();
+                cardtemp.DisplaytoTemplate(Current_BuyingCards[i]);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < AmountofCardinOnePack; i++)
+            {
+                PackCard_DataLoaderAndDisplay cardtemp = Instantiate(PackCardTemp, Trans_PackCardSlotTransList[i]).GetComponent<PackCard_DataLoaderAndDisplay>();
+                cardtemp.DisplaytoTemplate(Current_BuyingCards[i]);
+            }
         }
     }
 
@@ -135,6 +148,7 @@ public class ShopSystemAndUIController : MonoBehaviour
     private void UpdateMoneyText()
     {
         TMP_AmountofMoney.text = " Money : " + PlayerStstusCon.Money;
+        _StatusUIManager.UpdateOneStatusDisplay(StatusType.Money);
     }
 
 }

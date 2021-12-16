@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Weapon_Iron Sword
   m_EditorClassIdentifier: 
   CardID: 0
-  Card_Image: {fileID: 0}
+  Card_ImageSprite: {fileID: 21300000, guid: cd6c9c24d32162446a474269a3711a43, type: 3}
   CardName: Iron Sword
-  CardDescription: Equipment
+  CardDescription: A sword that every soldier have one.
   _CardType: 1
   CardCost: 0
   CardLv: 3

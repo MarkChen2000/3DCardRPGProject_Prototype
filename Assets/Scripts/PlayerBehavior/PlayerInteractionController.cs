@@ -36,7 +36,7 @@ public class PlayerInteractionController : MonoBehaviour
                 if ( npc_interactioncon!=null )
                 {
                     InteractionUICon.ShowInteractionInfo(npc_interactioncon._InteractionType);
-                    npc_interactioncon.OnInteractZone();
+                    npc_interactioncon.OnInteractionZone();
                     is_npc_near = true;
                 }
             }

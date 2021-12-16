@@ -13,7 +13,8 @@ public class NPCInteractionController : MonoBehaviour
     public InteractionType _InteractionType;
     public ConversationTemplate _ConversationTem;
     public TransactionTemplate _TransactionTem;
-    public MissionTemplate _MissionTem;
+    public ChangeGameStateTemplate _ChangeGameStateTem;
+    // public MissionTemplate _MissionTem;
 
     private bool Can_Interact = false;
 
@@ -43,7 +44,10 @@ public class NPCInteractionController : MonoBehaviour
                         InteractionCon.StartTransactionInteraction(_TransactionTem);
                         break;
                     case InteractionType.Mission:
-
+                        // Tempolarary freeze the Mission function progress, because it is less important.
+                        break;
+                    case InteractionType.ChangeGameState:
+                        InteractionCon.StartChangeGameStateInteraction(_ChangeGameStateTem);
                         break;
                 }
             }
@@ -52,7 +56,7 @@ public class NPCInteractionController : MonoBehaviour
         Can_Interact = false; // till next frame, if the OnInteractZone didn't get called, then Can_Interaction will return to false;
     }
 
-    public void OnInteractZone()
+    public void OnInteractionZone()
     {
         if (_InteractionType == InteractionType.Null) return;
         Can_Interact = true;

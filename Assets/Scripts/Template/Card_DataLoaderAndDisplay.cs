@@ -12,7 +12,7 @@ public class Card_DataLoaderAndDisplay : MonoBehaviour
     private TMP_Text TMP_CardLV;
     private TMP_Text TMP_CardName;
     private TMP_Text TMP_CardDescription;
-    private Sprite Sprite_CardImage;
+    private Image Image_CardImage;
     private TMP_Text TMP_CardType;
     private TMP_Text TMP_CardHoldNum;
 
@@ -29,7 +29,7 @@ public class Card_DataLoaderAndDisplay : MonoBehaviour
     {
         TMP_CardCost = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         TMP_CardLV = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        Sprite_CardImage = transform.GetChild(0).GetChild(1).GetComponent<Sprite>();
+        Image_CardImage = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Image>();
         TMP_CardName = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
         TMP_CardDescription = transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<TMP_Text>();
         TMP_CardType = transform.GetChild(0).GetChild(4).GetChild(0).GetComponent<TMP_Text>();
@@ -50,7 +50,7 @@ public class Card_DataLoaderAndDisplay : MonoBehaviour
                     TMP_CardLV.text = "Lv";
                     break;
             }
-            Sprite_CardImage = null;
+            Image_CardImage = null;
             TMP_CardName.text = "DefaultName";
             TMP_CardDescription.text = "DefaultDes";
             TMP_CardType.text = "Type";
@@ -58,7 +58,10 @@ public class Card_DataLoaderAndDisplay : MonoBehaviour
             return;
         }
 
-        if ( _CardData.Card_Image != null ) Sprite_CardImage = _CardData.Card_Image;
+        if (_CardData.Card_ImageSprite != null)
+        {
+            Image_CardImage.sprite = _CardData.Card_ImageSprite;
+        }
         TMP_CardName.text = _CardData.CardName;
         TMP_CardDescription.text = _CardData.CardDescription;
         TMP_CardHoldNum.text = "x" + HoldNum;

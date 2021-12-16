@@ -8,10 +8,8 @@ public class InventoryController : MonoBehaviour
 {
     private CardDeckController CardDeck_Con;
     private EquipmentSlotController EquipSlot_Con;
-    private CharacterBasicAttackController PlayerBasciAttack_Con;
 
-    private Transform Trans_InventoryCanvas;
-    private Canvas Canvas_Inventory;
+    private Transform Trans_InventoryPanelBG;
     private TMP_Text TMP_PageNum;
 
     public GameObject CardTemplatePrefab; // the template that display on the panel
@@ -31,45 +29,27 @@ public class InventoryController : MonoBehaviour
 
     private void Awake()
     {
-        SaveandLoadInvCardList(true); // Load
-        if (_InvCardListAsset == null) _InvCardListAsset = Resources.Load<CardList>("CardLists_SO/Testing_InventoryCardList");
-        // Load initial InvCardList asset first, this may be replaced by Save and Load System before build!
-        InitializeLoadinData();
-
         EquipSlot_Con = GetComponent<EquipmentSlotController>();
         CardDeck_Con = GetComponent<CardDeckController>();
-        PlayerBasciAttack_Con = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
 
-        Trans_InventoryCanvas = transform.GetChild(0).GetComponent<Transform>();
-        Canvas_Inventory = Trans_InventoryCanvas.GetComponent<Canvas>();
-        Trans_InvCardsGridGroup = Trans_InventoryCanvas.GetChild(1).GetChild(0).transform;
-        TMP_PageNum = Trans_InventoryCanvas.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+        Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
+        Trans_InvCardsGridGroup = Trans_InventoryPanelBG.GetChild(1).GetChild(0);
+        TMP_PageNum = Trans_InventoryPanelBG.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+
+        if (_InvCardListAsset == null) _InvCardListAsset = Resources.Load<CardList>("CardLists_SO/Testing_InventoryCardList");
+        // Load initial InvCardList asset first, this may be replaced by Save and Load System before build!
     }
 
     private void Start()
     {
+        InitializeLoadinData();
         SpawnAllTemplateAndGetCom(); // Spawn template and get component.
         DisplayAllCardtoInventory(); // Renew Display the Current page of Cards.
         UpdatePageNum();
     }
 
     private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I)) // TurnOn or Off the Inventory UI.
-        {
-            if (Canvas_Inventory.enabled == true)
-            {
-                PlayerBasciAttack_Con.Can_Attack = true;
-                Canvas_Inventory.enabled = false;
-                GameObject.Find("BattleUI").GetComponent<CardBattleController>().Activate(true);
-            }
-            else
-            {
-                PlayerBasciAttack_Con.Can_Attack = false;
-                Canvas_Inventory.enabled = true;
-                GameObject.Find("BattleUI").GetComponent<CardBattleController>().Activate(false);
-            }
-        }
+    { 
     }
 
     private void InitializeLoadinData()
@@ -83,7 +63,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void SaveandLoadInvCardList(bool SorL)
+    public void SaveandLoadInvCardList(bool SorL)
     {
         // save and load system.
         if (SorL)

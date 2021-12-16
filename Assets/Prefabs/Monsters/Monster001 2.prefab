@@ -9,6 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6630278928408616729}
+  - component: {fileID: 6356671152541336777}
+  - component: {fileID: 430143161186971138}
+  - component: {fileID: 4112568296426453835}
+  - component: {fileID: 2535727704790064674}
+  - component: {fileID: 1687107504890344179}
   m_Layer: 0
   m_Name: Monster001 2
   m_TagString: Monster
@@ -32,6 +37,74 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6356671152541336777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749953604448350833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7461dbaecb4a98d49a59b07c0bc4b422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 2452121095942814792, guid: 0402dffedd5cc6c448fb305dd4c95a8c,
+    type: 3}
+--- !u!114 &430143161186971138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749953604448350833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c39f7dcbb9d264faeab56bb17dab03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4112568296426453835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749953604448350833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbd909ea1f92aa6489f2d118d938d60d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _MonsterStatus: {fileID: 11400000, guid: 238d8a720c1306c45b3be92822fd0cde, type: 2}
+--- !u!54 &2535727704790064674
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749953604448350833}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!65 &1687107504890344179
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749953604448350833}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4329352532612690863
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,10 +197,6 @@ GameObject:
   - component: {fileID: 4931451098872887806}
   - component: {fileID: 8289302488795429071}
   - component: {fileID: 3213512154906244323}
-  - component: {fileID: 6162359208492629171}
-  - component: {fileID: 3570763246587943309}
-  - component: {fileID: 833143214842680236}
-  - component: {fileID: 3117299765633825970}
   m_Layer: 0
   m_Name: Body
   m_TagString: Monster
@@ -199,56 +268,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6162359208492629171
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4523382655566576086}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3570763246587943309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4523382655566576086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83c39f7dcbb9d264faeab56bb17dab03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &833143214842680236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4523382655566576086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbd909ea1f92aa6489f2d118d938d60d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _MonsterStatus: {fileID: 11400000, guid: 238d8a720c1306c45b3be92822fd0cde, type: 2}
---- !u!114 &3117299765633825970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4523382655566576086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7461dbaecb4a98d49a59b07c0bc4b422, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5178790256731111491
 GameObject:
   m_ObjectHideFlags: 0

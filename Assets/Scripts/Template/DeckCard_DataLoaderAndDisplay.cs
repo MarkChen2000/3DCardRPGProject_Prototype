@@ -8,7 +8,7 @@ public class DeckCard_DataLoaderAndDisplay : MonoBehaviour
 {
     public CardData _CardData;
 
-    private GameObject Panel_DeckCardTemplateBG;
+    private Transform Trans_Panel_DeckCardTemplateBG;
     private TMP_Text TMP_CardName;
     private TMP_Text TMP_CardCost;
     private TMP_Text TMP_CardHoldNum;
@@ -24,10 +24,10 @@ public class DeckCard_DataLoaderAndDisplay : MonoBehaviour
 
     private void GetComponentofTemplates()
     {
-        Panel_DeckCardTemplateBG = transform.GetChild(0).gameObject;
-        TMP_CardCost = Panel_DeckCardTemplateBG.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        TMP_CardName = Panel_DeckCardTemplateBG.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
-        TMP_CardHoldNum = Panel_DeckCardTemplateBG.transform.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
+        Trans_Panel_DeckCardTemplateBG = transform.GetChild(0);
+        TMP_CardCost = Trans_Panel_DeckCardTemplateBG.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        TMP_CardName = Trans_Panel_DeckCardTemplateBG.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+        TMP_CardHoldNum = Trans_Panel_DeckCardTemplateBG.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
     }
 
     public void DisplaytoTemplate(CardData carddata)

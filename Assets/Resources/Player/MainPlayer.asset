@@ -21,4 +21,4 @@ MonoBehaviour:
   baseMaxMana: 10
   baseManaRT: 10
   baseMaxSpeed: 1
-  Money: 100
+  Money: 300

@@ -18,7 +18,9 @@ public class InteractionUIController : MonoBehaviour
     private TMP_Text TMP_TalkerName;
     private TMP_Text TMP_ConversationText;
     private GameObject Panel_ShopUIBG;
-    private GameObject Panel_MissionUIBG;
+    private GameObject Panel_ChangeStateUIBG;
+
+    // private GameObject Panel_MissionUIBG;
 
     private void Awake()
     {
@@ -29,7 +31,9 @@ public class InteractionUIController : MonoBehaviour
         TMP_TalkerName = Panel_ConversationUIBG.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
         TMP_ConversationText = Panel_ConversationUIBG.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         Panel_ShopUIBG = transform.GetChild(0).GetChild(2).gameObject;
-        Panel_MissionUIBG = transform.GetChild(0).GetChild(3).gameObject;
+        Panel_ChangeStateUIBG = transform.GetChild(0).GetChild(3).gameObject;
+
+        // Panel_MissionUIBG = transform.GetChild(0).GetChild(3).gameObject;
 
         TMP_InteractionInfo = Panel_InteractionInfoBG.transform.GetChild(0).GetComponent<TMP_Text>();
     }
@@ -44,7 +48,8 @@ public class InteractionUIController : MonoBehaviour
     {
         Panel_ConversationUIBG.SetActive(false);
         Panel_ShopUIBG.SetActive(false);
-        Panel_MissionUIBG.SetActive(false);
+        Panel_ChangeStateUIBG.SetActive(false);
+        // Panel_MissionUIBG.SetActive(false);
     }
 
     public void ShowInteractionInfo(InteractionType type)
@@ -85,6 +90,11 @@ public class InteractionUIController : MonoBehaviour
     public void ShowShopUI()
     {
         Panel_ShopUIBG.SetActive(true);
+    }
+
+    public void ShowChangeStateUI()
+    {
+        Panel_ChangeStateUIBG.SetActive(true);
     }
 
 }

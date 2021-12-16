@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatusController : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class PlayerStatusController : MonoBehaviour
     public int baseMaxSpeed = 1; // will not increase with lv.
     [HideInInspector] public int currentMaxSpeed;
 
+    private StatusUIManager statusUIManager;
+
     public int Money = 0;
 
     // Start is called before the first frame update
@@ -38,16 +41,30 @@ public class PlayerStatusController : MonoBehaviour
         // Load initial player status asset first, this may be replaced by Save and Load System before build.
         InitializeLoadinData();
 
+        this.statusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
     }
 
-    public void SaveandLoadPlayerStatus(bool SorL )
+    void Start()
+    {
+        InvokeRepeating("AutoRestoreMP", 0f, this.baseManaRT);
+    }
+
+    public void SaveandLoadPlayerStatus(bool SorL)
     {
         // save and load system
-        if ( SorL )
+        if (SorL)
         {
         }
         else
         {
+        }
+    }
+
+    void Update()
+    {
+        if (this.currentHP <= 0)
+        {
+            SceneManager.LoadScene("Scene_Field");
         }
     }
 
@@ -103,6 +120,41 @@ public class PlayerStatusController : MonoBehaviour
         if (name.Equals("currentMana"))
         {
             this.currentMana += value;
+            this.statusUIManager.UpdateAllStatusDisplay();
         }
+        else if (name.Equals("currentHP"))
+        {
+            if (value < 0)
+            {
+                this.currentHP += value;
+            }
+            else if (value > 0)
+            {
+                if (this.currentHP < this.currentMaxHP - value)
+                {
+                    this.currentHP += value;
+                }
+                else if (this.currentHP > this.currentHP - value && this.currentHP != this.currentMaxHP)
+                {
+                    this.currentHP = this.currentMaxHP;
+                }
+            }
+
+            this.statusUIManager.UpdateAllStatusDisplay();
+        }
+    }
+
+    private void AutoRestoreMP()
+    {
+        if (this.currentMana < this.currentMaxMana)
+        {
+            this.currentMana++;
+            this.statusUIManager.UpdateAllStatusDisplay();
+        }
+    }
+
+    public void GainMoney(int gain)
+    {
+        Money += gain;
     }
 }

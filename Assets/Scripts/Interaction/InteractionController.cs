@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum InteractionType
 {
-    Null, Conversation, Transaction, Mission
+    Null, Conversation, Transaction, Mission, ChangeGameState
 }
 
 public class InteractionController : MonoBehaviour
@@ -13,10 +13,14 @@ public class InteractionController : MonoBehaviour
     private ShopSystemAndUIController ShopSystemCon;
     private CharacterBasicAttackController Player_BasicAttackCon;
     private CharacterMovementController Player_MoveCon;
+    private GameStateChangeUIController GameStateChangeUICon;
 
     public bool Is_Interacting = false;
     private bool Is_Dialoging = false;
     private bool Is_Transacting = false;
+    private bool Is_ChangingGameState = false;
+
+    private bool CurrentConversationState; // it mean player is in the dialogue of before or after interaction.
 
     private InteractionType CurrentInteractionType;
 
@@ -24,6 +28,7 @@ public class InteractionController : MonoBehaviour
     {
         InteractionUICon = GetComponent<InteractionUIController>();
         ShopSystemCon = GetComponent<ShopSystemAndUIController>();
+        GameStateChangeUICon = GetComponent<GameStateChangeUIController>();
         Player_BasicAttackCon = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
         Player_MoveCon = GameObject.Find("Player").GetComponent<CharacterMovementController>();
     }
@@ -42,10 +47,12 @@ public class InteractionController : MonoBehaviour
                 if ( !InteractionUICon.DisplayNextConversationText() ) // return false mean the dialogu is end.
                 {
                     Is_Dialoging = false;
+
                     if (CurrentInteractionType == InteractionType.Conversation )
                     {
                         PlayerEndInteraction();
                     }
+
                     else if (CurrentInteractionType == InteractionType.Transaction )
                     {
                         if ( CurrentConversationState ) // the conversation that saying before get into shopsystem is end.
@@ -59,6 +66,21 @@ public class InteractionController : MonoBehaviour
                             PlayerEndInteraction();
                         }
                     }
+
+                    else if( CurrentInteractionType == InteractionType.ChangeGameState )
+                    {
+                        if (CurrentConversationState) // the conversation that saying before get into change game state is end.
+                        {
+                            // get into transaction state.
+                            EnableChangeStateSystem();
+                        }
+                        else // the conversation you that saying when leaving from change game state is end.
+                        {
+                            // end the whole interaction. 
+                            PlayerEndInteraction();
+                        }
+                    }
+
                 }
             }
 
@@ -68,6 +90,12 @@ public class InteractionController : MonoBehaviour
             {
                 DisableShopSystem();
             }
+
+            if ( Is_ChangingGameState && Input.GetKeyDown(KeyCode.E))
+            {
+                DisableChangeStateSystem();
+            }
+
         }
     }
 
@@ -81,6 +109,8 @@ public class InteractionController : MonoBehaviour
     public void PlayerEndInteraction()
     {
         Is_Interacting = false;
+        Is_ChangingGameState = false;
+        Is_Transacting = false;
         Player_BasicAttackCon.Can_Attack = true;
         Player_MoveCon.Can_Control = true;
         InteractionUICon.HideAllInteractionUI();
@@ -100,7 +130,6 @@ public class InteractionController : MonoBehaviour
         InteractionUICon.StartDisplayConversaionText(template.TalkerName,template.StringTextList);
     }
 
-    private bool CurrentConversationState;
     private TransactionTemplate current_transctiontem;
 
     public void StartTransactionInteraction(TransactionTemplate template)
@@ -114,10 +143,10 @@ public class InteractionController : MonoBehaviour
         current_transctiontem = template;
         PlayerStartInteraction();
         CurrentInteractionType = InteractionType.Transaction;
+        CurrentConversationState = true; // true mean you are in before interact conversation.
         if (current_transctiontem.BeforeShopSystemTextList.Count != 0 )
         {
             Is_Dialoging = true;
-            CurrentConversationState = true; // true mean you are in before interact conversation.
             InteractionUICon.StartDisplayConversaionText(current_transctiontem.ShopKeeperName, current_transctiontem.BeforeShopSystemTextList);
         }
         else
@@ -153,5 +182,53 @@ public class InteractionController : MonoBehaviour
         }
     }
 
+    private ChangeGameStateTemplate current_changestate_tem;
+
+    public void StartChangeGameStateInteraction(ChangeGameStateTemplate changestate_tem)
+        // change game state order:
+        // 1. run conversation.
+        // 2. turn on change state menu, and wait for player choose.
+        // 3. enter the chosen state or leave ame state change menu.
+        // 4. if player leave, run the conversation.
+    {
+        current_changestate_tem = changestate_tem;
+        CurrentInteractionType = InteractionType.ChangeGameState;
+        PlayerStartInteraction();
+        CurrentConversationState = true; // true mean you are in before interact conversation.
+        if (current_changestate_tem.BeforeChangeStateSystemTextList.Count != 0)
+        {
+            Is_Dialoging = true;
+            InteractionUICon.StartDisplayConversaionText(current_changestate_tem.VillagerName, current_changestate_tem.BeforeChangeStateSystemTextList);
+        }
+        else
+        {
+            // get into interaction directly.
+            EnableChangeStateSystem();
+        }
+    }
+
+    private void EnableChangeStateSystem()
+    {
+        Is_ChangingGameState = true;
+        InteractionUICon.ShowChangeStateUI();
+        GameStateChangeUICon.EnterChangeStateSystem(current_changestate_tem);
+    }
+
+    private void DisableChangeStateSystem()
+    {
+        Is_ChangingGameState = false;
+        InteractionUICon.HideAllInteractionUI();
+
+        if (current_changestate_tem.LeavingChangeStateSystemTextList.Count != 0)
+        {
+            Is_Dialoging = true;
+            CurrentConversationState = false; // true mean you are in leaving interact conversation.
+            InteractionUICon.StartDisplayConversaionText(current_changestate_tem.VillagerName, current_changestate_tem.LeavingChangeStateSystemTextList);
+        }
+        else
+        {
+            PlayerEndInteraction();
+        }
+    }
 
 }

@@ -10,6 +10,9 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
     private Vector2 lastMousePosition;
     public Camera MainCamera;
     private Transform Trans_Camera;
+    private Vector3 mousePosition;
+    private Ray detectray;
+    private RaycastHit hit;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +28,10 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
     // Update is called once per frame
     void Update()
     {
-
+        //this.mousePosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
+        //Debug.Log(this.mousePosition);
+        this.detectray = MainCamera.ScreenPointToRay(Input.mousePosition);
+        //Debug.Log(Input.mousePosition);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -81,13 +87,18 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnDrop(PointerEventData eventData)
     {
-        Ray detectray = MainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        //this.detectray = MainCamera.ScreenPointToRay(Input.mousePosition);
+        Vector2 currentMousePosition = eventData.position;
+        
 
-        if (Physics.Raycast(detectray, out hit))
+        if (Physics.Raycast(this.detectray, out this.hit))
         {
-            Vector3 mousePosition = hit.point;
+            this.mousePosition = this.hit.point;
+            //Debug.Log(this.detectray);
+            //Debug.Log(this.hit);
+            //Vector3 mousePosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
             GameObject.Find("BattleManager").GetComponent<BattleManager>().executeCard(this.gameObject.GetComponent<BattleCard_LoaderAndDisplay>()._CardData, mousePosition);
+            //GameObject.Find("BattleManager").GetComponent<BattleManager>().executeCard(this.gameObject.GetComponent<BattleCard_LoaderAndDisplay>()._CardData, this.hit.point);
             GameObject.Find("BattleManager").GetComponent<BattleManager>().currentCard(null);
             Destroy(this.gameObject);
             GameObject.Find("BattleManager").GetComponent<BattleManager>().DrawCard();

@@ -23,47 +23,35 @@ public class CardBattleController : MonoBehaviour
 
     private void Awake()
     {
-        SaveandLoadBattleCardList(true); // Load
-        if (tempBattleCardList == null) tempBattleCardList = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
-        // Load initial BattleCardList asset first, this may be replaced by Save and Load System before build!
-        InitializeLoadinData();
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        _StstusUIManager = GetComponent<StatusUIManager>();
 
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         Trans_HandCardsPanel = transform.GetChild(0).GetChild(1);
-        Trans_HandCardsPanel.gameObject.SetActive(false);
+
         for (int i = 0; i < maxCardAtOnce; i++)
         {
             displayTemplateComponent.Add(Trans_HandCardsPanel.GetChild(0).GetChild(i).GetComponent<BattleCard_LoaderAndDisplay>());
         }
 
-        _StstusUIManager = GetComponent<StatusUIManager>();
-        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        if (tempBattleCardList == null) tempBattleCardList = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
+        InitializeLoadinData();
+        // these two "load in data" and "initialize data" function should be call when player enter battle feild.
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
     }
 
     private void InitializeLoadinData()
     {
         // InvCardList = _InvCardListAsset._CardList; // only copy it's reference.
-
         BattleCardList.Clear();
         for (int i = 0; i < tempBattleCardList._CardList.Count; i++) // copy the value from SO asset list.
         {
             BattleCardList.Add(tempBattleCardList._CardList[i]);
         }
     }
-
-    private void SaveandLoadBattleCardList(bool SorL)
-    {
-        // save and load system.
-        if (SorL)
-        { }
-        else
-        { }
-    }
-
 
     public void Activate(bool b)
     {

@@ -6,13 +6,13 @@ using TMPro;
 
 public enum StatusType
 {
-    LVEXP,HP,Mana
+    LVEXP,HP,Mana,Money
 }
 
 
 public class StatusUIManager : MonoBehaviour
 {
-    private TMP_Text TMP_PlayerLV, TMP_PlayerEXP, TMP_PlayerCHP, TMP_PlayerCMana;
+    private TMP_Text TMP_PlayerLV, TMP_PlayerEXP, TMP_PlayerCHP, TMP_PlayerCMana, TMP_Money;
     private Slider Slider_PlayerEXP, Slider_PlayerCHP, Slider_PlayerCMana;
     private Transform Trans_UpStatusPanel;
 
@@ -28,6 +28,7 @@ public class StatusUIManager : MonoBehaviour
         TMP_PlayerCHP = Trans_UpStatusPanel.GetChild(5).GetComponent<TMP_Text>();
         Slider_PlayerCMana = Trans_UpStatusPanel.GetChild(7).GetComponent<Slider>();
         TMP_PlayerCMana = Trans_UpStatusPanel.GetChild(8).GetComponent<TMP_Text>();
+        TMP_Money = Trans_UpStatusPanel.GetChild(9).GetChild(0).GetComponent<TMP_Text>();
     }
     // Start is called before the first frame update
     void Start()
@@ -47,6 +48,7 @@ public class StatusUIManager : MonoBehaviour
         TMP_PlayerEXP.text = PlayerStatusCon.nextLVEXP + " / " + PlayerStatusCon.EXP;
         TMP_PlayerCHP.text = PlayerStatusCon.currentMaxHP + " / " + PlayerStatusCon.currentHP;
         TMP_PlayerCMana.text = PlayerStatusCon.currentMaxMana + " / " + PlayerStatusCon.currentMana;
+        TMP_Money.text = "Money : " + PlayerStatusCon.Money;
         Slider_PlayerEXP.maxValue = PlayerStatusCon.nextLVEXP;
         Slider_PlayerEXP.value = PlayerStatusCon.EXP;
         Slider_PlayerCHP.maxValue = PlayerStatusCon.currentMaxHP;
@@ -75,7 +77,13 @@ public class StatusUIManager : MonoBehaviour
                 Slider_PlayerCMana.maxValue = PlayerStatusCon.currentMaxMana;
                 Slider_PlayerCMana.value = PlayerStatusCon.currentMana;
                 break;
+            case StatusType.Money:
+                TMP_Money.text = "Money : " + PlayerStatusCon.Money;
+                break;
         }
     }
 
+    public void updateStatus(string name) {
+
+    }
 }

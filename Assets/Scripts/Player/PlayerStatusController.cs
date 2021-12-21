@@ -156,5 +156,6 @@ public class PlayerStatusController : MonoBehaviour
     public void GainMoney(int gain)
     {
         Money += gain;
+        statusUIManager.UpdateOneStatusDisplay(StatusType.Money);
     }
 }

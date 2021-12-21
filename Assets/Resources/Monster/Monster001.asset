@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 1
   max_hp: 50
-  attack: 5
+  attack: 25
   defense: 5
+  Drop_Exp: 10
+  DropMoney: 10
+  DropCard: {fileID: 0}

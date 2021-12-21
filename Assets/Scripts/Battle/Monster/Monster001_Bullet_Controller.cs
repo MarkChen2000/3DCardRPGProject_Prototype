@@ -61,15 +61,15 @@ public class Monster001_Bullet_Controller : MonoBehaviour
             if (this.type == 1)
             {
                 
-                this.playerStatusController.UpdateStatus("currentHP", -this.battleValueCalculator.PlayerTakeDamageCalculate(5));
+                this.playerStatusController.UpdateStatus("currentHP", -this.battleValueCalculator.PlayerTakeDamageCalculate(25));
             }
             else if (this.type == 2)
             {
-                this.playerStatusController.UpdateStatus("currentHP", -this.battleValueCalculator.PlayerTakeDamageCalculate(30));
+                this.playerStatusController.UpdateStatus("currentHP", -this.battleValueCalculator.PlayerTakeDamageCalculate(50));
             }
             else if (this.type == 3)
             {
-                this.playerStatusController.UpdateStatus("currentHP", -this.battleValueCalculator.PlayerTakeDamageCalculate(10));
+                this.playerStatusController.UpdateStatus("currentHP", -this.battleValueCalculator.PlayerTakeDamageCalculate(25));
             }
             this.KillSelf();
         }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lv: 1
   max_hp: 300
-  attack: 30
+  attack: 50
   defense: 10
   Drop_Exp: 50
   DropMoney: 50

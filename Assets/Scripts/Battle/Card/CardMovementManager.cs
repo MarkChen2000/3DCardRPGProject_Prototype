@@ -102,6 +102,7 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
             GameObject.Find("BattleManager").GetComponent<BattleManager>().currentCard(null);
             Destroy(this.gameObject);
             GameObject.Find("BattleManager").GetComponent<BattleManager>().DrawCard();
+
         }
     }
 }

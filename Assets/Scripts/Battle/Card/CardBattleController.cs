@@ -21,8 +21,11 @@ public class CardBattleController : MonoBehaviour
     public CardList tempBattleCardList;
     public List<CardData> BattleCardList = new List<CardData>(); // CardList that store at this script
 
+    //public List<CardData> LastBattleCardList = new List<CardData>();
+
     private void Awake()
     {
+        //this.LastBattleCardList = null;
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         _StstusUIManager = GetComponent<StatusUIManager>();
 
@@ -31,16 +34,19 @@ public class CardBattleController : MonoBehaviour
         for (int i = 0; i < maxCardAtOnce; i++)
         {
             displayTemplateComponent.Add(Trans_HandCardsPanel.GetChild(0).GetChild(i).GetComponent<BattleCard_LoaderAndDisplay>());
+            this.displayTemplateComponent[i].transform.SetSiblingIndex(i);
         }
 
         if (tempBattleCardList == null) tempBattleCardList = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
         InitializeLoadinData();
+
         // these two "load in data" and "initialize data" function should be call when player enter battle feild.
     }
 
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     private void InitializeLoadinData()
@@ -72,6 +78,15 @@ public class CardBattleController : MonoBehaviour
 
     public void DisplayCard()
     {
+        //if (this.LastBattleCardList.Count > 0)
+        //{
+        //    for (int i = 0; i < this.LastBattleCardList.Count; i++)
+        //    {
+        //        displayTemplateComponent[i].DisplaytoTemplate(this.LastBattleCardList[i]);
+        //    }
+        //}
+        //else
+        //{
         if (this.BattleCardList.Count < this.maxCardAtOnce)
         {
             this.maxCardAtOnce = this.BattleCardList.Count;
@@ -81,13 +96,16 @@ public class CardBattleController : MonoBehaviour
             int temp = rnd.Next(BattleCardList.Count - i);
             displayTemplateComponent[i].DisplaytoTemplate(BattleCardList[temp]); // the GetData function will be replace by DisplaytoTemplates function, pls check the card_loadanddisplay script.
             BattleCardList.RemoveAt(temp);
+            //this.LastBattleCardList.Add(BattleCardList[temp]);
         }
         this.maxCardAtOnce = 5;
+        //}
+
     }
 
     public void updateStatus(CardData card)
     {
-        Dictionary<string, int> statusDict = PlayerStatusCon.GetStatus(); 
+        Dictionary<string, int> statusDict = PlayerStatusCon.GetStatus();
         PlayerStatusCon.UpdateStatus("currentMana", -card.CardCost);
         _StstusUIManager.UpdateOneStatusDisplay(StatusType.Mana);
     }
@@ -100,6 +118,7 @@ public class CardBattleController : MonoBehaviour
             GameObject newCard = Instantiate(card, GameObject.Find("BattleCardTemplates").transform);
             newCard.gameObject.GetComponent<BattleCard_LoaderAndDisplay>().DisplaytoTemplate(BattleCardList[temp]);
             BattleCardList.RemoveAt(temp);
+            //this.LastBattleCardList.Add(BattleCardList[temp]);
         }
     }
 

@@ -19,7 +19,7 @@ MonoBehaviour:
   _CardType: 1
   CardCost: 0
   CardLv: 5
-  _EquipmentType: 0
+  _EquipmentType: 1
   _BonusType: 0
   BonusNum: 0
   WeaponAP: 15

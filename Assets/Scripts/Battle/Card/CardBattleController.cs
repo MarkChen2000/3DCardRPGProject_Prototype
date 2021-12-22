@@ -21,7 +21,7 @@ public class CardBattleController : MonoBehaviour
     public CardList tempBattleCardList;
     public List<CardData> BattleCardList = new List<CardData>(); // CardList that store at this script
 
-    //public List<CardData> LastBattleCardList = new List<CardData>();
+    public List<CardData> LastBattleCardList = new List<CardData>();
 
     private void Awake()
     {
@@ -78,28 +78,29 @@ public class CardBattleController : MonoBehaviour
 
     public void DisplayCard()
     {
-        //if (this.LastBattleCardList.Count > 0)
-        //{
-        //    for (int i = 0; i < this.LastBattleCardList.Count; i++)
-        //    {
-        //        displayTemplateComponent[i].DisplaytoTemplate(this.LastBattleCardList[i]);
-        //    }
-        //}
-        //else
-        //{
-        if (this.BattleCardList.Count < this.maxCardAtOnce)
+        if (this.LastBattleCardList.Count > 0)
         {
-            this.maxCardAtOnce = this.BattleCardList.Count;
+            for (int i = 0; i < this.LastBattleCardList.Count; i++)
+            {
+                displayTemplateComponent[i].DisplaytoTemplate(this.LastBattleCardList[i]);
+            }
         }
-        for (int i = 0; i < maxCardAtOnce; i++)
+        else
         {
-            int temp = rnd.Next(BattleCardList.Count - i);
-            displayTemplateComponent[i].DisplaytoTemplate(BattleCardList[temp]); // the GetData function will be replace by DisplaytoTemplates function, pls check the card_loadanddisplay script.
-            BattleCardList.RemoveAt(temp);
-            //this.LastBattleCardList.Add(BattleCardList[temp]);
+            if (this.BattleCardList.Count < this.maxCardAtOnce)
+            {
+                this.maxCardAtOnce = this.BattleCardList.Count;
+            }
+            for (int i = 0; i < maxCardAtOnce; i++)
+            {
+                int temp = rnd.Next(BattleCardList.Count - i);
+                displayTemplateComponent[i].DisplaytoTemplate(BattleCardList[temp]); // the GetData function will be replace by DisplaytoTemplates function, pls check the card_loadanddisplay script.
+                BattleCardList.RemoveAt(temp);
+                this.LastBattleCardList.Add(BattleCardList[temp]);
+            }
+            this.maxCardAtOnce = 5;
+
         }
-        this.maxCardAtOnce = 5;
-        //}
 
     }
 
@@ -118,7 +119,7 @@ public class CardBattleController : MonoBehaviour
             GameObject newCard = Instantiate(card, GameObject.Find("BattleCardTemplates").transform);
             newCard.gameObject.GetComponent<BattleCard_LoaderAndDisplay>().DisplaytoTemplate(BattleCardList[temp]);
             BattleCardList.RemoveAt(temp);
-            //this.LastBattleCardList.Add(BattleCardList[temp]);
+            this.LastBattleCardList.Add(BattleCardList[temp]);
         }
     }
 

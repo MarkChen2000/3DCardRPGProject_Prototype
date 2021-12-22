@@ -70,6 +70,8 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
         else if (CardName == "Heal Potion" || CardName == "Quick Heal")
         {
             playerStatusCon.UpdateStatus("currentHP", 6);
+            prefab = GameObject.Find("BattleManager").GetComponent<PrefabController>().healPotionPrefab;
+            GameObject newPrefab = Instantiate(prefab);
         }
     }
 

@@ -9,9 +9,14 @@ public enum CardType // Every card will be either spells or equipment.
     Spells, Equipment
 }
 
+public enum SpellsEffectType
+{
+    Damage, Heal, Duration, Distance
+}
+
 public enum BonusType // Only Equipment have Bonus Value
 {
-    NotEquip, Null, PW, HP, MP
+    NotEquip, Null, PW, HP, MP, SP, RT
 }
 
 public enum EquipmentType
@@ -38,13 +43,18 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     [Space]
     [Header("For Spell Card")]
     public int CardCost = 0;
+    public SpellsEffectType _SpellsEffectType = SpellsEffectType.Damage;
+    public int SpellsEffectValue = 0;
 
     [Space]
     [Header("For Equipment Card")]
     public int CardLv = 0;
     public EquipmentType _EquipmentType = EquipmentType.NotEquip;
-    public BonusType _BonusType = BonusType.NotEquip;
-    public int BonusNum = 0;
+    public int EquipmentBonusHP = 0;
+    public int EquipmentBonusPW = 0;
+    public int EquipmentBonusMP = 0;
+    public float EquipmentBonusSP = 0;
+    public float EquipmentBonusRT = 0;
 
     [Header("For Waepon")]
     public int WeaponAP = 0;
@@ -53,6 +63,7 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     [Header("For Armor")]
     public ArmorType _ArmorType = ArmorType.NotArmor;
     public int ArmorDP = 0;
+    public float ArmorDSP = 0; // the debuff for the speed.
 
 
     // public int CardHoldNum = 1; // doesnt need holdnum now because that one element in list is meaning one single card.

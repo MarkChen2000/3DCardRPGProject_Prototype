@@ -17,7 +17,7 @@ public class EquipmentSlotController : MonoBehaviour
     private Transform Trans_InventoryPanelBG;
     private Transform Trans_PlayerStatusPanel;
     private Transform Trans_EquipmentSlotGridGroup;
-    private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerPW, TMP_PlayerMP, TMP_PlayerMananRT, TMP_WeaponAPnCR, TMP_ArmorDP;
+    private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerPW, TMP_PlayerMP, TMP_PlayerMananRT, TMP_WeaponAPnCR, TMP_ArmorDPnDSP;
 
     public EquipmentSlot _EquipmentSlotAsset;
     public CardData Weapon, Armor_Head, Armor_Body, Armor_Bottom, Ornament_A, Ornament_B;
@@ -25,9 +25,13 @@ public class EquipmentSlotController : MonoBehaviour
     [HideInInspector] public int Weapon_AP = 0;
     [HideInInspector] public int Weapon_CR = 0;
     [HideInInspector] public int Armor_DP = 0;
+    [HideInInspector] public float Armor_DSP = 0;
     [HideInInspector] public int EquipmentBonusHP = 0;
     [HideInInspector] public int EquipmentBonusPW = 0;
     [HideInInspector] public int EquipmentBonusMP = 0;
+    [HideInInspector] public float EquipmentBonusSP = 0;
+    [HideInInspector] public float EquipmentBonusRT = 0;
+
 
     private void Awake()
     {
@@ -85,9 +89,12 @@ public class EquipmentSlotController : MonoBehaviour
         Weapon_AP = 0;
         Weapon_CR = 0;
         Armor_DP = 0;
+        Armor_DSP = 0;
+        EquipmentBonusHP = 0;
         EquipmentBonusPW = 0;
         EquipmentBonusMP = 0;
-        EquipmentBonusHP = 0;
+        EquipmentBonusSP = 0;
+        EquipmentBonusRT = 0;
 
         foreach (CardData carddata in EquipmentSlotList)
         {
@@ -97,9 +104,10 @@ public class EquipmentSlotController : MonoBehaviour
                 case EquipmentType.Weapon:
                     Weapon_AP = carddata.WeaponAP;
                     Weapon_CR = carddata.WeaponCR;
-                    continue;
+                    break;
                 case EquipmentType.Armor:
                     Armor_DP += carddata.ArmorDP;
+                    Armor_DSP += carddata.ArmorDSP;
                     break;
                 case EquipmentType.Ornament:
 
@@ -109,24 +117,11 @@ public class EquipmentSlotController : MonoBehaviour
                     break;
             }
 
-            switch (carddata._BonusType)
-            {
-                case BonusType.HP:
-                    EquipmentBonusHP += carddata.BonusNum;
-                    break;
-                case BonusType.PW:
-                    EquipmentBonusPW += carddata.BonusNum;
-                    break;
-                case BonusType.MP:
-                    EquipmentBonusMP += carddata.BonusNum;
-                    break;
-                case BonusType.Null:
-
-                    break;
-                case BonusType.NotEquip:
-                    Debug.Log("This is not Equipment!");
-                    break;
-            }
+            EquipmentBonusHP += carddata.EquipmentBonusHP;
+            EquipmentBonusPW += carddata.EquipmentBonusPW;
+            EquipmentBonusMP += carddata.EquipmentBonusMP;
+            EquipmentBonusSP += carddata.EquipmentBonusSP;
+            EquipmentBonusRT += carddata.EquipmentBonusRT;
         }
     }
 
@@ -158,7 +153,7 @@ public class EquipmentSlotController : MonoBehaviour
         TMP_PlayerMP = Trans_PlayerStatusPanel.GetChild(3).GetComponent<TMP_Text>();
         TMP_PlayerMananRT = Trans_PlayerStatusPanel.GetChild(4).GetComponent<TMP_Text>();
         TMP_WeaponAPnCR = Trans_PlayerStatusPanel.GetChild(5).GetComponent<TMP_Text>();
-        TMP_ArmorDP = Trans_PlayerStatusPanel.GetChild(6).GetComponent<TMP_Text>();
+        TMP_ArmorDPnDSP = Trans_PlayerStatusPanel.GetChild(6).GetComponent<TMP_Text>();
     }
 
     private void InitializeStatusNum()
@@ -171,6 +166,8 @@ public class EquipmentSlotController : MonoBehaviour
         PlayerStatusCon.currentMaxHP = PlayerStatusCon.baseMaxHP + EquipmentBonusHP;
         PlayerStatusCon.currentPW = PlayerStatusCon.basePW + EquipmentBonusPW;
         PlayerStatusCon.currentMP = PlayerStatusCon.baseMP + EquipmentBonusMP;
+        PlayerStatusCon.currentMaxSpeed = PlayerStatusCon.baseMaxSpeed + EquipmentBonusSP - Armor_DSP;
+        PlayerStatusCon.currentMaxManaRT = PlayerStatusCon.baseManaRT + EquipmentBonusRT;
     }
 
     private void UpdateAllStatusDisplay()
@@ -179,9 +176,9 @@ public class EquipmentSlotController : MonoBehaviour
         TMP_PlayerHP.text = "HP: " + PlayerStatusCon.currentMaxHP + " ( " + EquipmentBonusHP + " ) " ;
         TMP_PlayerPW.text = "Power: " + PlayerStatusCon.currentPW + " ( " + EquipmentBonusPW + " ) ";
         TMP_PlayerMP.text = "MP: " + PlayerStatusCon.currentMP + " ( " + EquipmentBonusMP + " ) " ;
-        TMP_PlayerMananRT.text = "Mana/Recovery: " + PlayerStatusCon.baseMaxMana + " / " + PlayerStatusCon.baseManaRT + "s";
+        TMP_PlayerMananRT.text = "Mana/Recovery: " + PlayerStatusCon.baseMaxMana + " / " + PlayerStatusCon.currentMaxManaRT  + " ( " + EquipmentBonusRT + " ) s";
         TMP_WeaponAPnCR.text = "WeaponAP/CR: " + Weapon_AP + " / " + Weapon_CR + "%";
-        TMP_ArmorDP.text = "ArmorDP: " + Armor_DP ;
+        TMP_ArmorDPnDSP.text = "ArmorDP/DPS: " + Armor_DP + " / " + Armor_DSP;
     }
 
     public void TryTransferCardtoInv(EquipmentCard_DataLoaderAndDisplay card_template)

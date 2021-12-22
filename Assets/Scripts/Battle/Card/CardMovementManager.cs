@@ -36,11 +36,13 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        this.GetComponent<RectTransform>().localPosition += new Vector3(0f, 50f, 0f);
         this.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        this.GetComponent<RectTransform>().localPosition -= new Vector3(0f, 50f, 0f);
         this.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
     }
 

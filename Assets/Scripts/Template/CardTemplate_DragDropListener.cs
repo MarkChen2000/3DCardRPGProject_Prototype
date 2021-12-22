@@ -16,7 +16,7 @@ public class CardTemplate_DragDropListener: MonoBehaviour, IPointerEnterHandler,
     public TemplateType _TemplateType; 
 
     private InventoryController Inventory_Con;
-    private Card_DataLoaderAndDisplay Card_DataLoader;
+    private InventoryCard_DataLoaderAndDisplay Card_DataLoader;
 
     private CardDeckController Deck_Con;
     private DeckCard_DataLoaderAndDisplay DeckCard_DataLoader;
@@ -36,7 +36,7 @@ public class CardTemplate_DragDropListener: MonoBehaviour, IPointerEnterHandler,
         {
             case TemplateType.InventoryTem:
                 Inventory_Con = transform.root.GetComponent<InventoryController>();
-                Card_DataLoader = GetComponent<Card_DataLoaderAndDisplay>();
+                Card_DataLoader = GetComponent<InventoryCard_DataLoaderAndDisplay>();
                 break;
             case TemplateType.DeckTem:
                 Deck_Con = transform.root.GetComponent<CardDeckController>();

@@ -15,7 +15,7 @@ public class InventoryController : MonoBehaviour
     public GameObject CardTemplatePrefab; // the template that display on the panel
 
     private Transform Trans_InvCardsGridGroup; // locattion of the InvCardGridGroup
-    private List<Card_DataLoaderAndDisplay> TemplateComponent = new List<Card_DataLoaderAndDisplay>(); // Each Template Component which is Display 
+    private List<InventoryCard_DataLoaderAndDisplay> TemplateComponent = new List<InventoryCard_DataLoaderAndDisplay>(); // Each Template Component which is Display 
 
     [Space]
     public int TemplateNum = 10; // the amount of card tmeplate can display in one page
@@ -141,7 +141,7 @@ public class InventoryController : MonoBehaviour
     private void SpawnOneTemplateAndGetCom()
     {
         GameObject gb = Instantiate(CardTemplatePrefab, Trans_InvCardsGridGroup);
-        TemplateComponent.Add(gb.GetComponent<Card_DataLoaderAndDisplay>());
+        TemplateComponent.Add(gb.GetComponent<InventoryCard_DataLoaderAndDisplay>());
     }
 
     private void DisplayAllCardtoInventory()
@@ -189,7 +189,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    public void TryTransferCard(Card_DataLoaderAndDisplay card_template) 
+    public void TryTransferCard(InventoryCard_DataLoaderAndDisplay card_template) 
         // Try to transfer card from this list to another list,
         // need to get the component of cardt template, and get the carddata and holdnum from it.
     {

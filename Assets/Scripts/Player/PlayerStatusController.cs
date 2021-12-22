@@ -24,10 +24,11 @@ public class PlayerStatusController : MonoBehaviour
     public int baseMaxMana = 10; // will not increase with lv.
     [HideInInspector] public int currentMaxMana;
     [HideInInspector] public int currentMana;
-    public int baseManaRT = 10;
+    public float baseManaRT = 10;
+    public float currentMaxManaRT;
 
-    public int baseMaxSpeed = 1; // will not increase with lv.
-    [HideInInspector] public int currentMaxSpeed;
+    public float baseMaxSpeed = 1; // will not increase with lv.
+    [HideInInspector] public float currentMaxSpeed;
 
     private StatusUIManager statusUIManager;
 
@@ -88,6 +89,7 @@ public class PlayerStatusController : MonoBehaviour
         currentMP = baseMP;
         currentMaxMana = baseMaxMana;
         currentMana = baseMaxMana;
+        currentMaxManaRT = baseManaRT;
         currentMaxSpeed = baseMaxSpeed;
     }
 
@@ -107,9 +109,11 @@ public class PlayerStatusController : MonoBehaviour
         statusDict.Add("baseMaxMana", this.baseMaxMana);
         statusDict.Add("currentMaxMana", this.currentMaxMana);
         statusDict.Add("currentMana", this.currentMana);
-        statusDict.Add("baseManaRecoveryTime", this.baseManaRT);
+
+        /*statusDict.Add("baseManaRecoveryTime", this.baseManaRT); // These variables have to be float type !! So can not fit into here...
         statusDict.Add("baseMaxSpeed", this.baseMaxSpeed);
-        statusDict.Add("currentMaxSpeed", this.currentMaxSpeed);
+        statusDict.Add("currentMaxSpeed", this.currentMaxSpeed);*/
+
         statusDict.Add("Money", this.Money);
 
         return statusDict;

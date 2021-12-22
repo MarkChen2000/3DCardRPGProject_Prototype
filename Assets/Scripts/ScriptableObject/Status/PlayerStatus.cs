@@ -25,9 +25,9 @@ public class PlayerStatus : ScriptableObject
     public int baseMaxMana = 10; // will not increase with lv.
     //[HideInInspector] public int currentMaxMana; 
     //[HideInInspector] public int currentMana;
-    public int baseManaRT = 10; 
+    public float baseManaRT = 10; 
 
-    public int baseMaxSpeed = 1; // will not increase with lv.
+    public int baseMaxSpeed = 1; 
     //[HideInInspector] public int currentMaxSpeed;
 
     public int Money = 0;

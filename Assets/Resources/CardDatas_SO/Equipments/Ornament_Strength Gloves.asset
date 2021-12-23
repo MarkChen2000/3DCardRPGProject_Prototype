@@ -13,16 +13,22 @@ MonoBehaviour:
   m_Name: Ornament_Strength Gloves
   m_EditorClassIdentifier: 
   CardID: 0
-  Card_Image: {fileID: 0}
+  Card_ImageSprite: {fileID: 0}
   CardName: Strength Gloves
   CardDescription: Ornament
   _CardType: 1
   CardCost: 0
+  _SpellsEffectType: 0
+  SpellsEffectValue: 0
   CardLv: 3
-  _EquipmentType: 3
-  _BonusType: 2
-  BonusNum: 5
+  _EquipmentType: 2
+  EquipmentBonusHP: 0
+  EquipmentBonusPW: 1.2
+  EquipmentBonusMP: 0
+  EquipmentBonusRT: 0
+  EquipmentBonusSP: 0
   WeaponAP: 0
   WeaponCR: 0
   _ArmorType: 0
   ArmorDP: 0
+  ArmorDSP: 0

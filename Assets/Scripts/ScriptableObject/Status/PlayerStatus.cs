@@ -26,9 +26,8 @@ public class PlayerStatus : ScriptableObject
     //[HideInInspector] public int currentMaxMana; 
     //[HideInInspector] public int currentMana;
     public float baseManaRT = 10; 
-
-    public int baseMaxSpeed = 1; 
-    //[HideInInspector] public int currentMaxSpeed;
+    public int baseSP = 100; // Speed
+    //[HideInInspector] public int currentSP;
 
     public int Money = 0;
 

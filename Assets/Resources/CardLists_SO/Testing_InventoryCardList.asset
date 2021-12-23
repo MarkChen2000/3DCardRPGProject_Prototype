@@ -15,12 +15,14 @@ MonoBehaviour:
   CardListName: Testing_InventoryCardList
   _CradListType: 1
   _CardList:
+  - {fileID: 11400000, guid: b023ac31a71a19c4d9f3458d781cb872, type: 2}
   - {fileID: 11400000, guid: 9c9c37cfeb3a4ee43b2528c24e8899e6, type: 2}
   - {fileID: 11400000, guid: cab8388baa35f2c4fb052a50d0dedc72, type: 2}
   - {fileID: 11400000, guid: cab8388baa35f2c4fb052a50d0dedc72, type: 2}
   - {fileID: 11400000, guid: e86749e7d09ac5a4f9363e273d9f2ce4, type: 2}
   - {fileID: 11400000, guid: 286c2dcd690c834469b7d1a9fabe6e4f, type: 2}
   - {fileID: 11400000, guid: 286c2dcd690c834469b7d1a9fabe6e4f, type: 2}
+  - {fileID: 11400000, guid: 117c522a47f878f4a8f72654faea5a50, type: 2}
   - {fileID: 11400000, guid: 3e0d3d443af715847a7a43da2bdc8fee, type: 2}
   - {fileID: 11400000, guid: 75b54c78e5aac4641bd6c6a6284079c7, type: 2}
   - {fileID: 11400000, guid: 15150d6c8cd1c5e478df80da2b425fc3, type: 2}

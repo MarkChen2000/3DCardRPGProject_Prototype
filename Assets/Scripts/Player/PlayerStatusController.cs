@@ -25,14 +25,14 @@ public class PlayerStatusController : MonoBehaviour
     [HideInInspector] public int currentMaxMana;
     [HideInInspector] public int currentMana;
     public float baseManaRT = 10;
-    public float currentMaxManaRT;
+    [HideInInspector] public float currentManaRT;
+    public float baseSP = 100; 
+    [HideInInspector] public float currentSP;
 
-    public float baseMaxSpeed = 1; // will not increase with lv.
-    [HideInInspector] public float currentMaxSpeed;
+    public int Money = 0;
 
     private StatusUIManager statusUIManager;
 
-    public int Money = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -43,11 +43,6 @@ public class PlayerStatusController : MonoBehaviour
         InitializeLoadinData();
 
         this.statusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
-    }
-
-    void Start()
-    {
-        InvokeRepeating("AutoRestoreMP", 0f, this.baseManaRT);
     }
 
     public void SaveandLoadPlayerStatus(bool SorL)
@@ -80,7 +75,7 @@ public class PlayerStatusController : MonoBehaviour
         baseMP = _PlayerStatus.baseMP;
         baseMaxMana = _PlayerStatus.baseMaxMana;
         baseManaRT = _PlayerStatus.baseManaRT;
-        baseMaxSpeed = _PlayerStatus.baseMaxSpeed;
+        baseSP = _PlayerStatus.baseSP;
         Money = _PlayerStatus.Money;
 
         currentMaxHP = baseMaxHP;
@@ -89,8 +84,8 @@ public class PlayerStatusController : MonoBehaviour
         currentMP = baseMP;
         currentMaxMana = baseMaxMana;
         currentMana = baseMaxMana;
-        currentMaxManaRT = baseManaRT;
-        currentMaxSpeed = baseMaxSpeed;
+        currentManaRT = baseManaRT;
+        currentSP = baseSP;
     }
 
     public Dictionary<string, int> GetStatus()
@@ -111,8 +106,8 @@ public class PlayerStatusController : MonoBehaviour
         statusDict.Add("currentMana", this.currentMana);
 
         /*statusDict.Add("baseManaRecoveryTime", this.baseManaRT); // These variables have to be float type !! So can not fit into here...
-        statusDict.Add("baseMaxSpeed", this.baseMaxSpeed);
-        statusDict.Add("currentMaxSpeed", this.currentMaxSpeed);*/
+        statusDict.Add("baseSP", this.baseSP);
+        statusDict.Add("currentSP", this.currentSP);*/
 
         statusDict.Add("Money", this.Money);
 
@@ -148,10 +143,23 @@ public class PlayerStatusController : MonoBehaviour
         }
     }
 
-    private void AutoRestoreMP()
+    public void RefillAllStatusValue()
+    {
+        currentHP = currentMaxHP;
+        currentMana = currentMaxMana;
+    }
+
+    public void SwitchRestoringMana(bool OnOff)
+    {
+        if (OnOff) InvokeRepeating("RestoreMana", 0f, currentManaRT);
+        else CancelInvoke("RestoreMana");
+    }
+
+    private void RestoreMana()
     {
         if (this.currentMana < this.currentMaxMana)
         {
+            Debug.Log("Restore 1 Mana!");
             this.currentMana++;
             this.statusUIManager.UpdateAllStatusDisplay();
         }

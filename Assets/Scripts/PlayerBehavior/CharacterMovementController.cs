@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour
 {
+    private PlayerStatusController PlayerStatus_Con;
+
     [Tooltip("According to this camera direction, define which direction is forward.")]
     public Transform Trans_Camera;
     [HideInInspector]
     public bool Can_Control = true;
 
     private CharacterController player_controller;
-    public float PlayerMovementSpeed = 10f;
+    [Tooltip("The Actual move speed will multiplay by this value! To prevent too fast or too slow for current equipment and player setting")]
+    public float MovementSpeedAdjustment = 0.1f;
     [Tooltip("When speed is more then this varible, character start moveing.")]
     public float MoveActSpeed = 0.1f;
     [Tooltip("Control the turning smoothness.")]
@@ -24,13 +27,15 @@ public class CharacterMovementController : MonoBehaviour
     float tunringsmooth_velocity;
 
     public float Dash_CD = 1f;
-    public float Dash_Speed = 100f;
+    public float Dash_Speed = 75f;
 
     private void Awake()
     {
         if (Trans_Camera == null) Trans_Camera = GameObject.Find("MainCamera").transform;
 
         player_controller = GetComponent<CharacterController>();
+
+        PlayerStatus_Con = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
     private void Start()
@@ -63,7 +68,7 @@ public class CharacterMovementController : MonoBehaviour
             // multiply by character default direction (forward(0,0,1))
             // meaning getting a new vector after orginal vector is rotated by the quaternion.
 
-            player_controller.Move(adjusted_movedir * PlayerMovementSpeed * Time.fixedDeltaTime);
+            player_controller.Move(adjusted_movedir * MovementSpeedAdjustment * PlayerStatus_Con.currentSP * Time.fixedDeltaTime);
             // Because the Move function is using world coordinate, so it has to be conversion.
             Last_Dir = adjusted_movedir;
 

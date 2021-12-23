@@ -18,9 +18,11 @@ public class GameStateController : MonoBehaviour
     public Transform PrepareZoneSpawnPoint;
     public GameObject Player;
 
+    private PlayerStatusController PlayerStatusCon;
     private EntireInventoryController EntireInvCon;
     private void Awake()
     {
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         EntireInvCon = GameObject.Find("InventoryAndUIManager").GetComponent<EntireInventoryController>();
     }
 
@@ -49,6 +51,9 @@ public class GameStateController : MonoBehaviour
         CurrentGameState = GameState.Combat;
         Player.transform.position = CombatZoneSpawnPoint.position;
         EntireInvCon.SwitchInventoryBarrierOnOff(true);
+
+        PlayerStatusCon.SwitchRestoringMana(true);
+        PlayerStatusCon.RefillAllStatusValue();
     }
 
     private void EnterVillage()
@@ -56,6 +61,9 @@ public class GameStateController : MonoBehaviour
         CurrentGameState = GameState.Prepare;
         Player.transform.position = PrepareZoneSpawnPoint.position;
         EntireInvCon.SwitchInventoryBarrierOnOff(false);
+
+        PlayerStatusCon.SwitchRestoringMana(false);
+        PlayerStatusCon.RefillAllStatusValue();
     }
 
 }

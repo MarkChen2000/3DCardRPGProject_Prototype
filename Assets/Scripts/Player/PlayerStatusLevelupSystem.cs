@@ -13,8 +13,8 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
     public int IncreaseMPperLV = 10;
     public int IncreasePWperLV = 10;
     public int IncreaseMaxManaperLV = 0;
-    public int DecreaseManaRTperLV = -1;
-    public int IncreaseSpeedperLV = 0;
+    public int IncreaseSPperLV = 5;
+    public float DecreaseManaRTperLV = 0.9f;
 
     private void Awake()
     {
@@ -23,15 +23,15 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
-    private void PlayerStatusLevelup()
+    private void PlayerStatusIncreaseOneLV()
     {
         PlayerStatusCon.nextLVEXP += IncreasenextLVEXPperLV;
         PlayerStatusCon.baseMaxHP += IncreaseMaxHPperLV;
         PlayerStatusCon.baseMP += IncreaseMPperLV;
         PlayerStatusCon.basePW += IncreasePWperLV;
         PlayerStatusCon.baseMaxMana += IncreaseMaxManaperLV;
-        PlayerStatusCon.baseManaRT += DecreaseManaRTperLV;
-        PlayerStatusCon.baseMaxSpeed += IncreaseSpeedperLV;
+        PlayerStatusCon.baseSP += IncreaseSPperLV;
+        PlayerStatusCon.baseManaRT *= DecreaseManaRTperLV;
     }
 
     public void GainExp(int gain)
@@ -49,7 +49,7 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
     private void LevelUp() // Level growing up by only 1.
     {
         PlayerStatusCon.LV++;
-        PlayerStatusLevelup();
+        PlayerStatusIncreaseOneLV();
         EquipmentClotCon.AddEquipBonusValuetoPlayerStatus();
         _StatusUIManager.UpdateAllStatusDisplay();
     }

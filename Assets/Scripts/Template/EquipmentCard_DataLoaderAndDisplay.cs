@@ -76,13 +76,6 @@ public class EquipmentCard_DataLoaderAndDisplay : BasicCard_DataLoaderAndDisplay
                 Trans_ArmorDPPanel.gameObject.SetActive(false);
                 Trans_ArmorDSPPane.gameObject.SetActive(false);
                 break;
-            case EquipmentType.NotEquip:
-                Debug.Log("This is not Equipment!");
-                Trans_WeaponAPPanel.gameObject.SetActive(false);
-                Trans_WeaponCRPanel.gameObject.SetActive(false);
-                Trans_ArmorDPPanel.gameObject.SetActive(false);
-                Trans_ArmorDSPPane.gameObject.SetActive(false);
-                break;
         }
     }
 

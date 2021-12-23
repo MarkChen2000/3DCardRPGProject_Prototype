@@ -13,8 +13,10 @@ public class BattleValueCalculator : MonoBehaviour
     private PlayerStatusController PlayerStatusCon;
     private EquipmentSlotController EquipmentSlotCon;
 
-    [Header("This magnification will diverse magic and physics attack.")]
+    [Tooltip("This magnification will diverse magic and physics attack.")]
     public float MagicAttackMagnification = 1.5f;
+    [Tooltip("When the physical damage is critical, multiply by this value.")]
+    public float CriticalHitMagnification = 1.5f;
 
     private void Start()
     {
@@ -35,8 +37,17 @@ public class BattleValueCalculator : MonoBehaviour
                 finaldamage = (PlayerStatusCon.baseMP + EquipmentSlotCon.EquipmentBonusMP) * spellsvalue * MagicAttackMagnification;
                 break;
             case AttackType.Physics:
-                if (EquipmentSlotCon.Weapon == null) finaldamage = PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW;
-                else finaldamage = (PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW) * EquipmentSlotCon.Weapon.WeaponAP;
+
+                // Caluculate Critical Hit!
+                float magnification = 1;
+                if (Random.Range(1, 100) <= EquipmentSlotCon.Weapon_CR) // when it is true, mean that this hit is critical!
+                {
+                    magnification = CriticalHitMagnification;
+                    Debug.Log("Critical Hit!");
+                }
+
+                if (EquipmentSlotCon.Weapon == null) finaldamage = Mathf.RoundToInt((PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW) * magnification);
+                else finaldamage = Mathf.RoundToInt((PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW) * EquipmentSlotCon.Weapon.WeaponAP * magnification);
                 break;
             case AttackType.Null:
                 Debug.Log("This player's attack didnt have type!");
@@ -50,7 +61,7 @@ public class BattleValueCalculator : MonoBehaviour
     {
         float finaldamage = 0;
 
-        finaldamage = damagevalue - EquipmentSlotCon.Armor_DP;
+        finaldamage = Mathf.RoundToInt(damagevalue * (100 - EquipmentSlotCon.Armor_DP) / 100) ;
 
         return (int)Mathf.Round(finaldamage);
     }

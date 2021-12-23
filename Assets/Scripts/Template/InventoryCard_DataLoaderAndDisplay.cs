@@ -64,6 +64,10 @@ public class InventoryCard_DataLoaderAndDisplay : BasicCard_DataLoaderAndDisplay
             case CardType.Spells :
                 TMP_CardCostorLV.text = _CardData.CardCost.ToString();
                 TMP_CardType.text = "Spells";
+                Trans_WeaponAPPanel.gameObject.SetActive(false);
+                Trans_WeaponCRPanel.gameObject.SetActive(false);
+                Trans_ArmorDPPanel.gameObject.SetActive(false);
+                Trans_ArmorDSPPane.gameObject.SetActive(false);
                 break;
             case CardType.Equipment:
                 TMP_CardCostorLV.text = _CardData.CardLv.ToString();
@@ -88,13 +92,6 @@ public class InventoryCard_DataLoaderAndDisplay : BasicCard_DataLoaderAndDisplay
                         TMP_ArmorDSP.text = carddata.ArmorDSP.ToString();
                         break;
                     case EquipmentType.Ornament:
-                        Trans_WeaponAPPanel.gameObject.SetActive(false);
-                        Trans_WeaponCRPanel.gameObject.SetActive(false);
-                        Trans_ArmorDPPanel.gameObject.SetActive(false);
-                        Trans_ArmorDSPPane.gameObject.SetActive(false);
-                        break;
-                    case EquipmentType.NotEquip:
-                        Debug.Log("This is not Equipment!");
                         Trans_WeaponAPPanel.gameObject.SetActive(false);
                         Trans_WeaponCRPanel.gameObject.SetActive(false);
                         Trans_ArmorDPPanel.gameObject.SetActive(false);

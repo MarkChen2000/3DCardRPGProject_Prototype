@@ -18,11 +18,17 @@ MonoBehaviour:
   CardDescription: Weapon that is very blunt.
   _CardType: 1
   CardCost: 0
+  _SpellsEffectType: 0
+  SpellsEffectValue: 0
   CardLv: 1
-  _EquipmentType: 1
-  _BonusType: 0
-  BonusNum: 0
+  _EquipmentType: 0
+  EquipmentBonusHP: 0
+  EquipmentBonusPW: 0
+  EquipmentBonusMP: 0
+  EquipmentBonusRT: 0
+  EquipmentBonusSP: 0
   WeaponAP: 5
   WeaponCR: 5
   _ArmorType: 0
   ArmorDP: 0
+  ArmorDSP: 0

@@ -29,20 +29,19 @@ public class Carddata_CustomInspector : Editor
             case CardType.Equipment:
                 EditorGUI.BeginDisabledGroup(false);
                 card.CardLv = EditorGUILayout.IntField("Card LV", card.CardLv);
-                card.EquipmentBonusHP = EditorGUILayout.IntField("Equipment HP Bonus", card.EquipmentBonusHP);
-                card.EquipmentBonusPW = EditorGUILayout.IntField("Equipment PW Bonus", card.EquipmentBonusPW);
-                card.EquipmentBonusMP = EditorGUILayout.IntField("Equipment MP Bonus", card.EquipmentBonusMP);
-                card.EquipmentBonusSP = EditorGUILayout.FloatField("Equipment SP Bonus", card.EquipmentBonusSP);
-                card.EquipmentBonusRT = EditorGUILayout.FloatField("Equipment RT Bonus", card.EquipmentBonusRT);
-
                 card._EquipmentType = (EquipmentType)EditorGUILayout.EnumPopup("Equipment Type", card._EquipmentType);
+
+                card.EquipmentBonusHP = EditorGUILayout.FloatField(new GUIContent("Equipment HP Bonus", "Recommand set betwwen 0~3"), card.EquipmentBonusHP);
+                card.EquipmentBonusPW = EditorGUILayout.FloatField(new GUIContent("Equipment PW Bonus", "Recommand set betwwen 0~3"), card.EquipmentBonusPW);
+                card.EquipmentBonusMP = EditorGUILayout.FloatField(new GUIContent("Equipment MP Bonus", "Recommand set betwwen 0~3"), card.EquipmentBonusMP);
+                card.EquipmentBonusRT = EditorGUILayout.FloatField(new GUIContent("Equipment RT Bonus", "Recommand set betwwen 0~5"), card.EquipmentBonusRT);
+                card.EquipmentBonusSP = EditorGUILayout.FloatField(new GUIContent("Equipment SP Bonus", "Recommand set betwwen 0~50"), card.EquipmentBonusSP);
+
                 switch ( card._EquipmentType )
                 {
-                    case EquipmentType.NotEquip:
-                        break;
                     case EquipmentType.Weapon:
                         EditorGUI.BeginDisabledGroup(false);
-                        card.WeaponAP = EditorGUILayout.IntField("WeaponAP", card.WeaponAP);
+                        card.WeaponAP = EditorGUILayout.IntField(new GUIContent("WeaponAP", "Have to set above 1, recommand set betwwen 1~100, It's mean the preotect percentage from damage"), card.WeaponAP);
                         card.WeaponCR = EditorGUILayout.IntField("WeaponCR", card.WeaponCR);
                         EditorGUI.EndDisabledGroup();
                         break;
@@ -50,14 +49,14 @@ public class Carddata_CustomInspector : Editor
                         EditorGUI.BeginDisabledGroup(false);
                         card._ArmorType = (ArmorType)EditorGUILayout.EnumPopup("Armor Type", card._ArmorType);
                         card.ArmorDP = EditorGUILayout.IntField("ArmorDP", card.ArmorDP);
-                        card.ArmorDSP = EditorGUILayout.FloatField("ArmorDSP", card.ArmorDSP);
+                        card.ArmorDSP = EditorGUILayout.IntField("ArmorDSP", card.ArmorDSP);
                         EditorGUI.EndDisabledGroup();
                         break;
                 }
                 EditorGUI.EndDisabledGroup();
                 break;
         }
-
+        EditorUtility.SetDirty(card);
     }
 
 

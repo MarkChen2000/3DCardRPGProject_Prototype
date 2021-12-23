@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum CardType // Every card will be either spells or equipment.
 {
@@ -21,12 +18,12 @@ public enum BonusType // Only Equipment have Bonus Value
 
 public enum EquipmentType
 {
-    NotEquip, Weapon, Armor, Ornament
+    Weapon, Armor, Ornament
 }
 
 public enum ArmorType
 {
-    NotArmor, Head, Body, Bottom,
+    Head, Body, Bottom,
 }
 
 [CreateAssetMenu(fileName = "New Card Data", menuName = "Inventory/CardData")]
@@ -49,21 +46,22 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     [Space]
     [Header("For Equipment Card")]
     public int CardLv = 0;
-    public EquipmentType _EquipmentType = EquipmentType.NotEquip;
-    public int EquipmentBonusHP = 0;
-    public int EquipmentBonusPW = 0;
-    public int EquipmentBonusMP = 0;
-    public float EquipmentBonusSP = 0;
-    public float EquipmentBonusRT = 0;
+    public EquipmentType _EquipmentType;
+    [Tooltip("Recommand set betwwen 0~3")] public float EquipmentBonusHP = 0;
+    [Tooltip("Recommand set betwwen 0~3")] public float EquipmentBonusPW = 0;
+    [Tooltip("Recommand set betwwen 0~3")] public float EquipmentBonusMP = 0;
+    [Tooltip("Recommand set betwwen 0~5")] public float EquipmentBonusRT = 0;
+    [Tooltip("Recommand set betwwen 0~50")] public float EquipmentBonusSP = 0;
 
     [Header("For Waepon")]
     public int WeaponAP = 0;
     public int WeaponCR = 0; //Critical Rate
 
     [Header("For Armor")]
-    public ArmorType _ArmorType = ArmorType.NotArmor;
-    public int ArmorDP = 0;
-    public float ArmorDSP = 0; // the debuff for the speed.
+    public ArmorType _ArmorType;
+    [Tooltip("Have to set above 1, recommand set betwwen 1~100, It's mean the preotect percentage from damage")] 
+    public int ArmorDP = 1;
+    public int ArmorDSP = 0; // the debuff for the speed.
 
 
     // public int CardHoldNum = 1; // doesnt need holdnum now because that one element in list is meaning one single card.

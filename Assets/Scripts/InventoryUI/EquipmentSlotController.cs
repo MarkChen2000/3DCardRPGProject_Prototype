@@ -17,7 +17,7 @@ public class EquipmentSlotController : MonoBehaviour
     private Transform Trans_InventoryPanelBG;
     private Transform Trans_PlayerStatusPanel;
     private Transform Trans_EquipmentSlotGridGroup;
-    private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerPW, TMP_PlayerMP, TMP_PlayerMananRT, TMP_WeaponAPnCR, TMP_ArmorDPnDSP;
+    private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerPW, TMP_PlayerMP, TMP_PlayerManaRT, TMP_PlayerSP, TMP_WeaponAPnCR, TMP_ArmorDPnDSP;
 
     public EquipmentSlot _EquipmentSlotAsset;
     public CardData Weapon, Armor_Head, Armor_Body, Armor_Bottom, Ornament_A, Ornament_B;
@@ -26,9 +26,9 @@ public class EquipmentSlotController : MonoBehaviour
     [HideInInspector] public int Weapon_CR = 0;
     [HideInInspector] public int Armor_DP = 0;
     [HideInInspector] public float Armor_DSP = 0;
-    [HideInInspector] public int EquipmentBonusHP = 0;
-    [HideInInspector] public int EquipmentBonusPW = 0;
-    [HideInInspector] public int EquipmentBonusMP = 0;
+    [HideInInspector] public float EquipmentBonusHP = 0;
+    [HideInInspector] public float EquipmentBonusPW = 0;
+    [HideInInspector] public float EquipmentBonusMP = 0;
     [HideInInspector] public float EquipmentBonusSP = 0;
     [HideInInspector] public float EquipmentBonusRT = 0;
 
@@ -112,9 +112,6 @@ public class EquipmentSlotController : MonoBehaviour
                 case EquipmentType.Ornament:
 
                     break;
-                case EquipmentType.NotEquip:
-                    Debug.Log("This is not Equipment!");
-                    break;
             }
 
             EquipmentBonusHP += carddata.EquipmentBonusHP;
@@ -151,9 +148,10 @@ public class EquipmentSlotController : MonoBehaviour
         TMP_PlayerHP = Trans_PlayerStatusPanel.GetChild(1).GetComponent<TMP_Text>();
         TMP_PlayerPW = Trans_PlayerStatusPanel.GetChild(2).GetComponent<TMP_Text>();
         TMP_PlayerMP = Trans_PlayerStatusPanel.GetChild(3).GetComponent<TMP_Text>();
-        TMP_PlayerMananRT = Trans_PlayerStatusPanel.GetChild(4).GetComponent<TMP_Text>();
-        TMP_WeaponAPnCR = Trans_PlayerStatusPanel.GetChild(5).GetComponent<TMP_Text>();
-        TMP_ArmorDPnDSP = Trans_PlayerStatusPanel.GetChild(6).GetComponent<TMP_Text>();
+        TMP_PlayerManaRT = Trans_PlayerStatusPanel.GetChild(4).GetComponent<TMP_Text>();
+        TMP_PlayerSP = Trans_PlayerStatusPanel.GetChild(5).GetComponent<TMP_Text>();
+        TMP_WeaponAPnCR = Trans_PlayerStatusPanel.GetChild(6).GetComponent<TMP_Text>();
+        TMP_ArmorDPnDSP = Trans_PlayerStatusPanel.GetChild(7).GetComponent<TMP_Text>();
     }
 
     private void InitializeStatusNum()
@@ -163,22 +161,27 @@ public class EquipmentSlotController : MonoBehaviour
 
     public void AddEquipBonusValuetoPlayerStatus()
     {
-        PlayerStatusCon.currentMaxHP = PlayerStatusCon.baseMaxHP + EquipmentBonusHP;
-        PlayerStatusCon.currentPW = PlayerStatusCon.basePW + EquipmentBonusPW;
-        PlayerStatusCon.currentMP = PlayerStatusCon.baseMP + EquipmentBonusMP;
-        PlayerStatusCon.currentMaxSpeed = PlayerStatusCon.baseMaxSpeed + EquipmentBonusSP - Armor_DSP;
-        PlayerStatusCon.currentMaxManaRT = PlayerStatusCon.baseManaRT + EquipmentBonusRT;
+        // When the bonus value is 0, it mean that deasn't have any buff, so make them multiply by 1.
+        if (EquipmentBonusHP == 0) EquipmentBonusHP = 1;
+        if (EquipmentBonusPW == 0) EquipmentBonusPW = 1;
+        if (EquipmentBonusMP == 0) EquipmentBonusMP = 1;
+        PlayerStatusCon.currentMaxHP = Mathf.RoundToInt(PlayerStatusCon.baseMaxHP * EquipmentBonusHP); // When the bonus value is 0, it mean that deasn't have any buff, so multiply by 1.
+        PlayerStatusCon.currentPW = Mathf.RoundToInt(PlayerStatusCon.basePW * EquipmentBonusPW);
+        PlayerStatusCon.currentMP = Mathf.RoundToInt(PlayerStatusCon.baseMP * EquipmentBonusMP);
+        PlayerStatusCon.currentSP = PlayerStatusCon.baseSP + EquipmentBonusSP - Armor_DSP;
+        PlayerStatusCon.currentManaRT = PlayerStatusCon.baseManaRT - EquipmentBonusRT;
     }
 
     private void UpdateAllStatusDisplay()
     {
-        TMP_PlayerLV.text = "LV: " + PlayerStatusCon.LV + " ( " + PlayerStatusCon.nextLVEXP + " / " + PlayerStatusCon.EXP + " ) ";
-        TMP_PlayerHP.text = "HP: " + PlayerStatusCon.currentMaxHP + " ( " + EquipmentBonusHP + " ) " ;
-        TMP_PlayerPW.text = "Power: " + PlayerStatusCon.currentPW + " ( " + EquipmentBonusPW + " ) ";
-        TMP_PlayerMP.text = "MP: " + PlayerStatusCon.currentMP + " ( " + EquipmentBonusMP + " ) " ;
-        TMP_PlayerMananRT.text = "Mana/Recovery: " + PlayerStatusCon.baseMaxMana + " / " + PlayerStatusCon.currentMaxManaRT  + " ( " + EquipmentBonusRT + " ) s";
-        TMP_WeaponAPnCR.text = "WeaponAP/CR: " + Weapon_AP + " / " + Weapon_CR + "%";
-        TMP_ArmorDPnDSP.text = "ArmorDP/DPS: " + Armor_DP + " / " + Armor_DSP;
+        TMP_PlayerLV.text = "Level: " + PlayerStatusCon.LV + " ( " + PlayerStatusCon.nextLVEXP + " / " + PlayerStatusCon.EXP + " )";
+        TMP_PlayerHP.text = "Health: " + PlayerStatusCon.currentMaxHP + " ( x " + EquipmentBonusHP + " )" ;
+        TMP_PlayerPW.text = "Power: " + PlayerStatusCon.currentPW + " ( x " + EquipmentBonusPW + " )";
+        TMP_PlayerMP.text = "Magic: " + PlayerStatusCon.currentMP + " ( x " + EquipmentBonusMP + " )" ;
+        TMP_PlayerManaRT.text = "Mana Recovery: " + PlayerStatusCon.currentManaRT  + " ( - " + EquipmentBonusRT + " ) s";
+        TMP_PlayerSP.text = "Speed: " + PlayerStatusCon.currentSP + " ( x  ( + " + EquipmentBonusSP + " - " + Armor_DSP + " ) % )";
+        TMP_WeaponAPnCR.text = "Weapon AP / CR: " + Weapon_AP + " / " + Weapon_CR + " %";
+        TMP_ArmorDPnDSP.text = "Armor DP: " + Armor_DP ;
     }
 
     public void TryTransferCardtoInv(EquipmentCard_DataLoaderAndDisplay card_template)
@@ -271,9 +274,6 @@ public class EquipmentSlotController : MonoBehaviour
                                 Debug.Log("There is already an Armor(Bottom)! fail to transfer!");
                                 return false;
                             }
-                        case ArmorType.NotArmor:
-                            Debug.Log("This is not Armor!");
-                            break;
                     }
                     break;
                 case EquipmentType.Ornament:
@@ -297,9 +297,6 @@ public class EquipmentSlotController : MonoBehaviour
                             return true;
                         }
                     }
-                case EquipmentType.NotEquip:
-                    Debug.Log("This is not Equipment!");
-                    break;
             }
             return true;
         }

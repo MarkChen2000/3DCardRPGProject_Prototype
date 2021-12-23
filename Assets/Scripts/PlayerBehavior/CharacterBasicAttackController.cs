@@ -9,6 +9,7 @@ public class CharacterBasicAttackController : MonoBehaviour
     public Transform AttackPointTrans;
     private CharacterMovementController Character_MoveCon;
     private BattleValueCalculator BattleValueCal;
+    private EquipmentSlotController EquipmentSlot_Con;
 
     public bool Can_Attack = false;
 
@@ -27,6 +28,7 @@ public class CharacterBasicAttackController : MonoBehaviour
         Character_MoveCon = GetComponent<CharacterMovementController>();
         //AttackPointTrans = transform.GetChild(1);
         BattleValueCal = GameObject.Find("BattleManager").GetComponent<BattleValueCalculator>();
+        EquipmentSlot_Con = GameObject.Find("InventoryAndUIManager").GetComponent<EquipmentSlotController>();
     }
 
     private void Start()

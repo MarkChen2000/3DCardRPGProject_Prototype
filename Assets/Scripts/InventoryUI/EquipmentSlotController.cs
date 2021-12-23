@@ -172,7 +172,7 @@ public class EquipmentSlotController : MonoBehaviour
         PlayerStatusCon.currentManaRT = PlayerStatusCon.baseManaRT - EquipmentBonusRT;
     }
 
-    private void UpdateAllStatusDisplay()
+    public void UpdateAllStatusDisplay()
     {
         TMP_PlayerLV.text = "Level: " + PlayerStatusCon.LV + " ( " + PlayerStatusCon.nextLVEXP + " / " + PlayerStatusCon.EXP + " )";
         TMP_PlayerHP.text = "Health: " + PlayerStatusCon.currentMaxHP + " ( x " + EquipmentBonusHP + " )" ;

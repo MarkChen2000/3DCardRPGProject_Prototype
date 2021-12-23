@@ -6,7 +6,7 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
 {
     private PlayerStatusController PlayerStatusCon;
     private StatusUIManager _StatusUIManager;
-    private EquipmentSlotController EquipmentClotCon;
+    private EquipmentSlotController EquipmentSlotCon;
 
     public int IncreasenextLVEXPperLV = 100;
     public int IncreaseMaxHPperLV = 100; 
@@ -19,7 +19,7 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
     private void Awake()
     {
         _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
-        EquipmentClotCon = GameObject.Find("InventoryAndUIManager").GetComponent<EquipmentSlotController>();
+        EquipmentSlotCon = GameObject.Find("InventoryAndUIManager").GetComponent<EquipmentSlotController>();
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
@@ -50,8 +50,9 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
     {
         PlayerStatusCon.LV++;
         PlayerStatusIncreaseOneLV();
-        EquipmentClotCon.AddEquipBonusValuetoPlayerStatus();
+        EquipmentSlotCon.AddEquipBonusValuetoPlayerStatus();
         _StatusUIManager.UpdateAllStatusDisplay();
+        EquipmentSlotCon.UpdateAllStatusDisplay();
     }
 
 }

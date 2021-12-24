@@ -9,7 +9,7 @@ public class CharacterBasicAttackController : MonoBehaviour
     public Transform AttackPointTrans;
     private CharacterMovementController Character_MoveCon;
     private BattleValueCalculator BattleValueCal;
-    private EquipmentSlotController EquipmentSlot_Con;
+    private PlayerAnimationController Player_AnimationCon;
 
     public bool Can_Attack = false;
 
@@ -28,7 +28,7 @@ public class CharacterBasicAttackController : MonoBehaviour
         Character_MoveCon = GetComponent<CharacterMovementController>();
         //AttackPointTrans = transform.GetChild(1);
         BattleValueCal = GameObject.Find("BattleManager").GetComponent<BattleValueCalculator>();
-        EquipmentSlot_Con = GameObject.Find("InventoryAndUIManager").GetComponent<EquipmentSlotController>();
+        Player_AnimationCon = GetComponent<PlayerAnimationController>();
     }
 
     private void Start()
@@ -41,17 +41,19 @@ public class CharacterBasicAttackController : MonoBehaviour
     {
         if ( Input.GetMouseButtonDown(0) && Can_Attack ) // left mouse click
         {
-            BasicAttack();
+            OnAttack();
         }
     }
 
-    private void BasicAttack()
+    private void OnAttack() // Check the mouse ckilck
     {
         if ( Time.time < AttackCDTimer )
         {
             Debug.Log("Attack is cooling!");
             return;
         }
+
+        Player_AnimationCon.OnAttack();
 
         Ray detectray = MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -67,16 +69,14 @@ public class CharacterBasicAttackController : MonoBehaviour
 
             Character_MoveCon.RefreshStaringDurationTimer(Character_AttackStaringTime);
 
-            AttackCheck();
-
             //Debug.Log("Attack! Target:" + MouseClickPos);
         }
-        else Debug.Log("Attack fail! didn't find a target!");
+        //else Debug.Log("Attack fail! didn't find a target!");
 
         AttackCDTimer = Time.time + Character_AttackCD;
     }
 
-    private void AttackCheck()
+    public void AttackCheck() // Check did or didn't hit any enemy.
     {
         Collider[] detectedcolliders = Physics.OverlapSphere(AttackPointTrans.position, AttackRangeRadius);
         foreach (Collider item in detectedcolliders)

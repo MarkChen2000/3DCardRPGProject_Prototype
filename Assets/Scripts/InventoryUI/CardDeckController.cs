@@ -26,7 +26,7 @@ public class CardDeckController : MonoBehaviour
         Inv_Con = GetComponent<InventoryController>();
         Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
         Trans_DeckCardGridGroup = Trans_InventoryPanelBG.GetChild(0).GetChild(0);
-        TMP_DeckCapacityNumText = Trans_InventoryPanelBG.GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
+        TMP_DeckCapacityNumText = Trans_InventoryPanelBG.GetChild(0).GetChild(1).GetChild(1).GetComponent<TMP_Text>();
 
         if (_CardDeckAsset == null) _CardDeckAsset = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
         // Load initial DeckCardList asset first, this may be replaced by Save and Load System before build!
@@ -143,7 +143,7 @@ public class CardDeckController : MonoBehaviour
     private void UpdateCardNum()
     {
         int currentcardnum = DeckCardList.Count;
-        TMP_DeckCapacityNumText.text = currentcardnum + "\n/\n" + DeckHoldLimit;
+        TMP_DeckCapacityNumText.text = currentcardnum + "/" + DeckHoldLimit;
     }
 
     public void TryTransferCardtoInv(DeckCard_DataLoaderAndDisplay card_template)

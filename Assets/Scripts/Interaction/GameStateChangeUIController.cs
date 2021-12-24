@@ -8,12 +8,14 @@ public class GameStateChangeUIController : MonoBehaviour
     private TMP_Text Button_Text;
     private GameState WaitforEnterState;
     private GameStateController GameStateCon;
+    InteractionController InteractionCon;
 
     // Start is called before the first frame update
     void Awake()
     {
         GameStateCon = GameObject.Find("GameManager").GetComponent<GameStateController>();
-        Button_Text = transform.GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        InteractionCon = GameObject.Find("InteractAndUIManager").GetComponent<InteractionController>();
+        Button_Text = transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetComponent<TMP_Text>();
     }
 
     public void EnterChangeStateSystem(ChangeGameStateTemplate changestate_temp)
@@ -25,6 +27,7 @@ public class GameStateChangeUIController : MonoBehaviour
     public void ChangeStateButtonPress()
     {
         GameStateCon.EnterState(WaitforEnterState);
+        InteractionCon.PlayerEndInteraction();
     }
 
 }

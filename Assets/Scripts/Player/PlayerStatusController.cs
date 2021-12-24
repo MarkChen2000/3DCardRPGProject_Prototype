@@ -147,6 +147,7 @@ public class PlayerStatusController : MonoBehaviour
     {
         currentHP = currentMaxHP;
         currentMana = currentMaxMana;
+        statusUIManager.UpdateAllStatusDisplay();
     }
 
     public void SwitchRestoringMana(bool OnOff)

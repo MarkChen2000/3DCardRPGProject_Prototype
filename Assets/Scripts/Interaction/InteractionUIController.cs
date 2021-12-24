@@ -27,11 +27,11 @@ public class InteractionUIController : MonoBehaviour
         InteractCon = GetComponent<InteractionController>();
 
         Panel_InteractionInfoBG = transform.GetChild(0).GetChild(0).gameObject;
-        Panel_ConversationUIBG = transform.GetChild(0).GetChild(1).gameObject;
-        TMP_TalkerName = Panel_ConversationUIBG.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
-        TMP_ConversationText = Panel_ConversationUIBG.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
-        Panel_ShopUIBG = transform.GetChild(0).GetChild(2).gameObject;
-        Panel_ChangeStateUIBG = transform.GetChild(0).GetChild(3).gameObject;
+        Panel_ConversationUIBG = transform.GetChild(0).GetChild(3).gameObject;
+        TMP_ConversationText = Panel_ConversationUIBG.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        TMP_TalkerName = Panel_ConversationUIBG.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
+        Panel_ShopUIBG = transform.GetChild(0).GetChild(1).gameObject;
+        Panel_ChangeStateUIBG = transform.GetChild(0).GetChild(2).gameObject;
 
         // Panel_MissionUIBG = transform.GetChild(0).GetChild(3).gameObject;
 

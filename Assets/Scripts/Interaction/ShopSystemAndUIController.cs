@@ -35,7 +35,7 @@ public class ShopSystemAndUIController : MonoBehaviour
         InventoryCon = GameObject.Find("InventoryAndUIManager").GetComponent<InventoryController>();
         _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
 
-        Trans_ShopUIBGPanel = transform.GetChild(0).GetChild(2);
+        Trans_ShopUIBGPanel = transform.GetChild(0).GetChild(1);
         Trans_PackCardGridGroup = Trans_ShopUIBGPanel.GetChild(0).GetChild(0);
         TMP_AmountofMoney = Trans_ShopUIBGPanel.GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         TMP_CostofPack = Trans_ShopUIBGPanel.GetChild(2).GetChild(0).GetComponent<TMP_Text>();
@@ -71,7 +71,7 @@ public class ShopSystemAndUIController : MonoBehaviour
 
     private void InitializeTexts(TransactionTemplate transaction_tem)
     {
-        TMP_ShopKeeperName.text = transaction_tem.ShopKeeperName;
+        TMP_ShopKeeperName.text = transaction_tem.ShopKeeperName + "'s Pack Shop ";
         TMP_PackName.text = transaction_tem.PackName;
         UpdateMoneyText();
         TMP_CostofPack.text = "Cost : " + _CostofOnePack;

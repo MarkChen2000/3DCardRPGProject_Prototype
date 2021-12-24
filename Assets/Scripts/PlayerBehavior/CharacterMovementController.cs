@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour
@@ -10,6 +8,8 @@ public class CharacterMovementController : MonoBehaviour
     public Transform Trans_Camera;
     [HideInInspector]
     public bool Can_Control = true;
+    [HideInInspector]
+    public bool Is_Moving = false;
 
     private CharacterController player_controller;
     [Tooltip("The Actual move speed will multiplay by this value! To prevent too fast or too slow for current equipment and player setting")]
@@ -83,9 +83,12 @@ public class CharacterMovementController : MonoBehaviour
 
     private Vector3 PlayerMovementInput()
     {
-        float horizontalmove, verticalmove ;
+        float horizontalmove, verticalmove;
         horizontalmove = Input.GetAxisRaw("Horizontal");
         verticalmove = Input.GetAxisRaw("Vertical");
+
+        if (horizontalmove == 0 && verticalmove == 0) Is_Moving = false;
+        else Is_Moving = true;
 
         return new Vector3(horizontalmove,0f,verticalmove).normalized; 
         // this is the direction relative to the character default facing direction.

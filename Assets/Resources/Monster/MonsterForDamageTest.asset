@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MonsterForDamageTest
   m_EditorClassIdentifier: 
   lv: 0
-  max_hp: 10
+  max_hp: 100
   attack: 1
   defense: 0
   Drop_Exp: 3000

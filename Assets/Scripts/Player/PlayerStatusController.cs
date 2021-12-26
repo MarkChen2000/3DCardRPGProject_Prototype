@@ -143,6 +143,12 @@ public class PlayerStatusController : MonoBehaviour
         }
     }
 
+    public void TakeDamae(int damage)
+    {
+        currentHP -= damage;
+        statusUIManager.UpdateOneStatusDisplay(StatusType.HP);
+    }
+
     public void RefillAllStatusValue()
     {
         currentHP = currentMaxHP;

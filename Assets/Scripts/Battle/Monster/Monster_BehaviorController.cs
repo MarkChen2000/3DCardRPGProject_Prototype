@@ -6,40 +6,25 @@ public class Monster_BehaviorController : MonoBehaviour
 {
     private GameObject player;
     private Vector3 initPostition;
-    private int speed;
-    private float attackInterval;
+
+    public int speed;
+    public float attackInterval;
+    public int monsterType;
     public GameObject bulletPrefab;
+
     private float currentTime;
     private float lastAttackTime;
-    private int monsterType;
     private bool isAttack;
     private bool isOnCollision;
+
     // Start is called before the first frame update
     void Start()
     {
         this.player = GameObject.Find("Player");
         this.initPostition = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
-        this.speed = 2;
         this.currentTime = Time.time;
-        this.lastAttackTime = 0;
         this.isAttack = false;
         this.isOnCollision = false;
-        if (this.gameObject.name.Contains("Monster001 1"))
-        {
-            this.monsterType = 1;
-            this.attackInterval = 0.5f;
-        }
-        else if (this.gameObject.name.Contains("Monster001 2"))
-        {
-            this.monsterType = 2;
-            this.attackInterval = 1f;
-        }
-        else if (this.gameObject.name.Contains("Monster001 3"))
-        {
-            this.speed = 4;
-            this.monsterType = 3;
-            this.attackInterval = 0.1f;
-        }
     }
 
     // Update is called once per frame
@@ -54,18 +39,18 @@ public class Monster_BehaviorController : MonoBehaviour
             {
                 if (this.monsterType == 1)
                 {
-                    this.Attack(this.monsterType);
+                    this.Attack();
                     this.lastAttackTime = this.currentTime;
                 }
                 else if (this.monsterType == 2 && !this.isAttack)
                 {
-                    this.Attack(this.monsterType);
+                    this.Attack();
                     this.lastAttackTime = this.currentTime;
                     this.isAttack = false;
                 }
                 else if (this.monsterType == 3)
                 {
-                    this.Attack(this.monsterType);
+                    this.Attack();
                     this.lastAttackTime = this.currentTime;
                 }
             }
@@ -93,28 +78,28 @@ public class Monster_BehaviorController : MonoBehaviour
 
     }
 
-    private void Attack(int type)
+    private void Attack()
     {
-        if (type == 1)
+        if (monsterType == 1)
         {
             GameObject bullet = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), this.transform.rotation);
-            bullet.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(type, Vector3.forward);
+            bullet.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(Vector3.forward);
         }
-        else if (type == 2)
+        else if (monsterType == 2)
         {
             GameObject bullet_F = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), this.transform.rotation);
             GameObject bullet_B = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), this.transform.rotation);
             GameObject bullet_R = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), this.transform.rotation);
             GameObject bullet_L = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), this.transform.rotation);
-            bullet_F.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(type, Vector3.forward);
-            bullet_B.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(type, Vector3.back);
-            bullet_L.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(type, Vector3.left);
-            bullet_R.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(type, Vector3.right);
+            bullet_F.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(Vector3.forward);
+            bullet_B.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(Vector3.back);
+            bullet_L.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(Vector3.left);
+            bullet_R.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(Vector3.right);
         }
-        else if (type == 3)
+        else if (monsterType == 3)
         {
             GameObject bullet = Instantiate(bulletPrefab, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), this.transform.rotation);
-            bullet.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(type, Vector3.forward);
+            bullet.transform.GetComponent<Monster001_Bullet_Controller>().Shoot(Vector3.forward);
         }
     }
 

@@ -102,6 +102,8 @@ public class CharacterMovementController : MonoBehaviour
             Debug.Log("Dash is cooling!");
             return;
         }
+        float targetangle = Mathf.Atan2(Move_Dir.x, Move_Dir.z) * Mathf.Rad2Deg + Trans_Camera.eulerAngles.y;
+        transform.rotation = Quaternion.Euler(0f,targetangle,0f);
         player_controller.Move(Last_Dir * Dash_Speed * Time.deltaTime);
 
         // transform.Translate(Vector3.forward * Dash_Distance);

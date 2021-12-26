@@ -13,6 +13,8 @@ public class Monster_StatusController : MonoBehaviour
     public MonsterStatus _MonsterStatus;
     private int currentHP;
 
+    public GameObject DeathEffectPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,9 @@ public class Monster_StatusController : MonoBehaviour
     {
         PlayerLevelupSystem.GainExp(_MonsterStatus.Drop_Exp);
         PlayerStatusCon.GainMoney(_MonsterStatus.DropMoney);
+        
+        if ( DeathEffectPrefab!=null )
+            Instantiate(DeathEffectPrefab, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 

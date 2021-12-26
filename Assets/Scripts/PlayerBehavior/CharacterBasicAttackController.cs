@@ -6,10 +6,14 @@ public class CharacterBasicAttackController : MonoBehaviour
 {
     public Camera MainCamera;
     private Transform Trans_Camera;
+
     public Transform AttackPointTrans;
+    public GameObject DefaultHitEffectPrefab;
+
     private CharacterMovementController Character_MoveCon;
     private BattleValueCalculator BattleValueCal;
     private PlayerAnimationController Player_AnimationCon;
+    private PlayerStatusController PlayerStatusCon;
 
     public bool Can_Attack = false;
 
@@ -25,10 +29,12 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     void Awake()
     {
+
         Character_MoveCon = GetComponent<CharacterMovementController>();
         //AttackPointTrans = transform.GetChild(1);
         BattleValueCal = GameObject.Find("BattleManager").GetComponent<BattleValueCalculator>();
         Player_AnimationCon = GetComponent<PlayerAnimationController>();
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
     private void Start()
@@ -83,13 +89,26 @@ public class CharacterBasicAttackController : MonoBehaviour
         {
             if ( item.gameObject.tag == "Monster")
             {
-                int damage = 0 ;
-                damage = BattleValueCal.PlayerDamageCalculate(AttackType.Physics,0);
+                int damage = BattleValueCal.PlayerDamageCalculate(AttackType.Physics,0);
                 item.gameObject.GetComponent<Monster_StatusController>().beAttacked(damage);
                 Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
+
+                if ( DefaultHitEffectPrefab != null )
+                {
+                    Transform trans = Instantiate(DefaultHitEffectPrefab,item.ClosestPoint(transform.position),Quaternion.identity).transform;
+                    trans.LookAt(transform);
+                }
             }
         }
     }
+
+    public void PlayerBeAttack(int damage)
+    {
+        int finaldamage = BattleValueCal.PlayerTakeDamageCalculate(damage);
+        Debug.Log("Player take " + finaldamage);
+        PlayerStatusCon.TakeDamae( finaldamage );
+    }
+
 
     private void OnDrawGizmos() // This draw the attack range radius.
     {

@@ -13,21 +13,23 @@ public class CardBattleController : MonoBehaviour
     private Transform Trans_HandCardsPanel;
     private Transform Trans_BattleCardTemplates;
 
+    //private BattleDeckDisplayController BattleDeckDisplayCon;
     private StatusUIManager _StstusUIManager;
     private PlayerStatusController PlayerStatusCon;
     private CardDeckController CardDeckCon;
 
     [Space]
-    public CardList tempBattleCardList;
+    //public CardList tempBattleCardList;
     public List<CardData> BattleCardList = new List<CardData>(); // CardList that store at this script
 
-    public List<CardData> LastBattleCardList = new List<CardData>();
+    //public List<CardData> LastBattleCardList = new List<CardData>();
 
     private void Awake()
     {
 
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         CardDeckCon = GameObject.Find("InventoryAndUIManager").GetComponent<CardDeckController>();
+        // BattleDeckDisplayCon = GetComponent<BattleDeckDisplayController>();
         _StstusUIManager = GetComponent<StatusUIManager>();
 
         Trans_HandCardsPanel = transform.GetChild(0).GetChild(1);
@@ -43,16 +45,13 @@ public class CardBattleController : MonoBehaviour
     private void Start()
     {
         SwitchHandCardDisplay(false); // turn the hand card off at first (defaultly will in the village).
+        // BattleDeckDisplayCon.SwitchBattleDeckDisplay(false);
     }
 
     public void EnterCombatInitialize() 
     {
         SwitchHandCardDisplay(true);
-
-        for (int i = 0; i < Trans_BattleCardTemplates.childCount ; i++) // Destory all the remaining card teamplate in hand.
-        {
-            Destroy(Trans_BattleCardTemplates.GetChild(i).gameObject);
-        } 
+        // BattleDeckDisplayCon.SwitchBattleDeckDisplay(true);
 
         BattleCardList.Clear();
 
@@ -61,22 +60,28 @@ public class CardBattleController : MonoBehaviour
             BattleCardList.Add(CardDeckCon.DeckCardList[i]);
         }
 
+
+
         for (int i = 0; i < maxCardAtOnce; i++) // first draw
         {
             DrawCard();
         }
     }
 
+    public void LeaveCombat()
+    {
+        for (int i = 0; i < Trans_BattleCardTemplates.childCount ; i++) // Destory all the remaining card teamplate in hand.
+        {
+            Destroy(Trans_BattleCardTemplates.GetChild(i).gameObject);
+        } 
+
+        SwitchHandCardDisplay(false);
+        // BattleDeckDisplayCon.SwitchBattleDeckDisplay(false);
+    }
+
     public void SwitchHandCardDisplay(bool b)
     {
-        if (b)
-        {
-            Trans_HandCardsPanel.gameObject.SetActive(true);
-        }
-        else
-        {
-            Trans_HandCardsPanel.gameObject.SetActive(false);
-        }
+        Trans_HandCardsPanel.gameObject.SetActive(b);
     }
 
     // Doesn't need this part, we can spawn card in DrawCard function and no need to display the card at first.

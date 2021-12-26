@@ -57,7 +57,6 @@ public class GameStateController : MonoBehaviour
         PlayerStatusCon.SwitchRestoringMana(true);
         PlayerStatusCon.RefillAllStatusValue();
 
-        CardBattleCon.SwitchHandCardDisplay(true);
         CardBattleCon.EnterCombatInitialize();
     }
 
@@ -70,7 +69,7 @@ public class GameStateController : MonoBehaviour
         PlayerStatusCon.SwitchRestoringMana(false);
         PlayerStatusCon.RefillAllStatusValue();
 
-        CardBattleCon.SwitchHandCardDisplay(false);
+        CardBattleCon.LeaveCombat();
     }
 
 }

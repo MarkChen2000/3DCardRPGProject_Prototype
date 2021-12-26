@@ -62,6 +62,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _MonsterStatus: {fileID: 11400000, guid: fc2b1e0c3e6b283409187f706e59062a, type: 2}
+  DeathEffectPrefab: {fileID: 1096352044232144, guid: 6e4b9c1925f0d3f4d8446e551a2e20d3,
+    type: 3}
 --- !u!114 &2289590919644430543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7461dbaecb4a98d49a59b07c0bc4b422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  attackInterval: 0.5
+  monsterType: 1
   bulletPrefab: {fileID: 143491689319156946, guid: da8ec8b0921abe6429aec22c187dc148,
     type: 3}
 --- !u!65 &6485576306210915813

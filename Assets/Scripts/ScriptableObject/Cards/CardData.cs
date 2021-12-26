@@ -47,6 +47,7 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     [Header("For Equipment Card")]
     public int CardLv = 0;
     public EquipmentType _EquipmentType;
+    public GameObject EquipmentPrefab;
     [Tooltip("Recommand set betwwen 0~3")] public float EquipmentBonusHP = 0;
     [Tooltip("Recommand set betwwen 0~3")] public float EquipmentBonusPW = 0;
     [Tooltip("Recommand set betwwen 0~3")] public float EquipmentBonusMP = 0;
@@ -80,6 +81,11 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
         {
             playerStatusCon.UpdateStatus("currentHP", 6);
             prefab = GameObject.Find("BattleManager").GetComponent<PrefabController>().healPotionPrefab;
+            GameObject newPrefab = Instantiate(prefab);
+        } else if (CardName == "Innervate")
+        {
+            playerStatusCon.UpdateStatus("currentMana", 2);
+            prefab = GameObject.Find("BattleManager").GetComponent<PrefabController>().InnervatePrefab;
             GameObject newPrefab = Instantiate(prefab);
         }
     }

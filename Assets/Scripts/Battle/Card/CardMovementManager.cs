@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IDropHandler
 {
+    private PlayerStatusController PlayerStatusCon;
+    private CardData _card;
 
     private Vector3 initPosition;
     private Vector2 lastMousePosition;
@@ -16,6 +18,8 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
     // Start is called before the first frame update
     void Start()
     {
+        PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        _card = GetComponent<BattleCard_LoaderAndDisplay>()._CardData;
         initPosition = this.GetComponent<RectTransform>().position;
         this.GetComponent<RectTransform>().localScale = new Vector3(0.8f, 0.8f, 0.8f);
         if (MainCamera == null)
@@ -58,9 +62,15 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (PlayerStatusCon.currentMana < _card.CardCost)
+        {
+            Debug.Log("Has no enough mana!!");
+            return; // fail to excute card
+        }
+
         lastMousePosition = eventData.position;
         this.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        GameObject.Find("BattleManager").GetComponent<BattleManager>().currentCard(this.gameObject.GetComponent<BattleCard_LoaderAndDisplay>()._CardData);
+        GameObject.Find("BattleManager").GetComponent<BattleManager>().currentCard(_card);
         this.gameObject.GetComponent<BattleCard_LoaderAndDisplay>()._CardData.CardName.ToString();
     }
 
@@ -71,7 +81,10 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 currentMousePosition = eventData.position;
+        if (PlayerStatusCon.currentMana < _card.CardCost)
+        { return; }
+
+            Vector2 currentMousePosition = eventData.position;
         Vector2 diff = currentMousePosition - lastMousePosition;
         RectTransform rect = this.GetComponent<RectTransform>();
 
@@ -99,7 +112,7 @@ public class CardMovementManager : MonoBehaviour, IPointerEnterHandler, IPointer
             //Debug.Log(this.detectray);
             //Debug.Log(this.hit);
             //Vector3 mousePosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
-            GameObject.Find("BattleManager").GetComponent<BattleManager>().executeCard(this.gameObject.GetComponent<BattleCard_LoaderAndDisplay>()._CardData, mousePosition);
+            GameObject.Find("BattleManager").GetComponent<BattleManager>().executeCard(_card, mousePosition);
             //GameObject.Find("BattleManager").GetComponent<BattleManager>().executeCard(this.gameObject.GetComponent<BattleCard_LoaderAndDisplay>()._CardData, this.hit.point);
             GameObject.Find("BattleManager").GetComponent<BattleManager>().currentCard(null);
             Destroy(this.gameObject);

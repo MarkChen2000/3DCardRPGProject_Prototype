@@ -152,6 +152,7 @@ public class PlayerStatusController : MonoBehaviour
 
     public void SwitchRestoringMana(bool OnOff)
     {
+        Debug.Log(currentManaRT);
         if (OnOff) InvokeRepeating("RestoreMana", 0f, currentManaRT);
         else CancelInvoke("RestoreMana");
     }

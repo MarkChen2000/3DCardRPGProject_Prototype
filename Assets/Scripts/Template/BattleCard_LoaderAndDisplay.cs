@@ -32,17 +32,24 @@ public class BattleCard_LoaderAndDisplay : BasicCard_DataLoaderAndDisplay
                     TMP_CardCostorLV.text = "C";
                     break;
                 case CardType.Equipment:
-                    Debug.Log("This is not Spells! Battle Card should only contain spells!");
+                    //Debug.Log("This is not Spells! Battle Card should only contain spells!");
                     break;
             }
-            Image_CardImage = null;
+
             TMP_CardName.text = "DefaultName";
             TMP_CardDescription.text = "DefaultDes";
             TMP_CardType.text = "Type";
             return;
         }
 
-        Image_CardImage.sprite = _CardData.Card_ImageSprite;
+        if (_CardData.Card_ImageSprite == null)
+        {
+        }
+        else
+        {
+            Image_CardImage.sprite = _CardData.Card_ImageSprite;
+        }
+        Debug.Log(Image_CardImage.sprite);
         TMP_CardName.text = _CardData.CardName;
         TMP_CardDescription.text = _CardData.CardDescription;
 

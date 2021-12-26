@@ -9,7 +9,7 @@ public class EntireInventoryController : MonoBehaviour
     private InventoryController InventoryCon;
     private EquipmentSlotController EquipmentCon;
     private CardDeckController DeckCon;
-    private CardBattleController CardBattleCon;
+    //private CardBattleController CardBattleCon;
 
     private GameObject Panel_DisableInventoryBarrier;
     private Canvas Canvas_Inventory;
@@ -21,7 +21,7 @@ public class EntireInventoryController : MonoBehaviour
         InventoryCon = GetComponent<InventoryController>();
         EquipmentCon = GetComponent<EquipmentSlotController>();
         DeckCon = GetComponent<CardDeckController>();
-        CardBattleCon = GameObject.Find("BattleUI").GetComponent<CardBattleController>();
+        //CardBattleCon = GameObject.Find("BattleUI").GetComponent<CardBattleController>();
 
         Panel_DisableInventoryBarrier = transform.GetChild(0).GetChild(1).gameObject;
         Canvas_Inventory = transform.GetChild(0).GetComponent<Canvas>();
@@ -68,7 +68,7 @@ public class EntireInventoryController : MonoBehaviour
     {
         PlayerBasciAttack_Con.Can_Attack = !OnOff;
         Canvas_Inventory.enabled = OnOff;
-        CardBattleCon.Activate(!OnOff);
+        //CardBattleCon.Activate(!OnOff);
     }
 
     public void SwitchInventoryBarrierOnOff(bool OnOff)

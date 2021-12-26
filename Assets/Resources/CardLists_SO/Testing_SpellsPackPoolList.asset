@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f8e1f110d62e64fa4ef97bc2259e47, type: 3}
   m_Name: Testing_SpellsPackPoolList
   m_EditorClassIdentifier: 
-  CardListName: DefaultCardListName
+  CardListName: All Spells Card List
   _CradListType: 2
   _CardList:
   - {fileID: 11400000, guid: 4f1b50f3b73487b42a12211228224fcc, type: 2}

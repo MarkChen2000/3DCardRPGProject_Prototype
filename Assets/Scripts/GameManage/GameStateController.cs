@@ -20,10 +20,12 @@ public class GameStateController : MonoBehaviour
 
     private PlayerStatusController PlayerStatusCon;
     private EntireInventoryController EntireInvCon;
+    private CardBattleController CardBattleCon;
     private void Awake()
     {
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         EntireInvCon = GameObject.Find("InventoryAndUIManager").GetComponent<EntireInventoryController>();
+        CardBattleCon = GameObject.Find("BattleUI").GetComponent<CardBattleController>();
     }
 
     // Start is called before the first frame update
@@ -54,6 +56,9 @@ public class GameStateController : MonoBehaviour
 
         PlayerStatusCon.SwitchRestoringMana(true);
         PlayerStatusCon.RefillAllStatusValue();
+
+        CardBattleCon.SwitchHandCardDisplay(true);
+        CardBattleCon.EnterCombatInitialize();
     }
 
     private void EnterVillage()
@@ -64,6 +69,8 @@ public class GameStateController : MonoBehaviour
 
         PlayerStatusCon.SwitchRestoringMana(false);
         PlayerStatusCon.RefillAllStatusValue();
+
+        CardBattleCon.SwitchHandCardDisplay(false);
     }
 
 }

@@ -26,8 +26,6 @@ public class ShopSystemAndUIController : MonoBehaviour
     public int AmountofCardinOnePack = 5;
     private int _CostofOnePack ;
 
-    private bool Did_Buy = false;
-
 
     private void Awake()
     {
@@ -55,18 +53,14 @@ public class ShopSystemAndUIController : MonoBehaviour
 
     public void EnterShopSystem(TransactionTemplate transaction_tem)
     {
-        Did_Buy = false;
-        GetPackCardPoolfromTem(transaction_tem.PackCardPoolList);
-        _CostofOnePack = transaction_tem.CostofOnePack;
-        InitializeTexts(transaction_tem);
-    }
-
-    public void LeaveShopSystem()
-    {
-        if ( Did_Buy )
+        if (Trans_PackCardGridGroup.GetChild(0).childCount != 0) // check if there is already have template, Destory them.
         {
             DestroyAllPackCardTemplates();
         }
+
+        GetPackCardPoolfromTem(transaction_tem.PackCardPoolList);
+        _CostofOnePack = transaction_tem.CostofOnePack;
+        InitializeTexts(transaction_tem);
     }
 
     private void InitializeTexts(TransactionTemplate transaction_tem)
@@ -112,28 +106,20 @@ public class ShopSystemAndUIController : MonoBehaviour
             Current_BuyingCards.Add( card );
             InventoryCon.ReceiveCard( card ) ; // transfer to inventory
         }
-
         SpawnAndDisplayPackCardTemplate();
-        Did_Buy = true;
     }
 
     private void SpawnAndDisplayPackCardTemplate()
     {
-        if ( Did_Buy ) // if already bought, don't need to instantiate new template.
+        if (Trans_PackCardGridGroup.GetChild(0).childCount != 0) // check if there is already have template, Destory them.
         {
-            for (int i = 0; i < AmountofCardinOnePack; i++)
-            {
-                PackCard_DataLoaderAndDisplay cardtemp = Trans_PackCardSlotTransList[i].GetChild(0).GetComponent<PackCard_DataLoaderAndDisplay>();
-                cardtemp.DisplaytoTemplate(Current_BuyingCards[i]);
-            }
+            DestroyAllPackCardTemplates();
         }
-        else
+
+        for (int i = 0; i < AmountofCardinOnePack; i++)
         {
-            for (int i = 0; i < AmountofCardinOnePack; i++)
-            {
-                PackCard_DataLoaderAndDisplay cardtemp = Instantiate(PackCardTemp, Trans_PackCardSlotTransList[i]).GetComponent<PackCard_DataLoaderAndDisplay>();
-                cardtemp.DisplaytoTemplate(Current_BuyingCards[i]);
-            }
+            PackCard_DataLoaderAndDisplay cardtemp = Instantiate(PackCardTemp, Trans_PackCardSlotTransList[i]).GetComponent<PackCard_DataLoaderAndDisplay>();
+            cardtemp.DisplaytoTemplate(Current_BuyingCards[i]);
         }
     }
 

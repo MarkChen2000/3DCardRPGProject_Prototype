@@ -167,7 +167,6 @@ public class InteractionController : MonoBehaviour
     {
         Is_Transacting = false;
         InteractionUICon.HideAllInteractionUI();
-        ShopSystemCon.LeaveShopSystem();
 
         if (current_transctiontem.LeavingShopSystemTextList.Count != 0) // and run the leaving conversation.
         {

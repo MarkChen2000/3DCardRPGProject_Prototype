@@ -32,6 +32,7 @@ public class PlayerStatusLevelupSystem : MonoBehaviour
         PlayerStatusCon.baseMaxMana += IncreaseMaxManaperLV;
         PlayerStatusCon.baseSP += IncreaseSPperLV;
         PlayerStatusCon.baseManaRT *= DecreaseManaRTperLV;
+        Debug.Log(PlayerStatusCon.baseManaRT);
     }
 
     public void GainExp(int gain)

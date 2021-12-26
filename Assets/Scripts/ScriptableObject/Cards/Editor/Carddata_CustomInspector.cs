@@ -19,17 +19,15 @@ public class Carddata_CustomInspector : Editor
         switch ( card._CardType )
         {
             case CardType.Spells:
-                EditorGUI.BeginDisabledGroup(false);
                 card.CardCost = EditorGUILayout.IntField("Card Cost", card.CardCost);
                 card._SpellsEffectType = (SpellsEffectType)EditorGUILayout.EnumPopup("Spells Effect Type", card._SpellsEffectType);
                 card.SpellsEffectValue = EditorGUILayout.IntField("Spells Effect Value", card.SpellsEffectValue);
-                EditorGUI.EndDisabledGroup();
                 break;
 
             case CardType.Equipment:
-                EditorGUI.BeginDisabledGroup(false);
                 card.CardLv = EditorGUILayout.IntField("Card LV", card.CardLv);
                 card._EquipmentType = (EquipmentType)EditorGUILayout.EnumPopup("Equipment Type", card._EquipmentType);
+                card.EquipmentPrefab = (GameObject)EditorGUILayout.ObjectField("Equipment Prefab", card.EquipmentPrefab, typeof(GameObject), false);
 
                 card.EquipmentBonusHP = EditorGUILayout.FloatField(new GUIContent("Equipment HP Bonus", "Recommand set betwwen 0~3"), card.EquipmentBonusHP);
                 card.EquipmentBonusPW = EditorGUILayout.FloatField(new GUIContent("Equipment PW Bonus", "Recommand set betwwen 0~3"), card.EquipmentBonusPW);
@@ -40,20 +38,15 @@ public class Carddata_CustomInspector : Editor
                 switch ( card._EquipmentType )
                 {
                     case EquipmentType.Weapon:
-                        EditorGUI.BeginDisabledGroup(false);
                         card.WeaponAP = EditorGUILayout.IntField(new GUIContent("WeaponAP", "Have to set above 1, recommand set betwwen 1~100, It's mean the preotect percentage from damage"), card.WeaponAP);
                         card.WeaponCR = EditorGUILayout.IntField("WeaponCR", card.WeaponCR);
-                        EditorGUI.EndDisabledGroup();
                         break;
                     case EquipmentType.Armor:
-                        EditorGUI.BeginDisabledGroup(false);
                         card._ArmorType = (ArmorType)EditorGUILayout.EnumPopup("Armor Type", card._ArmorType);
                         card.ArmorDP = EditorGUILayout.IntField("ArmorDP", card.ArmorDP);
                         card.ArmorDSP = EditorGUILayout.IntField("ArmorDSP", card.ArmorDSP);
-                        EditorGUI.EndDisabledGroup();
                         break;
                 }
-                EditorGUI.EndDisabledGroup();
                 break;
         }
         EditorUtility.SetDirty(card);

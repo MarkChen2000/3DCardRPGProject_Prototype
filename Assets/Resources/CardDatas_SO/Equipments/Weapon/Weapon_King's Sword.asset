@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4108816d3f02347860c670d28bfcfc, type: 3}
+  m_Name: Weapon_King's Sword
+  m_EditorClassIdentifier: 
+  CardID: 0
+  Card_ImageSprite: {fileID: 21300000, guid: 20fd10333f27b1846bb9a42e4cb3e41e, type: 3}
+  CardName: King's Sword
+  CardDescription: '"The one who wants to wear a crown  must bear the weight"\nHP:1.5
+    PW:2 MP:1.5'
+  _CardType: 1
+  CardCost: 0
+  _SpellsEffectType: 0
+  SpellsEffectValue: 0
+  CardLv: 8
+  _EquipmentType: 0
+  EquipmentPrefab: {fileID: 1239049983549144, guid: d6a4943b7e0952e40b09515032ee2e2d,
+    type: 3}
+  EquipmentBonusHP: 1.5
+  EquipmentBonusPW: 2
+  EquipmentBonusMP: 1.5
+  EquipmentBonusRT: 0
+  EquipmentBonusSP: 0
+  WeaponAP: 30
+  WeaponCR: 20
+  _ArmorType: 0
+  ArmorDP: 1
+  ArmorDSP: 0

@@ -13,6 +13,7 @@ public class EquipmentSlotController : MonoBehaviour
 
     private InventoryController Inv_Con;
     private PlayerStatusController PlayerStatusCon;
+    private PlayerEquipmentDisplayController PlayerEquipmentDisplayCon;
 
     private Transform Trans_InventoryPanelBG;
     private Transform Trans_PlayerStatusPanel;
@@ -35,6 +36,8 @@ public class EquipmentSlotController : MonoBehaviour
 
     private void Awake()
     {
+
+        PlayerEquipmentDisplayCon = GameObject.Find("Player").GetComponent<PlayerEquipmentDisplayController>();
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         Inv_Con = GetComponent<InventoryController>();
         Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
@@ -52,6 +55,7 @@ public class EquipmentSlotController : MonoBehaviour
         SpawnAllTemplateandGetCom();
         DisplayAllEquipmenttoTem();
         UpdateEquipmentValue();
+        UpdateEquipmentPrefabDisplay();
         InitializeStatusNum();
         UpdateAllStatusDisplay();
     }
@@ -121,6 +125,14 @@ public class EquipmentSlotController : MonoBehaviour
             EquipmentBonusRT += carddata.EquipmentBonusRT;
         }
     }
+
+    private void UpdateEquipmentPrefabDisplay() // only use it on weapon for now.
+    {
+        Debug.Log("Weapon:" + Weapon);
+        if ( Weapon==null ) PlayerEquipmentDisplayCon.DisplayEquipmentPrefab(EquipmentType.Weapon,null);
+        else PlayerEquipmentDisplayCon.DisplayEquipmentPrefab(EquipmentType.Weapon, Weapon.EquipmentPrefab);
+    }
+
 
     private void SpawnAllTemplateandGetCom()
     {
@@ -219,7 +231,7 @@ public class EquipmentSlotController : MonoBehaviour
 
     public bool ReceiveCard(CardData carddata) // Receive a carddata from other list, check if it is ok to receive.
     {
-        if (true) // check the player's level is or isn't enough for this equipment. ( future feature )
+        if (PlayerStatusCon.LV >= carddata.CardLv) // check the player's level is or isn't enough for this equipment. 
         {
             switch (carddata._EquipmentType)
             {
@@ -287,18 +299,21 @@ public class EquipmentSlotController : MonoBehaviour
                         if (Ornament_A == null)
                         {
                             Ornament_A = carddata;
-                            WhenEquipmentChange();
-                            return true;
                         }
                         else
                         {
                             Ornament_B = carddata;
-                            WhenEquipmentChange();
-                            return true;
                         }
+                        WhenEquipmentChange();
+                        return true;
                     }
             }
-            return true;
+            return false;
+        }
+        else
+        {
+            Debug.Log("The LV of Equipment is too high for you!");
+            return false;
         }
     }
 
@@ -306,6 +321,7 @@ public class EquipmentSlotController : MonoBehaviour
     {
         DisplayAllEquipmenttoTem();
         UpdateEquipmentValue();
+        UpdateEquipmentPrefabDisplay();
         AddEquipBonusValuetoPlayerStatus();
         UpdateAllStatusDisplay();
     }

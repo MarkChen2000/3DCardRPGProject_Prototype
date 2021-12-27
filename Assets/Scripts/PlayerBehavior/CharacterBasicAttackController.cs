@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterBasicAttackController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     public Transform AttackPointTrans;
     public GameObject DefaultHitEffectPrefab;
+    public Image GetHitEffect;
 
     private CharacterMovementController Character_MoveCon;
     private BattleValueCalculator BattleValueCal;
@@ -19,7 +21,7 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     public float AttackRangeRadius = 5f;
     public float Character_AttackCD = 1f;
-    private float AttackCDTimer = 0;
+    public float Character_InvincibleTime = 1f;
 
     [Tooltip("The time that make character turn in Staring state, which will make character stop turning toward the moveing direction.")]
     public float Character_AttackStaringTime = 2f;
@@ -51,6 +53,7 @@ public class CharacterBasicAttackController : MonoBehaviour
         }
     }
 
+    private float AttackCDTimer = 0f;
     private void OnAttack() // Check the mouse ckilck
     {
         if ( Time.time < AttackCDTimer )
@@ -108,11 +111,35 @@ public class CharacterBasicAttackController : MonoBehaviour
         }
     }
 
+    private float InvincibleTimer = 0f;
     public void PlayerBeAttack(int damage)
     {
+        if (Time.time < InvincibleTimer)
+        {
+            Debug.Log("Player is invincible now!");
+            return;
+        }
+
+        Color color = GetHitEffect.color;
+        color.a = 0.8f;
+        GetHitEffect.color = color;
+        StartCoroutine(ReduceGetHitEffectAlpha(color));
+
         int finaldamage = BattleValueCal.PlayerTakeDamageCalculate(damage);
         Debug.Log("Player take " + finaldamage);
         PlayerStatusCon.TakeDamae( finaldamage );
+
+        InvincibleTimer = Time.time + Character_InvincibleTime;
+    }
+
+    private IEnumerator ReduceGetHitEffectAlpha(Color color)
+    {
+        while ( GetHitEffect.color.a > 0 )
+        {
+            color.a -= 0.01f;
+            GetHitEffect.color = color;
+            yield return null;
+        }
     }
 
 

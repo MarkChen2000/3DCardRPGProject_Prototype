@@ -33,11 +33,6 @@ public class InteractionController : MonoBehaviour
         Player_MoveCon = GameObject.Find("Player").GetComponent<CharacterMovementController>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     private void Update()
     {
         if ( Is_Interacting ) // When the Interaction is going.
@@ -101,6 +96,7 @@ public class InteractionController : MonoBehaviour
 
     private void PlayerStartInteraction()
     {
+        Player_MoveCon.StopMoving();
         Is_Interacting = true;
         Player_BasicAttackCon.Can_Attack = false;
         Player_MoveCon.Can_Control = false;

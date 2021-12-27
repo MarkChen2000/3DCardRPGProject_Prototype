@@ -111,6 +111,12 @@ public class CharacterMovementController : MonoBehaviour
         dashtimer = Time.time + Dash_CD;
     }
 
+    public void StopMoving()
+    {
+        Move_Dir = new Vector2(0f, 0f);
+        Is_Moving = false;
+    }
+
     private float staringdurationtimer = 0f;
     private bool Is_StaringCheck()
     {

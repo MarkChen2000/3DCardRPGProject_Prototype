@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349d200694870df4da69c78f0295db1f, type: 3}
   m_Name: MonsterForDamageTest
   m_EditorClassIdentifier: 
+  MonsterName: monsterA
   lv: 0
-  max_hp: 100
+  max_hp: 10
   attack: 1
   defense: 0
-  Drop_Exp: 3000
+  Drop_Exp: 1500
   DropMoney: 1000
   DropCard: {fileID: 0}

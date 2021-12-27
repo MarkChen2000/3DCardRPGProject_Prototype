@@ -14,6 +14,7 @@ public class EquipmentSlotController : MonoBehaviour
     private InventoryController Inv_Con;
     private PlayerStatusController PlayerStatusCon;
     private PlayerEquipmentDisplayController PlayerEquipmentDisplayCon;
+    private StatusUIManager _StatusUIManager;
 
     private Transform Trans_InventoryPanelBG;
     private Transform Trans_PlayerStatusPanel;
@@ -39,6 +40,7 @@ public class EquipmentSlotController : MonoBehaviour
 
         PlayerEquipmentDisplayCon = GameObject.Find("Player").GetComponent<PlayerEquipmentDisplayController>();
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
         Inv_Con = GetComponent<InventoryController>();
         Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
         Trans_PlayerStatusPanel = Trans_InventoryPanelBG.GetChild(2).GetChild(0);
@@ -58,6 +60,7 @@ public class EquipmentSlotController : MonoBehaviour
         UpdateEquipmentPrefabDisplay();
         InitializeStatusNum();
         UpdateAllStatusDisplay();
+        //_StatusUIManager.UpdateAllStatusDisplay();
     }
 
     public void SaveandLoadEquipSlot(bool SorL)
@@ -324,5 +327,6 @@ public class EquipmentSlotController : MonoBehaviour
         UpdateEquipmentPrefabDisplay();
         AddEquipBonusValuetoPlayerStatus();
         UpdateAllStatusDisplay();
+        _StatusUIManager.UpdateAllStatusDisplay();
     }
 }

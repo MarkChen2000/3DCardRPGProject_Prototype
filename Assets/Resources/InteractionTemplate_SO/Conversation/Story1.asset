@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e92c54a17370604b90544cf56aeb9be, type: 3}
+  m_Name: Story1
+  m_EditorClassIdentifier: 
+  TalkerName: Old man
+  StringTextList:
+  - Welcome, young man, to the village of no body, but I'm afraid we cannot offer
+    you too much.
+  - Yes, viilage of no body. It's been too long that name has no meaning here. Even
+    old man like me cannot recall the name of this village.
+  - We once belong to a great kingdom, but the invasion of those monsters took honor
+    and glory away.
+  - You are not the only one who think he can save the world. I'm not discourage
+    you, but many have tried and died.
+  - If you demand to do so, I will say no more. But be careful, this is the land
+    of curse and despair.

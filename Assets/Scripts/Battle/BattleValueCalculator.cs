@@ -25,12 +25,12 @@ public class BattleValueCalculator : MonoBehaviour
     }
     // This function will do the player's and enemy's damage value calculation uniformly, All the damage formula can adjust at here.
 
-    public int PlayerDamageCalculate(AttackType type, int spellsvalue) 
+    public Vector2 PlayerDamageCalculate(AttackType type, int spellsvalue) 
     {
     // Attacktype mean what is this attack type.
     // if the attack type is physics, the spellsvalue doesn't matter.
         float finaldamage = 0;
-
+        int critic = 0; // 1 mean this hit is critical.
         switch ( type )
         {
             case AttackType.Magic:
@@ -43,6 +43,7 @@ public class BattleValueCalculator : MonoBehaviour
                 if (Random.Range(1, 100) <= EquipmentSlotCon.Weapon_CR) // when it is true, mean that this hit is critical!
                 {
                     magnification = CriticalHitMagnification;
+                    critic = 1;
                     Debug.Log("Critical Hit!");
                 }
 
@@ -54,7 +55,7 @@ public class BattleValueCalculator : MonoBehaviour
                 break;
         }
 
-        return (int)Mathf.Round(finaldamage);
+        return new Vector2(critic,(int)Mathf.Round(finaldamage)); 
     }
 
     public int PlayerTakeDamageCalculate(int damagevalue) // call whenever player get attack;

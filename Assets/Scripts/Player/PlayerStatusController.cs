@@ -25,6 +25,7 @@ public class PlayerStatusController : MonoBehaviour
     [HideInInspector] public int currentMaxMana;
     [HideInInspector] public int currentMana;
     public float baseManaRT = 10;
+    //public float baseManaRT = 2;
     [HideInInspector] public float currentManaRT;
     public float baseSP = 100; 
     [HideInInspector] public float currentSP;

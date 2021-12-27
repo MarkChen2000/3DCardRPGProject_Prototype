@@ -30,15 +30,17 @@ public class Monster001_Bullet_Controller : MonoBehaviour
 
     private void KillSelf(float lifetime)
     {
-        Destroy(this.gameObject,lifeTime);
+        Destroy(this.gameObject,lifetime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag == "Monster") return;
+
         if (other.tag == "Player")
         {
             CharacterBasicAttackCon.PlayerBeAttack(Damage);
         }
-        this.KillSelf(0f);
+        KillSelf(0f);
     }
 }

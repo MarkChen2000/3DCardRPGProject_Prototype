@@ -89,14 +89,20 @@ public class CharacterBasicAttackController : MonoBehaviour
         {
             if ( item.gameObject.tag == "Monster")
             {
-                int damage = BattleValueCal.PlayerDamageCalculate(AttackType.Physics,0);
-                item.gameObject.GetComponent<Monster_StatusController>().beAttacked(damage);
-                Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
+                Vector2 damageinfo = BattleValueCal.PlayerDamageCalculate(AttackType.Physics,0);
+                item.gameObject.GetComponent<Monster_StatusController>().beAttacked(damageinfo);
+                //Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
 
                 if ( DefaultHitEffectPrefab != null )
                 {
                     Transform trans = Instantiate(DefaultHitEffectPrefab,item.ClosestPoint(transform.position),Quaternion.identity).transform;
                     trans.LookAt(transform);
+
+                    if ( damageinfo.x==1 ) // mean this hit is critical
+                    {
+                        trans.localScale = new Vector3(2f, 2f, 2f);
+                    }
+
                 }
             }
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New MonsterStatus", menuName = "MonsterStatus")]
 public class MonsterStatus : ScriptableObject
 {
+    public string MonsterName = "monster";
     public int lv; 
     public int max_hp;
     //public int max_mp;

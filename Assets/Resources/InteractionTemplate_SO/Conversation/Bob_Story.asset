@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e92c54a17370604b90544cf56aeb9be, type: 3}
+  m_Name: Bob_Story
+  m_EditorClassIdentifier: 
+  TalkerName: Bob
+  StringTextList:
+  - ugh...you've found me.
+  - I...I'm about to die, so listen careful.
+  - I made a mistake. Those monsters...they, they aren't just monsters.
+  - Eveytime I kill one, I...I can hear them whispering in my ears. Even now, the
+    ghosts are haunting me.
+  - I have no choice...but, but to end myself.
+  - They are not just monsters, they...they are...they...ugh...

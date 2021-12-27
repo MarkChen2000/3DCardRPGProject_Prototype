@@ -38,7 +38,7 @@ public class FireballController : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Monster")
         {
-            other.SendMessage("beAttacked", this.battleValueCalculator.PlayerDamageCalculate(AttackType.Magic, 6));
+            other.SendMessage("beAttacked",this.battleValueCalculator.PlayerDamageCalculate(AttackType.Magic, 6));
             KillSelf();
         }
     }

@@ -17,9 +17,12 @@ public class Monster_BehaviorController : MonoBehaviour
     private bool isAttack;
     private bool isOnCollision;
 
+    [HideInInspector]public bool OnAttackMode = false;
+
     // Start is called before the first frame update
     void Start()
     {
+
         this.player = GameObject.Find("Player");
         this.initPostition = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z);
         this.currentTime = Time.time;
@@ -33,6 +36,8 @@ public class Monster_BehaviorController : MonoBehaviour
         this.currentTime = Time.time;
         if (this.Detect())
         {
+            OnAttackMode = true;
+
             this.gameObject.transform.LookAt(this.player.transform);
             this.gameObject.transform.Translate(Vector3.forward * speed * Time.deltaTime);
             if (this.currentTime - this.lastAttackTime >= this.attackInterval)
@@ -56,6 +61,7 @@ public class Monster_BehaviorController : MonoBehaviour
             }
 
         }
+        else OnAttackMode = false;
     }
 
     private bool Detect()
@@ -75,7 +81,6 @@ public class Monster_BehaviorController : MonoBehaviour
         {
             return false;
         }
-
     }
 
     private void Attack()

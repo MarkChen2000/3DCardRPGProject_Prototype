@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e92c54a17370604b90544cf56aeb9be, type: 3}
+  m_Name: Story2
+  m_EditorClassIdentifier: 
+  TalkerName: Woodman
+  StringTextList:
+  - 'Hello there! Haven''t seen a new face for a while. '
+  - 'Have some rest whlie you can! Those monsters are tough to deal with. '
+  - Tell ya, I killed two of those blue kind yesterday with my axe. If you want,
+    I can teach you some skill.
+  - 'Oh! you wanna save the world? Ha! That''s the funniest joke I''ve heard in my
+    life. '
+  - Bob, the crazy guy, he dreamed about something and start yelling to other that
+    he can save the world. Guess what? He grabbed a rust sword, ran out, and never
+    came back.
+  - I'm telling ya, find a place far away from those monsters and live the rest of
+    your life. It's much easier!
+  - Anyway! Enjoy your stay in the village!

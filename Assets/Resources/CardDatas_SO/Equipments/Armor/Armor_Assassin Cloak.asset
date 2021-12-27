@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c4108816d3f02347860c670d28bfcfc, type: 3}
-  m_Name: Armor_Assassin Clock
+  m_Name: Armor_Assassin Cloak
   m_EditorClassIdentifier: 
   CardID: 0
   Card_ImageSprite: {fileID: 21300000, guid: 78125d4fa2fe7f94d867c888d219eece, type: 3}
-  CardName: Assassin Clock
+  CardName: Assassin Cloak
   CardDescription: Equipment
   _CardType: 1
   CardCost: 0

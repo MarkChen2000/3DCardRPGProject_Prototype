@@ -14,7 +14,7 @@ public class BattleCard_LoaderAndDisplay : BasicCard_DataLoaderAndDisplay
 
     protected override void GetComponentofTemplates()
     {
-        Image_CardImage = transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        Image_CardImage = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Image>();
         TMP_CardCostorLV = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
         TMP_CardName = transform.GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_Text>();
         TMP_CardDescription = transform.GetChild(0).GetChild(3).GetChild(0).GetComponent<TMP_Text>();
@@ -49,7 +49,7 @@ public class BattleCard_LoaderAndDisplay : BasicCard_DataLoaderAndDisplay
         {
             Image_CardImage.sprite = _CardData.Card_ImageSprite;
         }
-        Debug.Log(Image_CardImage.sprite);
+        //Debug.Log(Image_CardImage.sprite);
         TMP_CardName.text = _CardData.CardName;
         TMP_CardDescription.text = _CardData.CardDescription;
 

@@ -14,6 +14,7 @@ public class EquipmentSlotController : MonoBehaviour
     private InventoryController Inv_Con;
     private PlayerStatusController PlayerStatusCon;
     private PlayerEquipmentDisplayController PlayerEquipmentDisplayCon;
+    private PopupInfoUIManager _PopupUIManager;
     private StatusUIManager _StatusUIManager;
 
     private Transform Trans_InventoryPanelBG;
@@ -37,9 +38,9 @@ public class EquipmentSlotController : MonoBehaviour
 
     private void Awake()
     {
-
         PlayerEquipmentDisplayCon = GameObject.Find("Player").GetComponent<PlayerEquipmentDisplayController>();
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        _PopupUIManager = GameObject.Find("InfoUIManager").GetComponent<PopupInfoUIManager>();
         _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
         Inv_Con = GetComponent<InventoryController>();
         Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
@@ -131,7 +132,7 @@ public class EquipmentSlotController : MonoBehaviour
 
     private void UpdateEquipmentPrefabDisplay() // only use it on weapon for now.
     {
-        Debug.Log("Weapon:" + Weapon);
+        //Debug.Log("Weapon:" + Weapon);
         if ( Weapon==null ) PlayerEquipmentDisplayCon.DisplayEquipmentPrefab(EquipmentType.Weapon,null);
         else PlayerEquipmentDisplayCon.DisplayEquipmentPrefab(EquipmentType.Weapon, Weapon.EquipmentPrefab);
     }
@@ -247,7 +248,8 @@ public class EquipmentSlotController : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("There is already a weapon! fail to transfer!");
+                        _PopupUIManager.SpawnPopupInfoUI("There is already a weapon, Please deequip it first!");
+                        //Debug.Log("There is already a weapon! fail to transfer!");
                         return false;
                     }
                 case EquipmentType.Armor:
@@ -262,7 +264,8 @@ public class EquipmentSlotController : MonoBehaviour
                             }
                             else
                             {
-                                Debug.Log("There is already an Armor(Head)! fail to transfer!");
+                                _PopupUIManager.SpawnPopupInfoUI("There is already an Armor(Head), Please deequip it first!");
+                                //Debug.Log("There is already an Armor(Head)! fail to transfer!");
                                 return false;
                             }
                         case ArmorType.Body:
@@ -274,7 +277,8 @@ public class EquipmentSlotController : MonoBehaviour
                             }
                             else
                             {
-                                Debug.Log("There is already an Armor(Body)! fail to transfer!");
+                                _PopupUIManager.SpawnPopupInfoUI("There is already an Armor(Body), Please deequip it first!");
+                                //Debug.Log("There is already an Armor(Body)! fail to transfer!");
                                 return false;
                             }
                         case ArmorType.Bottom:
@@ -286,7 +290,8 @@ public class EquipmentSlotController : MonoBehaviour
                             }
                             else
                             {
-                                Debug.Log("There is already an Armor(Bottom)! fail to transfer!");
+                                _PopupUIManager.SpawnPopupInfoUI("There is already an Armor(Bottom), Please deequip it first!");
+                                //Debug.Log("There is already an Armor(Bottom)! fail to transfer!");
                                 return false;
                             }
                     }
@@ -294,7 +299,8 @@ public class EquipmentSlotController : MonoBehaviour
                 case EquipmentType.Ornament:
                     if (Ornament_A != null && Ornament_B != null)
                     {
-                        Debug.Log("There is already have 2 Ornament! fail to transfer!");
+                        _PopupUIManager.SpawnPopupInfoUI("There is already have 2 Ornaments!, Please deequip it first!");
+                        //Debug.Log("There is already have 2 Ornament! fail to transfer!");
                         return false;
                     }
                     else
@@ -315,7 +321,8 @@ public class EquipmentSlotController : MonoBehaviour
         }
         else
         {
-            Debug.Log("The LV of Equipment is too high for you!");
+            _PopupUIManager.SpawnPopupInfoUI("The LV of Equipment is too high for you!");
+            //Debug.Log("The LV of Equipment is too high for you!");
             return false;
         }
     }

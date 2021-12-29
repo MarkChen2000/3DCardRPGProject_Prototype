@@ -93,7 +93,7 @@ public class CharacterBasicAttackController : MonoBehaviour
             if ( item.gameObject.tag == "Monster")
             {
                 Vector2 damageinfo = BattleValueCal.PlayerDamageCalculate(AttackType.Physics,0);
-                item.gameObject.GetComponent<Monster_StatusController>().beAttacked(damageinfo);
+                item.gameObject.GetComponent<Monster_StatusAndUIController>().beAttacked(damageinfo);
                 //Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
 
                 if ( DefaultHitEffectPrefab != null )
@@ -126,7 +126,7 @@ public class CharacterBasicAttackController : MonoBehaviour
         StartCoroutine(ReduceGetHitEffectAlpha(color));
 
         int finaldamage = BattleValueCal.PlayerTakeDamageCalculate(damage);
-        Debug.Log("Player take " + finaldamage);
+        //Debug.Log("Player take " + finaldamage);
         PlayerStatusCon.TakeDamae( finaldamage );
 
         InvincibleTimer = Time.time + Character_InvincibleTime;
@@ -134,10 +134,12 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     private IEnumerator ReduceGetHitEffectAlpha(Color color)
     {
+        float al = color.a;
         while ( GetHitEffect.color.a > 0 )
         {
-            color.a -= 0.01f;
+            color.a -= al / Character_InvincibleTime * Time.deltaTime;
             GetHitEffect.color = color;
+            //Debug.Log(al+" "+color.a);
             yield return null;
         }
     }

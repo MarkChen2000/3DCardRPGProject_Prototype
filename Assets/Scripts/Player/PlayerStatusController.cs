@@ -11,26 +11,26 @@ public class PlayerStatusController : MonoBehaviour
     // "base/baseMax" mean the character basic value
     // "currentMax" mean the value was plused by equipment bonus.
     // "current" mean the the current remaining amount of value.
-    public int LV = 1;
+    [HideInInspector] public int LV = 1;
     [HideInInspector] public int EXP = 0;
-    public int nextLVEXP = 100; // how much exp till level up.
-    public int baseMaxHP = 100;
+    [HideInInspector] public int nextLVEXP = 100; // how much exp till level up.
+    [HideInInspector] public int baseMaxHP = 100;
     [HideInInspector] public int currentMaxHP;
     [HideInInspector] public int currentHP;
-    public int basePW = 10;
+    [HideInInspector] public int basePW = 10;
     [HideInInspector] public int currentPW;
-    public int baseMP = 10; // Magic Power is difference with Amount of Mana.
+    [HideInInspector] public int baseMP = 10; // Magic Power is difference with Amount of Mana.
     [HideInInspector] public int currentMP;
-    public int baseMaxMana = 10; // will not increase with lv.
+    [HideInInspector] public int baseMaxMana = 10; // will not increase with lv.
     [HideInInspector] public int currentMaxMana;
     [HideInInspector] public int currentMana;
-    public float baseManaRT = 10;
+    [HideInInspector] public float baseManaRT = 10;
     //public float baseManaRT = 2;
     [HideInInspector] public float currentManaRT;
-    public float baseSP = 100; 
+    [HideInInspector] public float baseSP = 100; 
     [HideInInspector] public float currentSP;
 
-    public int Money = 0;
+    [HideInInspector] public int Money = 0;
 
     private StatusUIManager statusUIManager;
 

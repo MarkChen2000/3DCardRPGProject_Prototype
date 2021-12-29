@@ -9,6 +9,7 @@ public class ShopSystemAndUIController : MonoBehaviour
     private PlayerStatusController PlayerStstusCon;
     private InventoryController InventoryCon;
     private StatusUIManager _StatusUIManager;
+    private PopupInfoUIManager _PopupUIManager;
 
     public GameObject PackCardTemp;
 
@@ -32,6 +33,7 @@ public class ShopSystemAndUIController : MonoBehaviour
         PlayerStstusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         InventoryCon = GameObject.Find("InventoryAndUIManager").GetComponent<InventoryController>();
         _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
+        _PopupUIManager = GameObject.Find("InfoUIManager").GetComponent<PopupInfoUIManager>();
 
         Trans_ShopUIBGPanel = transform.GetChild(0).GetChild(1);
         Trans_PackCardGridGroup = Trans_ShopUIBGPanel.GetChild(0).GetChild(0);
@@ -92,7 +94,8 @@ public class ShopSystemAndUIController : MonoBehaviour
     {
         if ( PlayerStstusCon.Money < _CostofOnePack )
         {
-            Debug.Log("You don't have enough money!");
+            _PopupUIManager.SpawnPopupInfoUI("You don't have enough money!");
+            //Debug.Log("You don't have enough money!");
             return;
         }
 

@@ -12,6 +12,7 @@ public class CardDeckController : MonoBehaviour
     private Transform Trans_DeckCardGridGroup;
     private Transform Trans_InventoryPanelBG;
     private TMP_Text TMP_DeckCapacityNumText;
+    PopupInfoUIManager _PopupUIManager;
 
     private List<DeckCard_DataLoaderAndDisplay> TemplateComponent = new List<DeckCard_DataLoaderAndDisplay>();
 
@@ -23,6 +24,7 @@ public class CardDeckController : MonoBehaviour
 
     private void Awake()
     {
+        _PopupUIManager = _PopupUIManager = GameObject.Find("InfoUIManager").GetComponent<PopupInfoUIManager>();
         Inv_Con = GetComponent<InventoryController>();
         Trans_InventoryPanelBG = transform.GetChild(0).GetChild(0);
         Trans_DeckCardGridGroup = Trans_InventoryPanelBG.GetChild(0).GetChild(0);
@@ -169,7 +171,7 @@ public class CardDeckController : MonoBehaviour
         }
         else // if it is fail, 
         {
-            Debug.Log("Fail to Transfer from Deck to Inv!"); // Have to display the message to player.
+            //Debug.Log("Fail to Transfer from Deck to Inv!"); // Have to display the message to player.
             return;
         }
     }
@@ -201,7 +203,8 @@ public class CardDeckController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Deck Doesn't Have Enough Room!");
+                    _PopupUIManager.SpawnPopupInfoUI("Deck Doesn't Have Enough Room!");
+                    //Debug.Log("Deck Doesn't Have Enough Room!");
                     return false;
                 }
             case CardType.Equipment:

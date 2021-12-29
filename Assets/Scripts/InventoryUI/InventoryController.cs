@@ -8,6 +8,7 @@ public class InventoryController : MonoBehaviour
 {
     private CardDeckController CardDeck_Con;
     private EquipmentSlotController EquipSlot_Con;
+    private PopupInfoUIManager _PopupUIManager;
 
     private Transform Trans_InventoryPanelBG;
     private TMP_Text TMP_PageNum;
@@ -29,6 +30,7 @@ public class InventoryController : MonoBehaviour
 
     private void Awake()
     {
+        _PopupUIManager = GameObject.Find("InfoUIManager").GetComponent<PopupInfoUIManager>();
         EquipSlot_Con = GetComponent<EquipmentSlotController>();
         CardDeck_Con = GetComponent<CardDeckController>();
 
@@ -215,7 +217,7 @@ public class InventoryController : MonoBehaviour
                 }
                 else // if it is fail, 
                 {
-                    Debug.Log("Fail to Transfer Spell Card!"); // Have to display the message to player.
+                    //Debug.Log("Fail to Transfer Spell Card!"); // Have to display the message to player.
                 }
                 break;
 
@@ -239,7 +241,7 @@ public class InventoryController : MonoBehaviour
                 }
                 else // if it is fail, 
                 {
-                    Debug.Log("Fail to Transfer Equipment Card!"); // Have to display the message to player.
+                    //Debug.Log("Fail to Transfer Equipment Card!"); // Have to display the message to player.
                 }
                 break;
         }

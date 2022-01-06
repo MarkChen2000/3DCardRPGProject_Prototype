@@ -34,7 +34,7 @@ public class BattleUIManager : MonoBehaviour
         CanvasGroup cg = prefab.GetComponent<CanvasGroup>();
         while (cg.alpha > 0)
         {
-            cg.alpha -= 1 / EnemyPopupValueUI_LifeTime * Time.deltaTime;
+            cg.alpha -= 1 / EnemyPopupValueUI_LifeTime * Time.unscaledDeltaTime;
             yield return null;
         }
         Destroy(prefab);

@@ -35,5 +35,9 @@ public class PlayerAnimationController : MonoBehaviour
         Player_AttackCon.AttackCheck();
     }
 
+    public void OnDodge()
+    {
+        Player_Animator.SetTrigger("OnDodge");
+    }
 
 }

@@ -12,15 +12,17 @@ public class CharacterBasicAttackController : MonoBehaviour
     public GameObject DefaultHitEffectPrefab;
     public Image GetHitEffect;
 
+    private BattleHitPauseManager HitPauseManager;
     private CharacterMovementController Character_MoveCon;
     private BattleValueCalculator BattleValueCal;
     private PlayerAnimationController Player_AnimationCon;
     private PlayerStatusController PlayerStatusCon;
 
-    public bool Can_Attack = false;
-
     public float AttackRangeRadius = 5f;
     public float Character_AttackCD = 1f;
+    public float Character_AttackDuration = 1f;
+    public float Character_HitPauseStopDuration = 0.1f;
+    public float Character_GetHitedHitPauseStopDuration = 0.3f;
     public float Character_InvincibleTime = 1f;
 
     [Tooltip("The time that make character turn in Staring state, which will make character stop turning toward the moveing direction.")]
@@ -31,7 +33,7 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     void Awake()
     {
-
+        HitPauseManager = GameObject.Find("BattleManager").GetComponent<BattleHitPauseManager>();
         Character_MoveCon = GetComponent<CharacterMovementController>();
         //AttackPointTrans = transform.GetChild(1);
         BattleValueCal = GameObject.Find("BattleManager").GetComponent<BattleValueCalculator>();
@@ -47,7 +49,7 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     void Update()
     {
-        if ( Input.GetMouseButtonDown(0) && Can_Attack ) // left mouse click
+        if ( Input.GetMouseButtonDown(0) && Character_MoveCon.Can_Control ) // left mouse click
         {
             OnAttack();
         }
@@ -63,6 +65,8 @@ public class CharacterBasicAttackController : MonoBehaviour
         }
 
         Player_AnimationCon.OnAttack();
+
+        //StartCoroutine(AttackingControlFreeze(Character_AttackDuration));
 
         Ray detectray = MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -85,7 +89,14 @@ public class CharacterBasicAttackController : MonoBehaviour
         AttackCDTimer = Time.time + Character_AttackCD;
     }
 
-    public void AttackCheck() // Check did or didn't hit any enemy.
+    /*IEnumerator AttackingControlFreeze(float duration) // maybe attack freeze in bullet dodge game is not a good idea.
+    {
+        Character_MoveCon.Can_Control = false;
+        yield return new WaitForSeconds(duration);
+        Character_MoveCon.Can_Control = true;
+    }*/
+
+    public void AttackCheck() // Check did or didn't hit any enemy. This will called by animation event.
     {
         Collider[] detectedcolliders = Physics.OverlapSphere(AttackPointTrans.position, AttackRangeRadius);
         foreach (Collider item in detectedcolliders)
@@ -96,19 +107,31 @@ public class CharacterBasicAttackController : MonoBehaviour
                 item.gameObject.GetComponent<Monster_StatusAndUIController>().beAttacked(damageinfo);
                 //Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
 
+                HitPauseManager.HitPauseStopTime(Character_HitPauseStopDuration);
+
                 if ( DefaultHitEffectPrefab != null )
                 {
-                    Transform trans = Instantiate(DefaultHitEffectPrefab,item.ClosestPoint(transform.position),Quaternion.identity).transform;
-                    trans.LookAt(transform);
-
-                    if ( damageinfo.x==1 ) // mean this hit is critical
-                    {
-                        trans.localScale = new Vector3(2f, 2f, 2f);
-                    }
-
+                    StartCoroutine(WaitSpawnPrefab(item,damageinfo));
                 }
             }
         }
+    }
+
+    IEnumerator WaitSpawnPrefab(Collider item, Vector2 damageinfo) // Wait until hit pause effect end, then run the hit effect prefab.
+    {
+        Vector3 closestpoint = item.ClosestPoint(transform.position); // Sometime when hit effec end, monster collider is already destryoed.
+        while ( Time.timeScale != 1f)
+        {
+            yield return null;
+        }
+        Transform trans = Instantiate(DefaultHitEffectPrefab, closestpoint, Quaternion.identity).transform;
+        trans.LookAt(transform);
+
+        if ( damageinfo.x==1 ) // mean this hit is critical
+        {
+            trans.localScale = new Vector3(2f, 2f, 2f);
+        }
+        Destroy(trans.gameObject, 3f);
     }
 
     private float InvincibleTimer = 0f;
@@ -116,9 +139,11 @@ public class CharacterBasicAttackController : MonoBehaviour
     {
         if (Time.time < InvincibleTimer)
         {
-            Debug.Log("Player is invincible now!");
+            // Debug.Log("Player is invincible now!");
             return;
         }
+
+        HitPauseManager.HitPauseStopTime(Character_GetHitedHitPauseStopDuration);
 
         Color color = GetHitEffect.color;
         color.a = 0.8f;
@@ -137,7 +162,7 @@ public class CharacterBasicAttackController : MonoBehaviour
         float al = color.a;
         while ( GetHitEffect.color.a > 0 )
         {
-            color.a -= al / Character_InvincibleTime * Time.deltaTime;
+            color.a -= al / Character_InvincibleTime * Time.unscaledDeltaTime;
             GetHitEffect.color = color;
             //Debug.Log(al+" "+color.a);
             yield return null;

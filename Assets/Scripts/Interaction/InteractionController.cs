@@ -96,9 +96,7 @@ public class InteractionController : MonoBehaviour
 
     private void PlayerStartInteraction()
     {
-        Player_MoveCon.StopMoving();
         Is_Interacting = true;
-        Player_BasicAttackCon.Can_Attack = false;
         Player_MoveCon.Can_Control = false;
     }
 
@@ -107,7 +105,6 @@ public class InteractionController : MonoBehaviour
         Is_Interacting = false;
         Is_ChangingGameState = false;
         Is_Transacting = false;
-        Player_BasicAttackCon.Can_Attack = true;
         Player_MoveCon.Can_Control = true;
         InteractionUICon.HideAllInteractionUI();
     }

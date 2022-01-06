@@ -66,7 +66,6 @@ public class EntireInventoryController : MonoBehaviour
     // Because sometime stil need inventory hierachy outside the inventory, so can't simplely disactive Inventory panel.
     // But turn on or off canvas still cost some performance.
     {
-        PlayerBasciAttack_Con.Can_Attack = !OnOff;
         Canvas_Inventory.enabled = OnOff;
         //CardBattleCon.Activate(!OnOff);
     }

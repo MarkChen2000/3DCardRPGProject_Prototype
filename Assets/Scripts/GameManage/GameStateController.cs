@@ -18,9 +18,9 @@ public class GameStateController : MonoBehaviour
     public Transform PrepareZoneSpawnPoint;
     public GameObject Player;
 
-    private PlayerStatusController PlayerStatusCon;
-    private EntireInventoryController EntireInvCon;
-    private CardBattleController CardBattleCon;
+    PlayerStatusController PlayerStatusCon;
+    EntireInventoryController EntireInvCon;
+    CardBattleController CardBattleCon;
     private void Awake()
     {
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
@@ -48,7 +48,7 @@ public class GameStateController : MonoBehaviour
 
     }
 
-    private void EnterCombat()
+    void EnterCombat()
     {
         CurrentGameState = GameState.Combat;
         Player.transform.position = CombatZoneSpawnPoint.position;
@@ -61,7 +61,7 @@ public class GameStateController : MonoBehaviour
         CardBattleCon.EnterCombatInitialize();
     }
 
-    private void EnterVillage()
+    void EnterVillage()
     {
         CurrentGameState = GameState.Prepare;
         Player.transform.position = PrepareZoneSpawnPoint.position;

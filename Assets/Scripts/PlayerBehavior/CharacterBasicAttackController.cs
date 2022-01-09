@@ -6,28 +6,29 @@ using UnityEngine.UI;
 public class CharacterBasicAttackController : MonoBehaviour
 {
     public Camera MainCamera;
-    private Transform Trans_Camera;
+    Transform Trans_Camera;
 
     public Transform AttackPointTrans;
     public GameObject DefaultHitEffectPrefab;
     public Image GetHitEffect;
 
-    private BattleHitPauseManager HitPauseManager;
-    private CharacterMovementController Character_MoveCon;
-    private BattleValueCalculator BattleValueCal;
-    private PlayerAnimationController Player_AnimationCon;
-    private PlayerStatusController PlayerStatusCon;
+    BattleHitPauseManager HitPauseManager;
+    CharacterMovementController Character_MoveCon;
+    BattleValueCalculator BattleValueCal;
+    PlayerAnimationController Player_AnimationCon;
+    PlayerStatusController PlayerStatusCon;
 
     public float AttackRangeRadius = 5f;
-    public float Character_AttackCD = 1f;
-    public float Character_AttackDuration = 1f;
-    public float Character_HitPauseStopDuration = 0.1f;
-    public float Character_GetHitedHitPauseStopDuration = 0.3f;
-    public float Character_InvincibleTime = 1f;
+    public float AttackCD = 1f;
+    //public float AttackDuration = 1f;
+    public float HitPauseStopDuration = 0.1f;
+    public float HitPauseRestoreTime = 0.1f;
+    public float GetHittedHitPauseStopDuration = 0.3f;
+    public float GetHittedHitPauseRestoreTime = 0.5f;
+    public float InvincibleTime = 1f;
 
     [Tooltip("The time that make character turn in Staring state, which will make character stop turning toward the moveing direction.")]
-    public float Character_AttackStaringTime = 2f;
-
+    public float AttackStaringTime = 2f;
     public float AttackTurningSmoothTime = 0.001f; // the time of character turning to target angle.
     float attacktunringsmooth_velocity;
 
@@ -41,7 +42,7 @@ public class CharacterBasicAttackController : MonoBehaviour
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
-    private void Start()
+    void Start()
     {
         if (MainCamera == null) MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
         Trans_Camera = MainCamera.GetComponent<Transform>();
@@ -55,8 +56,8 @@ public class CharacterBasicAttackController : MonoBehaviour
         }
     }
 
-    private float AttackCDTimer = 0f;
-    private void OnAttack() // Check the mouse ckilck
+    float AttackCDTimer = 0f;
+    void OnAttack() // Check the mouse ckilck
     {
         if ( Time.time < AttackCDTimer )
         {
@@ -80,13 +81,13 @@ public class CharacterBasicAttackController : MonoBehaviour
             float smoothed_targetangle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetangle, ref attacktunringsmooth_velocity, AttackTurningSmoothTime);
             transform.rotation = Quaternion.Euler(0f, smoothed_targetangle, 0f);
 
-            Character_MoveCon.RefreshStaringDurationTimer(Character_AttackStaringTime);
+            Character_MoveCon.RefreshStaringDurationTimer(AttackStaringTime);
 
             //Debug.Log("Attack! Target:" + MouseClickPos);
         }
         //else Debug.Log("Attack fail! didn't find a target!");
 
-        AttackCDTimer = Time.time + Character_AttackCD;
+        AttackCDTimer = Time.time + AttackCD;
     }
 
     /*IEnumerator AttackingControlFreeze(float duration) // maybe attack freeze in bullet dodge game is not a good idea.
@@ -107,7 +108,7 @@ public class CharacterBasicAttackController : MonoBehaviour
                 item.gameObject.GetComponent<Monster_StatusAndUIController>().beAttacked(damageinfo);
                 //Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
 
-                HitPauseManager.HitPauseStopTime(Character_HitPauseStopDuration);
+                HitPauseManager.HitPauseStopTime(HitPauseStopDuration, HitPauseRestoreTime);
 
                 if ( DefaultHitEffectPrefab != null )
                 {
@@ -134,7 +135,7 @@ public class CharacterBasicAttackController : MonoBehaviour
         Destroy(trans.gameObject, 3f);
     }
 
-    private float InvincibleTimer = 0f;
+    float InvincibleTimer = 0f;
     public void PlayerBeAttack(int damage)
     {
         if (Time.time < InvincibleTimer)
@@ -143,7 +144,7 @@ public class CharacterBasicAttackController : MonoBehaviour
             return;
         }
 
-        HitPauseManager.HitPauseStopTime(Character_GetHitedHitPauseStopDuration);
+        HitPauseManager.HitPauseStopTime(GetHittedHitPauseStopDuration, GetHittedHitPauseRestoreTime);
 
         Color color = GetHitEffect.color;
         color.a = 0.8f;
@@ -154,23 +155,22 @@ public class CharacterBasicAttackController : MonoBehaviour
         //Debug.Log("Player take " + finaldamage);
         PlayerStatusCon.TakeDamage( finaldamage );
 
-        InvincibleTimer = Time.time + Character_InvincibleTime;
+        InvincibleTimer = Time.time + InvincibleTime;
     }
 
-    private IEnumerator ReduceGetHitEffectAlpha(Color color)
+    IEnumerator ReduceGetHitEffectAlpha(Color color)
     {
         float al = color.a;
         while ( GetHitEffect.color.a > 0 )
         {
-            color.a -= al / Character_InvincibleTime * Time.unscaledDeltaTime;
+            color.a -= al / InvincibleTime * Time.unscaledDeltaTime;
             GetHitEffect.color = color;
             //Debug.Log(al+" "+color.a);
             yield return null;
         }
     }
 
-
-    private void OnDrawGizmos() // This draw the attack range radius.
+    void OnDrawGizmos() // This draw the attack range radius.
     {
         Gizmos.color = new Color(255f, 0f, 0f);
         Gizmos.DrawWireSphere(AttackPointTrans.position, AttackRangeRadius);

@@ -51,10 +51,6 @@ public class InventoryController : MonoBehaviour
         UpdatePageNum();
     }
 
-    private void Update()
-    { 
-    }
-
     private void InitializeLoadinData()
     {
         // InvCardList = _InvCardListAsset._CardList; // only copy it's reference.
@@ -192,7 +188,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    public void TryTransferCard(InventoryCard_DataLoaderAndDisplay card_template) 
+    public void TryTransferCard(BasicCard_DataLoaderAndDisplay card_template) 
         // Try to transfer card from this list to another list,
         // need to get the component of cardt template, and get the carddata and holdnum from it.
     {

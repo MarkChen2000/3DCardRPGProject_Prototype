@@ -13,41 +13,39 @@ public enum TemplateType
 
 public class CardTemplate_DragDropListener: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    public TemplateType _TemplateType; 
+    public TemplateType _TemplateType;
+
+    BasicCard_DataLoaderAndDisplay BasicCard_DataLoader;
 
     private InventoryController Inventory_Con;
-    private InventoryCard_DataLoaderAndDisplay Card_DataLoader;
-
     private CardDeckController Deck_Con;
-    private DeckCard_DataLoaderAndDisplay DeckCard_DataLoader;
-
     private EquipmentSlotController EquipSlot_Con;
-    private EquipmentCard_DataLoaderAndDisplay EquipCard_DataLoader;
 
-    private Canvas Canvas_Invetory;
+    //private Canvas Canvas_Invetory;
     private RectTransform RTrans_Template;
     public Vector3 BiggerScale = new Vector3(1.1f, 1.1f, 1.1f);
 
-    private Vector3 OriginPos ;
+    //private Vector3 OriginPos ;
 
     void Awake()
     {
+
         switch ( _TemplateType ) // According to which type of the template, choose different function.
         {
             case TemplateType.InventoryTem:
                 Inventory_Con = transform.root.GetComponent<InventoryController>();
-                Card_DataLoader = GetComponent<InventoryCard_DataLoaderAndDisplay>();
+                BasicCard_DataLoader = GetComponent<InventoryCard_DataLoaderAndDisplay>();    
                 break;
             case TemplateType.DeckTem:
                 Deck_Con = transform.root.GetComponent<CardDeckController>();
-                DeckCard_DataLoader = GetComponent<DeckCard_DataLoaderAndDisplay>();
+                BasicCard_DataLoader = GetComponent<DeckCard_DataLoaderAndDisplay>();
                 break;
             case TemplateType.EquidmentTem:
                 EquipSlot_Con = transform.root.GetComponent<EquipmentSlotController>();
-                EquipCard_DataLoader = GetComponent<EquipmentCard_DataLoaderAndDisplay>();
+                BasicCard_DataLoader = GetComponent<EquipmentCard_DataLoaderAndDisplay>();
                 break;
         }
-        Canvas_Invetory = transform.root.GetChild(0).GetComponent<Canvas>();
+        //Canvas_Invetory = transform.root.GetChild(0).GetComponent<Canvas>();
         RTrans_Template = GetComponent<RectTransform>();
     }
 
@@ -108,16 +106,13 @@ public class CardTemplate_DragDropListener: MonoBehaviour, IPointerEnterHandler,
         switch (_TemplateType)
         {
             case TemplateType.InventoryTem:
-                Inventory_Con.TryTransferCard(Card_DataLoader);
-
+                Inventory_Con.TryTransferCard(BasicCard_DataLoader);
                 break;
             case TemplateType.DeckTem:
-                Deck_Con.TryTransferCardtoInv(DeckCard_DataLoader);
-
+                Deck_Con.TryTransferCardtoInv(BasicCard_DataLoader);
                 break;
             case TemplateType.EquidmentTem:
-                EquipSlot_Con.TryTransferCardtoInv(EquipCard_DataLoader);
-
+                EquipSlot_Con.TryTransferCardtoInv(BasicCard_DataLoader);
                 break;
         }
     }

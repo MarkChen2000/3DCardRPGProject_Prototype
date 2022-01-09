@@ -202,7 +202,7 @@ public class EquipmentSlotController : MonoBehaviour
         TMP_ArmorDPnDSP.text = "Armor DP: " + Armor_DP ;
     }
 
-    public void TryTransferCardtoInv(EquipmentCard_DataLoaderAndDisplay card_template)
+    public void TryTransferCardtoInv(BasicCard_DataLoaderAndDisplay card_template)
     {
         if (Inv_Con.ReceiveCard(card_template._CardData))
         {

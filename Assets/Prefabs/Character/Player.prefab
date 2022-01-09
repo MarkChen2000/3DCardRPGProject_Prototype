@@ -716,9 +716,9 @@ GameObject:
   - component: {fileID: 6809342868761202776}
   - component: {fileID: 6809342868761202782}
   - component: {fileID: 1545948251}
-  - component: {fileID: 2742854516619651996}
   - component: {fileID: 5308112080287965849}
   - component: {fileID: 126067212943068835}
+  - component: {fileID: 2742854516619651996}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -780,8 +780,9 @@ MonoBehaviour:
   MoveActSpeed: 0.4
   TurningSmoothTime: 0.1
   Is_Staring: 0
-  Dash_CD: 1
-  Dash_Speed: 500
+  Dodge_CD: 1
+  DodgeSpeedAdjustment: 0.2
+  DodgeDuration: 0.2
 --- !u!114 &6809342868761202782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,9 +797,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 0}
   AttackPointTrans: {fileID: 6809342868567580041}
-  Can_Attack: 0
+  DefaultHitEffectPrefab: {fileID: 0}
+  GetHitEffect: {fileID: 0}
   AttackRangeRadius: 2
   Character_AttackCD: 1
+  Character_AttackDuration: 1
+  Character_HitPauseStopDuration: 0.1
+  Character_GetHitedHitPauseStopDuration: 0.3
+  Character_InvincibleTime: 1
   Character_AttackStaringTime: 1.5
   AttackTurningSmoothTime: 0.001
 --- !u!114 &1545948251
@@ -814,25 +820,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCan_InteractionRadius: 5
---- !u!95 &2742854516619651996
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6809342868761202778}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bef5b23ff5d649346b1dae65f42925dc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &5308112080287965849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,6 +845,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponHoldingSpot: {fileID: 4910597172841679380}
+--- !u!95 &2742854516619651996
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6809342868761202778}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bef5b23ff5d649346b1dae65f42925dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7127663547278531040
 GameObject:
   m_ObjectHideFlags: 0

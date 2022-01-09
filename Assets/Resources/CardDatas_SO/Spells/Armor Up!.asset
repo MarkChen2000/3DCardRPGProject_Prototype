@@ -18,8 +18,7 @@ MonoBehaviour:
   CardDescription: Gain 5 Armor, Draw a card.
   _CardType: 0
   CardCost: 5
-  _SpellsEffectType: 0
-  SpellsEffectValue: 0
+  Ability: {fileID: 0}
   CardLv: 0
   _EquipmentType: 0
   EquipmentPrefab: {fileID: 0}

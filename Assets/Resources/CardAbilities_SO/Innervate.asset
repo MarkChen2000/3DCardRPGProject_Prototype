@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpellsActivateEffectPrefab: {fileID: 1502869141874036319, guid: 84545da12a3252e43a9833e1fad6b7e6,
     type: 3}
-  ActivateEffectLifeTime: 1
+  ActivateEffectLifeTime: 2
   RestoreType: 1
   RestoreAmount: 2

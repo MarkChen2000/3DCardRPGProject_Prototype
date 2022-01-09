@@ -6,19 +6,6 @@ public class BattleManager : MonoBehaviour
 {
     //private GameObject monster;
     private CardData card;
-    private PlayerStatusController playerStatusCon;
-    private GameObject currentPrefab;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
-    }
-
-    public void currentTarget(GameObject gameObject)
-    {
-        //this.monster = gameObject;
-    }
 
     public void executeCard(CardData card, Vector3 mousePosition)
     {

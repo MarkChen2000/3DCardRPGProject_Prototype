@@ -18,11 +18,10 @@ MonoBehaviour:
   CardDescription: 
   _CardType: 1
   CardCost: 0
-  _SpellsEffectType: 0
-  SpellsEffectValue: 0
+  Ability: {fileID: 0}
   CardLv: 4
   _EquipmentType: 0
-  EquipmentPrefab: {fileID: 1220633678843950, guid: 944fc80616e7ee844bc7a8f312cd5b6a,
+  EquipmentPrefab: {fileID: 1220633678843950, guid: 993bf4a6980db5342bb36ce8d00a228e,
     type: 3}
   EquipmentBonusHP: 0
   EquipmentBonusPW: 0

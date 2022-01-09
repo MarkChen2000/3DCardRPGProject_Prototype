@@ -149,7 +149,7 @@ public class CardDeckController : MonoBehaviour
         TMP_DeckCapacityNumText.text = currentcardnum + "/" + DeckHoldLimit;
     }
 
-    public void TryTransferCardtoInv(DeckCard_DataLoaderAndDisplay card_template)
+    public void TryTransferCardtoInv(BasicCard_DataLoaderAndDisplay card_template)
     // Try to transfer card from this list to another list,
     // need to get the component of cardt template, and get the carddata and holdnum from it.
     {

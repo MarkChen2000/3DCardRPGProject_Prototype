@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class EntireInventoryController : MonoBehaviour
 {
-    private CharacterBasicAttackController PlayerBasciAttack_Con;
+    //CharacterBasicAttackController PlayerBasciAttack_Con;
+    CharacterMovementController PlayerMovement_Con;
 
-    private InventoryController InventoryCon;
-    private EquipmentSlotController EquipmentCon;
-    private CardDeckController DeckCon;
+    InventoryController InventoryCon;
+    EquipmentSlotController EquipmentCon;
+    CardDeckController DeckCon;
     //private CardBattleController CardBattleCon;
 
-    private GameObject Panel_DisableInventoryBarrier;
-    private Canvas Canvas_Inventory;
+    GameObject Panel_DisableInventoryBarrier;
+    Canvas Canvas_Inventory;
 
-    private void Awake()
+    void Awake()
     {
-        PlayerBasciAttack_Con = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
+        //PlayerBasciAttack_Con = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
+        PlayerMovement_Con = GameObject.Find("Player").GetComponent<CharacterMovementController>();
 
         InventoryCon = GetComponent<InventoryController>();
         EquipmentCon = GetComponent<EquipmentSlotController>();
@@ -61,13 +63,13 @@ public class EntireInventoryController : MonoBehaviour
         DeckCon.SaveandLoadCardDeck(SorL);
     }
 
-    private void SwitchInventoryOnOff(bool OnOff) // true mean on, false mean off.
+    void SwitchInventoryOnOff(bool OnOff) // true mean on, false mean off.
     // TurnOn or Off the Inventory UI.
     // Because sometime stil need inventory hierachy outside the inventory, so can't simplely disactive Inventory panel.
     // But turn on or off canvas still cost some performance.
     {
         Canvas_Inventory.enabled = OnOff;
-        //CardBattleCon.Activate(!OnOff);
+        PlayerMovement_Con.Can_Control = !OnOff;
     }
 
     public void SwitchInventoryBarrierOnOff(bool OnOff)

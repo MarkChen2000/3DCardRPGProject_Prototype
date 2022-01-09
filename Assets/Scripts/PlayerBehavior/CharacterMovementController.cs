@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CharacterMovementController : MonoBehaviour
 {
-    private PlayerStatusController PlayerStatus_Con;
+    PlayerStatusController PlayerStatus_Con;
     PlayerAnimationController PlayerAnimation_Con;
 
     [Tooltip("According to this camera direction, define which direction is forward.")]
@@ -29,6 +29,9 @@ public class CharacterMovementController : MonoBehaviour
     float Last_FacingAngle;
     float tunringsmooth_velocity;
 
+    Transform RunningSmokeEffectSpot_Trans;
+    public GameObject DodgeSmokeEffectPrefab;
+    public float SmokeEffectLifeTIme = 1f;
     public float Dodge_CD = 1f;
     //public float Dash_Speed = 75f;
     public float DodgeSpeedAdjustment = 0.2f;
@@ -43,6 +46,7 @@ public class CharacterMovementController : MonoBehaviour
         PlayerAnimation_Con = GetComponent<PlayerAnimationController>();
 
         PlayerStatus_Con = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        RunningSmokeEffectSpot_Trans = transform.GetChild(3).transform;
     }
 
     private void Start()
@@ -57,10 +61,8 @@ public class CharacterMovementController : MonoBehaviour
         if (Can_Control == false) return; // All the character control function has to be write down at below.
 
         Move_Dir = PlayerMovementInput();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(StartDodge() );
-        }
+
+        if (Input.GetKeyDown(KeyCode.Space)) Dodge();
 
         Is_Staring = Is_StaringCheck();
     }
@@ -143,29 +145,44 @@ public class CharacterMovementController : MonoBehaviour
 
         dashtimer = Time.time + Dash_CD;
     }*/
-    private float dodgetimer = 0f;
 
-    // This is a more complicated method to do dash move.
+    float dodgetimer = 0f;
+
+    // This is a more complicated method to do dodge roll move.
+    void Dodge()
+    {
+        if (Is_Dodging)
+        {
+            Debug.Log("Now is Dodging!");
+            return;
+        }
+        if (Time.time <= dodgetimer)
+        {
+            Debug.Log("Dodge is cooling!");
+            return;
+        }
+        StartCoroutine(StartDodge());
+    }
+
     IEnumerator StartDodge()
     {
-        if (Time.time < dodgetimer)
-        {
-            Debug.Log("Dash is still cooling!");
-            yield break;
-        }
+        GameObject pf = Instantiate(DodgeSmokeEffectPrefab, RunningSmokeEffectSpot_Trans.position, Quaternion.identity);
+        Destroy(pf, SmokeEffectLifeTIme);
 
         transform.rotation = Quaternion.Euler(0f, Last_FacingAngle, 0f);
-        PlayerAnimation_Con.OnDodge();
+        PlayerAnimation_Con.OnDodgeAnim();
 
         player_controller.detectCollisions = false;
         Is_Dodging = true;
         Can_Control = false;
+        ClearMovementInput();
 
         yield return new WaitForSeconds(DodgeDuration); 
 
         player_controller.detectCollisions = true;
         Is_Dodging = false;
         Can_Control = true;
+
         dodgetimer = Time.time + Dodge_CD;
     }
 

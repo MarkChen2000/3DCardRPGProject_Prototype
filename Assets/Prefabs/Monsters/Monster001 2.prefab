@@ -135,9 +135,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6630278928408616729}
-  - component: {fileID: 6356671152541336777}
   - component: {fileID: 430143161186971138}
   - component: {fileID: 4112568296426453835}
+  - component: {fileID: 6356671152541336777}
   - component: {fileID: 6254253458554007297}
   - component: {fileID: 3410773583183512033}
   m_Layer: 0
@@ -165,24 +165,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6356671152541336777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1749953604448350833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7461dbaecb4a98d49a59b07c0bc4b422, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  attackInterval: 1
-  monsterType: 2
-  bulletPrefab: {fileID: 2452121095942814792, guid: 0402dffedd5cc6c448fb305dd4c95a8c,
-    type: 3}
-  OnAttackMode: 0
 --- !u!114 &430143161186971138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,7 +172,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749953604448350833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83c39f7dcbb9d264faeab56bb17dab03, type: 3}
   m_Name: 
@@ -210,11 +192,27 @@ MonoBehaviour:
   Use_UIPrefabSystem: 1
   HealthUI_Prefab: {fileID: 6106112702425932254, guid: 627928379991a7d40a582415ee914d31,
     type: 3}
-  PopupDamageValue_Prefab: {fileID: 6106112702425932254, guid: b7a81d23ba7559047b98c7262c755381,
+  DeathEffectPrefab: {fileID: 1096352044232144, guid: 6d481c7378310634fb7888ce73947e6b,
     type: 3}
   _MonsterStatus: {fileID: 11400000, guid: 238d8a720c1306c45b3be92822fd0cde, type: 2}
-  DeathEffectPrefab: {fileID: 1096352044232144, guid: 6e4b9c1925f0d3f4d8446e551a2e20d3,
+--- !u!114 &6356671152541336777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749953604448350833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7461dbaecb4a98d49a59b07c0bc4b422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  attackInterval: 1
+  monsterType: 2
+  bulletPrefab: {fileID: 2452121095942814792, guid: 0402dffedd5cc6c448fb305dd4c95a8c,
     type: 3}
+  OnAttackMode: 0
 --- !u!64 &6254253458554007297
 MeshCollider:
   m_ObjectHideFlags: 0

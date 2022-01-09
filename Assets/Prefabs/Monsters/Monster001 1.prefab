@@ -169,7 +169,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749953604448350833}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83c39f7dcbb9d264faeab56bb17dab03, type: 3}
   m_Name: 
@@ -189,11 +189,9 @@ MonoBehaviour:
   Use_UIPrefabSystem: 1
   HealthUI_Prefab: {fileID: 6106112702425932254, guid: 627928379991a7d40a582415ee914d31,
     type: 3}
-  PopupDamageValue_Prefab: {fileID: 6106112702425932254, guid: b7a81d23ba7559047b98c7262c755381,
+  DeathEffectPrefab: {fileID: 1096352044232144, guid: 6d481c7378310634fb7888ce73947e6b,
     type: 3}
   _MonsterStatus: {fileID: 11400000, guid: fc2b1e0c3e6b283409187f706e59062a, type: 2}
-  DeathEffectPrefab: {fileID: 1096352044232144, guid: 6e4b9c1925f0d3f4d8446e551a2e20d3,
-    type: 3}
 --- !u!114 &2289590919644430543
 MonoBehaviour:
   m_ObjectHideFlags: 0

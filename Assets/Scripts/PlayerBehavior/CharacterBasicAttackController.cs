@@ -152,7 +152,7 @@ public class CharacterBasicAttackController : MonoBehaviour
 
         int finaldamage = BattleValueCal.PlayerTakeDamageCalculate(damage);
         //Debug.Log("Player take " + finaldamage);
-        PlayerStatusCon.TakeDamae( finaldamage );
+        PlayerStatusCon.TakeDamage( finaldamage );
 
         InvincibleTimer = Time.time + Character_InvincibleTime;
     }

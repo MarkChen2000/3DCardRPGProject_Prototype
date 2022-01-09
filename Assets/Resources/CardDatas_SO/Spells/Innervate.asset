@@ -18,8 +18,7 @@ MonoBehaviour:
   CardDescription: Gain 2 manas.
   _CardType: 0
   CardCost: 0
-  _SpellsEffectType: 0
-  SpellsEffectValue: 0
+  Ability: {fileID: 11400000, guid: b2a7a197c2e11b6499baecf6c84497f1, type: 2}
   CardLv: 0
   _EquipmentType: 0
   EquipmentPrefab: {fileID: 0}

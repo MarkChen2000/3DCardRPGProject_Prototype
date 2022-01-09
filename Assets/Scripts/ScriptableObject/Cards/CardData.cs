@@ -6,10 +6,10 @@ public enum CardType // Every card will be either spells or equipment.
     Spells, Equipment
 }
 
-public enum SpellsEffectType
+/*public enum SpellsEffectType
 {
     Damage, Heal, Duration, Distance
-}
+}*/
 
 public enum BonusType // Only Equipment have Bonus Value
 {
@@ -40,8 +40,9 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     [Space]
     [Header("For Spell Card")]
     public int CardCost = 0;
-    public SpellsEffectType _SpellsEffectType = SpellsEffectType.Damage;
-    public int SpellsEffectValue = 0;
+    //public SpellsEffectType _SpellsEffectType = SpellsEffectType.Damage;
+    //public int SpellsEffectValue = 0;
+    public CardAbility Ability;
 
     [Space]
     [Header("For Equipment Card")]
@@ -64,10 +65,15 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
     public int ArmorDP = 1;
     public int ArmorDSP = 0; // the debuff for the speed.
 
-
     // public int CardHoldNum = 1; // doesnt need holdnum now because that one element in list is meaning one single card.
 
-    public void ExecuteCardFunction(string cardName, Vector3 direction, PlayerStatusController playerStatusCon, GameObject prefab) // run the card function at here.
+    public void ActivateCardAbility(Vector3 mousePosition)
+    {
+        Ability.ActivateCardAbility(mousePosition);
+    }
+
+    // Now using new card function system.
+    /*public void ExecuteCardFunction(string cardName, Vector3 direction, PlayerStatusController playerStatusCon, GameObject prefab) // run the card function at here.
     {
         // 12.12 change playerstatus to playerstatuscontroller for the SO usage change.
         if (CardName == "Fire Ball")
@@ -88,9 +94,10 @@ public class CardData : ScriptableObject, IComparable // IComparable is for usin
             prefab = GameObject.Find("BattleManager").GetComponent<PrefabController>().InnervatePrefab;
             GameObject newPrefab = Instantiate(prefab);
         }
-    }
+    }*/
 
     public int CompareTo(object obj) // This is how to sort data of this type (Carddata).
+        // Using IComparable interface.
     {
         CardData carddata = (CardData)obj; // Change the type of obj to CardData
 

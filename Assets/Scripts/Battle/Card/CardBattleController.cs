@@ -113,9 +113,7 @@ public class CardBattleController : MonoBehaviour
 
     public void updateStatus(CardData card)
     {
-        Dictionary<string, int> statusDict = PlayerStatusCon.GetStatus();
-        PlayerStatusCon.UpdateStatus("currentMana", -card.CardCost);
-        _StstusUIManager.UpdateOneStatusDisplay(StatusType.Mana);
+        PlayerStatusCon.SpellsCostMana(card.CardCost);
     }
 
     public void DrawCard()

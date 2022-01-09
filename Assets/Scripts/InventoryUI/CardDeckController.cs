@@ -19,6 +19,7 @@ public class CardDeckController : MonoBehaviour
     public int DeckHoldLimit = 30;
 
     [Space]
+    [Tooltip("If you leave this reference as null, it will automatical reference the gameplay data.\nIn other word, you can reference testing data if you want to, but eventually need to leave this as null before building.")]
     public CardList _CardDeckAsset; // CardList-type asset.
     public List<CardData> DeckCardList = new List<CardData>();
 
@@ -30,7 +31,7 @@ public class CardDeckController : MonoBehaviour
         Trans_DeckCardGridGroup = Trans_InventoryPanelBG.GetChild(0).GetChild(0);
         TMP_DeckCapacityNumText = Trans_InventoryPanelBG.GetChild(0).GetChild(1).GetChild(1).GetComponent<TMP_Text>();
 
-        if (_CardDeckAsset == null) _CardDeckAsset = Resources.Load<CardList>("CardLists_SO/Testing_BattleCardList");
+        if (_CardDeckAsset == null) _CardDeckAsset = Resources.Load<CardList>("CardLists_SO/Player_BattleCardList");
         // Load initial DeckCardList asset first, this may be replaced by Save and Load System before build!
     }
 

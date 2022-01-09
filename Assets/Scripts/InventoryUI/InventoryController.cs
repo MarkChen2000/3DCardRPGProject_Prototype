@@ -24,6 +24,7 @@ public class InventoryController : MonoBehaviour
     private int MaxPage = 1;
 
     [Space]
+    [Tooltip("If you leave this reference as null, it will automatical reference the gameplay data.\nIn other word, you can reference testing data if you want to, but eventually need to leave this as null before building.")]
     public CardList _InvCardListAsset; // InventoryController_CardList, the CardList-type asset
     public List<CardData> InvCardList = new List<CardData>(); // CardList that store at this script
 
@@ -38,7 +39,7 @@ public class InventoryController : MonoBehaviour
         Trans_InvCardsGridGroup = Trans_InventoryPanelBG.GetChild(1).GetChild(0);
         TMP_PageNum = Trans_InventoryPanelBG.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
 
-        if (_InvCardListAsset == null) _InvCardListAsset = Resources.Load<CardList>("CardLists_SO/Testing_InventoryCardList");
+        if (_InvCardListAsset == null) _InvCardListAsset = Resources.Load<CardList>("CardLists_SO/Player_InventoryCardList");
         // Load initial InvCardList asset first, this may be replaced by Save and Load System before build!
     }
 

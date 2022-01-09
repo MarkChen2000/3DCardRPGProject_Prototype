@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerStatusController : MonoBehaviour
 {
-
+    [Tooltip("If you leave this reference as null, it will automatical reference the gameplay data.\nIn other word, you can reference testing data if you want to, but eventually need to leave this as null before building.")]
     public PlayerStatus _PlayerStatus;
 
     // "base/baseMax" mean the character basic value
@@ -15,8 +15,8 @@ public class PlayerStatusController : MonoBehaviour
     [HideInInspector] public int EXP = 0;
     [HideInInspector] public int nextLVEXP = 100; // how much exp till level up.
     [HideInInspector] public int baseMaxHP = 100;
-    [HideInInspector] public int currentMaxHP;
-    [HideInInspector] public int currentHP;
+    [HideInInspector] public int currentMaxHP; /*{ get ; private set; }*/
+    [HideInInspector] public int currentHP; /*{ get ; private set; }*/
     [HideInInspector] public int basePW = 10;
     [HideInInspector] public int currentPW;
     [HideInInspector] public int baseMP = 10; // Magic Power is difference with Amount of Mana.
@@ -29,10 +29,9 @@ public class PlayerStatusController : MonoBehaviour
     [HideInInspector] public float currentManaRT;
     [HideInInspector] public float baseSP = 100; 
     [HideInInspector] public float currentSP;
-
     [HideInInspector] public int Money = 0;
 
-    private StatusUIManager statusUIManager;
+    private StatusUIManager _StatusUIManager;
 
 
     // Start is called before the first frame update
@@ -43,7 +42,7 @@ public class PlayerStatusController : MonoBehaviour
         // Load initial player status asset first, this may be replaced by Save and Load System before build.
         InitializeLoadinData();
 
-        this.statusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
+        _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
     }
 
     public void SaveandLoadPlayerStatus(bool SorL)
@@ -57,16 +56,7 @@ public class PlayerStatusController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (this.currentHP <= 0)
-        {
-            SceneManager.LoadScene("Scene_Field");
-        }
-    }
-
-
-    private void InitializeLoadinData()
+    void InitializeLoadinData()
     {
         LV = _PlayerStatus.LV;
         EXP = _PlayerStatus.EXP;
@@ -89,7 +79,10 @@ public class PlayerStatusController : MonoBehaviour
         currentSP = baseSP;
     }
 
-    public Dictionary<string, int> GetStatus()
+    // If you want to secure the safty of variables, can use { get; private set } method to protect variables from changing by other scripts.
+    // But I think that is not necessary in this situation.
+
+    /*public Dictionary<string, int> GetStatus()
     {
         Dictionary<string, int> statusDict = new Dictionary<string, int>();
         statusDict.Add("LV", this.LV);
@@ -106,21 +99,21 @@ public class PlayerStatusController : MonoBehaviour
         statusDict.Add("currentMaxMana", this.currentMaxMana);
         statusDict.Add("currentMana", this.currentMana);
 
-        /*statusDict.Add("baseManaRecoveryTime", this.baseManaRT); // These variables have to be float type !! So can not fit into here...
+        *//*statusDict.Add("baseManaRecoveryTime", this.baseManaRT); // These variables have to be float type !! So can not fit into here...
         statusDict.Add("baseSP", this.baseSP);
-        statusDict.Add("currentSP", this.currentSP);*/
+        statusDict.Add("currentSP", this.currentSP);*//*
 
         statusDict.Add("Money", this.Money);
 
         return statusDict;
-    }
+    }*/
 
-    public void UpdateStatus(string name, int value)
+    /*public void UpdateStatus(string name, int value)
     {
         if (name.Equals("currentMana"))
         {
             this.currentMana += value;
-            this.statusUIManager.UpdateAllStatusDisplay();
+            this._StatusUIManager.UpdateAllStatusDisplay();
         }
         else if (name.Equals("currentHP"))
         {
@@ -140,43 +133,86 @@ public class PlayerStatusController : MonoBehaviour
                 }
             }
 
-            this.statusUIManager.UpdateAllStatusDisplay();
+            this._StatusUIManager.UpdateAllStatusDisplay();
         }
+    }*/
+
+    public void SpellsCostMana(int cost)
+    {
+        Debug.Log("Cost " + cost + " mana(s)!");
+        currentMana = (int)Mathf.Clamp(currentMana - cost, 0, currentMaxMana);
+        _StatusUIManager.UpdateOneStatusDisplay(StatusType.Mana);
     }
 
-    public void TakeDamae(int damage)
+    public void TakeDamage(int damage)
     {
         currentHP -= damage;
-        statusUIManager.UpdateOneStatusDisplay(StatusType.HP);
+        _StatusUIManager.UpdateOneStatusDisplay(StatusType.HP);
+
+        if ( currentHP <= 0 )
+        {
+            PlayerDead();
+        }
     }
 
     public void RefillAllStatusValue()
     {
         currentHP = currentMaxHP;
         currentMana = currentMaxMana;
-        statusUIManager.UpdateAllStatusDisplay();
+        _StatusUIManager.UpdateAllStatusDisplay();
     }
 
-    public void SwitchRestoringMana(bool OnOff)
+    public void Spells_RestoreValue(SpellsRestoreType type,int restore_amount)
     {
-        Debug.Log(currentManaRT);
-        if (OnOff) InvokeRepeating("RestoreMana", 0f, currentManaRT);
-        else CancelInvoke("RestoreMana");
-    }
-
-    private void RestoreMana()
-    {
-        if (this.currentMana < this.currentMaxMana)
+        switch ( type )
         {
-            Debug.Log("Restore 1 Mana!");
-            this.currentMana++;
-            this.statusUIManager.UpdateAllStatusDisplay();
+            case SpellsRestoreType.HP:
+                RestoreHP(restore_amount);
+                break;
+            case SpellsRestoreType.Mana:
+                RestoreMana(restore_amount);
+                break;
         }
+    }
+
+    public IEnumerator RestoringMana() 
+    {
+        while ( true ) // every frame check the mana is leas then max value.
+        {
+            while ( currentMana < currentMaxMana )
+            {
+                yield return new WaitForSeconds(currentManaRT); // after wait for RT then restore 1 mana.
+                RestoreMana(1);
+            }
+            yield return null;
+        }
+    }
+
+    void RestoreMana(int restoreamount)
+    {
+        Debug.Log("Restore Mana:"+ restoreamount);
+        currentMana = (int)Mathf.Clamp(currentMana + restoreamount, 0, currentMaxMana);
+        _StatusUIManager.UpdateOneStatusDisplay(StatusType.Mana);
+    }
+
+    void RestoreHP(int restoreamount)
+    {
+        Debug.Log("Restore HP:" + restoreamount);
+        //Debug.Log("CurrentHP:" + currentHP + " CurrentMaxHP:" + currentMaxHP + " RestoreAmount:" + restoreamount);
+        currentHP = (int)Mathf.Clamp(currentHP + restoreamount, 0, currentMaxHP);
+        _StatusUIManager.UpdateOneStatusDisplay(StatusType.HP);
     }
 
     public void GainMoney(int gain)
     {
+        Debug.Log("Player gains " + gain + " money!");
         Money += gain;
-        statusUIManager.UpdateOneStatusDisplay(StatusType.Money);
+        _StatusUIManager.UpdateOneStatusDisplay(StatusType.Money);
     }
+
+    void PlayerDead() // Reload the scene.
+    {
+        SceneManager.LoadScene("Scene_Field");
+    }
+
 }

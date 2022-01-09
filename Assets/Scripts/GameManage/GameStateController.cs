@@ -54,7 +54,8 @@ public class GameStateController : MonoBehaviour
         Player.transform.position = CombatZoneSpawnPoint.position;
         EntireInvCon.SwitchInventoryBarrierOnOff(true);
 
-        PlayerStatusCon.SwitchRestoringMana(true);
+        StopCoroutine(PlayerStatusCon.RestoringMana()); // just in case the coroutine doesn't stop.
+        StartCoroutine(PlayerStatusCon.RestoringMana());
         PlayerStatusCon.RefillAllStatusValue();
 
         CardBattleCon.EnterCombatInitialize();
@@ -66,7 +67,7 @@ public class GameStateController : MonoBehaviour
         Player.transform.position = PrepareZoneSpawnPoint.position;
         EntireInvCon.SwitchInventoryBarrierOnOff(false);
 
-        PlayerStatusCon.SwitchRestoringMana(false);
+        StopCoroutine(PlayerStatusCon.RestoringMana());
         PlayerStatusCon.RefillAllStatusValue();
 
         CardBattleCon.LeaveCombat();

@@ -22,6 +22,7 @@ public class EquipmentSlotController : MonoBehaviour
     private Transform Trans_EquipmentSlotGridGroup;
     private TMP_Text TMP_PlayerLV, TMP_PlayerHP, TMP_PlayerPW, TMP_PlayerMP, TMP_PlayerManaRT, TMP_PlayerSP, TMP_WeaponAPnCR, TMP_ArmorDPnDSP;
 
+    [Tooltip("If you leave this reference as null, it will automatical reference the gameplay data.\nIn other word, you can reference testing data if you want to, but eventually need to leave this as null before building.")]
     public EquipmentSlot _EquipmentSlotAsset;
     public CardData Weapon, Armor_Head, Armor_Body, Armor_Bottom, Ornament_A, Ornament_B;
 
@@ -48,7 +49,7 @@ public class EquipmentSlotController : MonoBehaviour
         Trans_EquipmentSlotGridGroup = Trans_InventoryPanelBG.GetChild(2).GetChild(2);
         GetTextCom();
 
-        if (_EquipmentSlotAsset == null) _EquipmentSlotAsset = Resources.Load<EquipmentSlot>("EquipmentSlots_SO/Testing_EquipmentSlot");
+        if (_EquipmentSlotAsset == null) _EquipmentSlotAsset = Resources.Load<EquipmentSlot>("EquipmentSlots_SO/Player_EquipmentSlot");
         // Load initial EquipmentSlot asset first, this may be replaced by Save and Load System before build!
     }
 

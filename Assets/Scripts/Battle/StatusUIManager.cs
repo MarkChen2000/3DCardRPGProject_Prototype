@@ -82,8 +82,4 @@ public class StatusUIManager : MonoBehaviour
                 break;
         }
     }
-
-    public void updateStatus(string name) {
-
-    }
 }

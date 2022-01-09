@@ -20,8 +20,9 @@ public class Carddata_CustomInspector : Editor
         {
             case CardType.Spells:
                 card.CardCost = EditorGUILayout.IntField("Card Cost", card.CardCost);
-                card._SpellsEffectType = (SpellsEffectType)EditorGUILayout.EnumPopup("Spells Effect Type", card._SpellsEffectType);
-                card.SpellsEffectValue = EditorGUILayout.IntField("Spells Effect Value", card.SpellsEffectValue);
+                //card._SpellsEffectType = (SpellsEffectType)EditorGUILayout.EnumPopup("Spells Effect Type", card._SpellsEffectType);
+                //card.SpellsEffectValue = EditorGUILayout.IntField("Spells Effect Value", card.SpellsEffectValue);
+                card.Ability = (CardAbility)EditorGUILayout.ObjectField("Card Ability", card.Ability, typeof(CardAbility), false);
                 break;
 
             case CardType.Equipment:

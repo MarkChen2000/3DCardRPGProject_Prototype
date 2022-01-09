@@ -15,20 +15,15 @@ public class BattleManager : MonoBehaviour
         playerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void currentTarget(GameObject gameObject)
     {
         //this.monster = gameObject;
     }
 
-    public void executeCard(CardData card, Vector3 direction)
+    public void executeCard(CardData card, Vector3 mousePosition)
     {
-        this.card.ExecuteCardFunction(this.card.CardName, direction, this.playerStatusCon, currentPrefab);
+        //this.card.ExecuteCardFunction(this.card.CardName, direction, this.playerStatusCon, currentPrefab);
+        this.card.ActivateCardAbility(mousePosition);
         GameObject.Find("BattleUI").GetComponent<CardBattleController>().updateStatus(card);
     }
 

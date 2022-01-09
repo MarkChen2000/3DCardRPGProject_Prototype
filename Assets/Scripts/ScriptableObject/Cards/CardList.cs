@@ -7,8 +7,6 @@ public enum CardListType { BattleCardList, InventoryCrdList, PackCardPool }
 [CreateAssetMenu(fileName = "New CardList", menuName = "Inventory/CardList")]
 public class CardList : ScriptableObject
 {
-    public string CardListName = "DefaultCardListName";
-
     public CardListType _CradListType;
 
     public List<CardData> _CardList = new List<CardData>();
@@ -35,7 +33,7 @@ public class CardList : ScriptableObject
     {
         if (_CardList.Count == 0)
         {
-            Debug.Log("Didnt have card inside the CardLIst !");
+            //Debug.Log("Didnt have card inside the CardLIst !");
         }
         else
         {

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnterCombatState
   m_EditorClassIdentifier: 
   VillagerName: Soldier
-  EnterGameState: 1
+  EnterGameState: 2
   BeforeChangeStateSystemTextList:
   - Are you ready for combat?
   - You can not change your equipment and deck in the combat!

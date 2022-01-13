@@ -15,6 +15,8 @@ public class EntireInventoryController : MonoBehaviour
     GameObject Panel_DisableInventoryBarrier;
     Canvas Canvas_Inventory;
 
+    public bool Can_TurnOnInv = false;
+
     void Awake()
     {
         //PlayerBasciAttack_Con = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
@@ -41,7 +43,7 @@ public class EntireInventoryController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I)) 
+        if (Can_TurnOnInv && Input.GetKeyDown(KeyCode.I)) 
         {
             if (Canvas_Inventory.enabled == true)
             {

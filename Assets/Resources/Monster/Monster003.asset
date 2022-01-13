@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349d200694870df4da69c78f0295db1f, type: 3}
   m_Name: Monster003
   m_EditorClassIdentifier: 
+  MonsterName: Quick_Stone
   lv: 1
-  max_hp: 150
-  attack: 25
+  max_hp: 700
+  attack: 30
   defense: 0
-  Drop_Exp: 25
-  DropMoney: 30
+  Drop_Exp: 40
+  DropMoney: 50
   DropCard: {fileID: 0}

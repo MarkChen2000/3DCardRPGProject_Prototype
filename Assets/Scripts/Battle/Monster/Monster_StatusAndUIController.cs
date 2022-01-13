@@ -28,7 +28,7 @@ public class Monster_StatusAndUIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if ( Use_UIPrefabSystem )
+        if (Use_UIPrefabSystem)
         {
             // Trans_DisplayUICanvas = transform.GetChild(1);
             Trans_DisplayUICanvas = GameObject.Find("BattleUI").transform.GetChild(1).GetChild(0);
@@ -52,10 +52,11 @@ public class Monster_StatusAndUIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ( Use_UIPrefabSystem )
+        if (Use_UIPrefabSystem)
         {
             CheckShoworHideUIDisplay();
         }
+        Monster_BehaviorCon.current_hp_percentage = (int)((currentHP / _MonsterStatus.max_hp) * 100);
     }
 
     private void FixedUpdate()
@@ -71,11 +72,11 @@ public class Monster_StatusAndUIController : MonoBehaviour
         int damage = (int)damageinfo.y;
         damage = BattleValueCal.EnemyTakeDamageCalculate(damage);
 
-        _BattleUIManager.SpawnPopupDamageUI(damageinfo,UIDisplaySpot);
+        _BattleUIManager.SpawnPopupDamageUI(damageinfo, UIDisplaySpot);
 
         updateStatus(damage);
 
-        if ( Use_UIPrefabSystem )
+        if (Use_UIPrefabSystem)
         {
             UpdateUIStatus();
         }
@@ -99,8 +100,8 @@ public class Monster_StatusAndUIController : MonoBehaviour
     {
         PlayerLevelupSystem.GainExp(_MonsterStatus.Drop_Exp);
         PlayerStatusCon.GainMoney(_MonsterStatus.DropMoney);
-        
-        if ( DeathEffectPrefab!=null )
+
+        if (DeathEffectPrefab != null)
             Instantiate(DeathEffectPrefab, transform.position, Quaternion.identity);
 
         DestroyDisplayUI();
@@ -109,9 +110,9 @@ public class Monster_StatusAndUIController : MonoBehaviour
 
     private void CheckShoworHideUIDisplay()
     {
-        if ( Monster_BehaviorCon.OnAttackMode )
+        if (Monster_BehaviorCon.OnAttackMode)
         {
-            if ( !Using_UIPrefab )
+            if (!Using_UIPrefab)
             {
                 SpawnDisplayUI();
             }
@@ -154,7 +155,7 @@ public class Monster_StatusAndUIController : MonoBehaviour
     }
     void UpdateUIStatus()
     {
-        if ( Using_UIPrefab )
+        if (Using_UIPrefab)
         {
             CurrentSlider.value = currentHP;
             CurrentHPText.text = currentHP.ToString();

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349d200694870df4da69c78f0295db1f, type: 3}
   m_Name: Monster002
   m_EditorClassIdentifier: 
+  MonsterName: Heavy_Turtle
   lv: 1
-  max_hp: 300
-  attack: 50
+  max_hp: 1500
+  attack: 75
   defense: 10
-  Drop_Exp: 50
-  DropMoney: 50
+  Drop_Exp: 100
+  DropMoney: 80
   DropCard: {fileID: 0}

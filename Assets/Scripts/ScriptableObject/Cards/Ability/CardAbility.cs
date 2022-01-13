@@ -7,7 +7,11 @@ public enum SpellsRestoreType
     HP,Mana
 }
 
-[CreateAssetMenu(fileName ="CardAbilityBase",menuName ="Card/BaseAbility")]
+public enum SpellsBuffType
+{
+    PW,MP,RT,SP
+}
+
 public class CardAbility : ScriptableObject
 {
     protected Transform Player_Trans;

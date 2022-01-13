@@ -50,7 +50,7 @@ public class CharacterBasicAttackController : MonoBehaviour
 
     void Update()
     {
-        if ( Input.GetMouseButtonDown(0) && Character_MoveCon.Can_Control ) // left mouse click
+        if ( Input.GetMouseButtonDown(1) && Character_MoveCon.Can_Control ) 
         {
             OnAttack();
         }

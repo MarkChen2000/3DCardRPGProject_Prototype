@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e92c54a17370604b90544cf56aeb9be, type: 3}
+  m_Name: Eastern_Egg
+  m_EditorClassIdentifier: 
+  TalkerName: Bunny Girl
+  StringTextList:
+  - Hi, traveler! Do you some pafu pafu to relieve fatigue?
+  - Great, let's get started!
+  - Pafu~pafu~pafu~pafu~
+  - Whew~there you go!
+  - How do you think? Isn't my massage great?
+  - Your charm has increased by 1.

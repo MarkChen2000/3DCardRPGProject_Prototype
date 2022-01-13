@@ -188,6 +188,53 @@ public class PlayerStatusController : MonoBehaviour
         }
     }
 
+    public void Spells_TemporaryBuff(SpellsBuffType type, float buffvalue, int duration)
+    {
+        int disparity = 0;
+        switch (type)
+        {
+            case SpellsBuffType.PW:
+                disparity = Mathf.RoundToInt(currentPW * buffvalue);
+                currentPW += disparity;
+                break;
+            case SpellsBuffType.MP:
+                disparity = Mathf.RoundToInt(currentMP * buffvalue);
+                currentMP += disparity;
+                break;
+            case SpellsBuffType.RT:
+                disparity = (int)buffvalue;
+                currentManaRT -= disparity;
+                break;
+            case SpellsBuffType.SP:
+                disparity = (int)buffvalue;
+                currentSP += disparity;
+                break;
+        }
+        Debug.Log("Buff " + type.ToString() + " by " + disparity);
+        StartCoroutine(WaitforBuffEnd(type, duration, disparity));
+    }
+
+    IEnumerator WaitforBuffEnd(SpellsBuffType type, int duraion, int disparity)
+    {
+        yield return new WaitForSeconds(duraion);
+        switch (type)
+        {
+            case SpellsBuffType.PW:
+                currentPW -= disparity;
+                break;
+            case SpellsBuffType.MP:
+                currentMP -= disparity;
+                break;
+            case SpellsBuffType.RT:
+                currentManaRT += disparity;
+                break;
+            case SpellsBuffType.SP:
+                currentSP -= disparity;
+                break;
+        }
+        Debug.Log("Return buff " + type.ToString() + " by " + disparity);
+    }
+
     void RestoreMana(int restoreamount)
     {
         Debug.Log("Restore Mana:"+ restoreamount);

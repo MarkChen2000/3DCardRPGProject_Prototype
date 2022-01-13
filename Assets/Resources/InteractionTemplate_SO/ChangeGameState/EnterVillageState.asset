@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnterVillageState
   m_EditorClassIdentifier: 
   VillagerName: Soldier
-  EnterGameState: 0
+  EnterGameState: 1
   BeforeChangeStateSystemTextList:
   - 'Welcome Back! '
   LeavingChangeStateSystemTextList:

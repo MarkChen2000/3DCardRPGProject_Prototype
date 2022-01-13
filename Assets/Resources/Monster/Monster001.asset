@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349d200694870df4da69c78f0295db1f, type: 3}
   m_Name: Monster001
   m_EditorClassIdentifier: 
+  MonsterName: Slime
   lv: 1
-  max_hp: 50
+  max_hp: 100
   attack: 25
   defense: 5
-  Drop_Exp: 10
-  DropMoney: 10
+  Drop_Exp: 20
+  DropMoney: 25
   DropCard: {fileID: 0}

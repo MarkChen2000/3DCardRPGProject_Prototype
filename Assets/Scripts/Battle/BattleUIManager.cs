@@ -5,6 +5,8 @@ using TMPro;
 public class BattleUIManager : MonoBehaviour
 {
     public GameObject PopupDamageValue_Prefab;
+
+    GameObject Panel_UpStatusUI;
     Transform Trans_DisplayUICanvas;
     Camera MainCamera;
     
@@ -12,8 +14,14 @@ public class BattleUIManager : MonoBehaviour
 
     void Awake()
     {
+        Panel_UpStatusUI = transform.GetChild(0).GetChild(0).gameObject;
         Trans_DisplayUICanvas = transform.GetChild(1).GetChild(0);
         MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+    }
+
+    public void SwitchUpStatusUIOnOff(bool OnOff)
+    {
+        Panel_UpStatusUI.SetActive(OnOff);
     }
 
     public void SpawnPopupDamageUI(Vector2 damageinfo,Transform UIDisplaySpot)

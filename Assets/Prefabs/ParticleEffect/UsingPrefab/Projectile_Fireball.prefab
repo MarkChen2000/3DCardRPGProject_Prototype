@@ -9656,6 +9656,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9680b19e4aae2244a8b9177a283ace9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollisionEffectPrefab: {fileID: 1738658161782828, guid: 1609a55ffe16ee34cbc484b33eff7f83,
+    type: 3}
   speed: 12
   lifeTime: 2
   Damage: 1

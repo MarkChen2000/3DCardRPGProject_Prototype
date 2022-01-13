@@ -6,8 +6,10 @@ public class ProjectileController : MonoBehaviour
 {
     /*private Vector3 direction;
     private PlayerStatusController PlayerStatus;*/
-    private BattleValueCalculator battleValueCalculator;
 
+    BattleValueCalculator battleValueCalculator;
+
+    public GameObject CollisionEffectPrefab;
     [HideInInspector] public float speed = 5f;
     [HideInInspector] public float lifeTime = 3f;
     [HideInInspector] public int Damage = 1;
@@ -39,11 +41,13 @@ public class ProjectileController : MonoBehaviour
         //this.gameObject.transform.LookAt(new Vector3(-this.direction.x, GameObject.Find("Player").transform.position.y, -this.direction.z));
     }*/
 
-    private void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other) {
+
         if (other.tag == "Monster")
         {
             other.GetComponent<Monster_StatusAndUIController>().beAttacked(this.battleValueCalculator.PlayerDamageCalculate(AttackType.Magic, Damage));
             //other.SendMessage("beAttacked",this.battleValueCalculator.PlayerDamageCalculate(AttackType.Magic, Damage));
+            if (CollisionEffectPrefab!=null) Instantiate(CollisionEffectPrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

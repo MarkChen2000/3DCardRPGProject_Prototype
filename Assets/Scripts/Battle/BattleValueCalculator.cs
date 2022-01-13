@@ -34,7 +34,7 @@ public class BattleValueCalculator : MonoBehaviour
         switch ( type )
         {
             case AttackType.Magic:
-                finaldamage = (PlayerStatusCon.baseMP + EquipmentSlotCon.EquipmentBonusMP) * spellsvalue * MagicAttackMagnification;
+                finaldamage = (PlayerStatusCon.currentMP) * spellsvalue * MagicAttackMagnification;
                 break;
             case AttackType.Physics:
 
@@ -47,8 +47,8 @@ public class BattleValueCalculator : MonoBehaviour
                     Debug.Log("Critical Hit!");
                 }
 
-                if (EquipmentSlotCon.Weapon == null) finaldamage = Mathf.RoundToInt((PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW) * magnification);
-                else finaldamage = Mathf.RoundToInt((PlayerStatusCon.basePW + EquipmentSlotCon.EquipmentBonusPW) * EquipmentSlotCon.Weapon.WeaponAP * magnification);
+                if (EquipmentSlotCon.Weapon == null) finaldamage = Mathf.RoundToInt((PlayerStatusCon.currentPW) * magnification);
+                else finaldamage = Mathf.RoundToInt((PlayerStatusCon.currentPW) * EquipmentSlotCon.Weapon.WeaponAP * magnification);
                 break;
             case AttackType.Null:
                 Debug.Log("This player's attack didnt have type!");

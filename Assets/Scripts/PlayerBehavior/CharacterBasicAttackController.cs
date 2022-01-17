@@ -25,6 +25,7 @@ public class CharacterBasicAttackController : MonoBehaviour
     public float HitPauseRestoreTime = 0.1f;
     public float GetHittedHitPauseStopDuration = 0.3f;
     public float GetHittedHitPauseRestoreTime = 0.5f;
+    public bool Is_Invinsible;
     public float InvincibleTime = 1f;
 
     [Tooltip("The time that make character turn in Staring state, which will make character stop turning toward the moveing direction.")]
@@ -46,11 +47,13 @@ public class CharacterBasicAttackController : MonoBehaviour
     {
         if (MainCamera == null) MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
         Trans_Camera = MainCamera.GetComponent<Transform>();
+
+        Is_Invinsible = false;
     }
 
     void Update()
     {
-        if ( Input.GetMouseButtonDown(1) && Character_MoveCon.Can_Control ) 
+        if (Input.GetMouseButtonDown(1) && Character_MoveCon.Can_Control)
         {
             OnAttack();
         }
@@ -59,7 +62,7 @@ public class CharacterBasicAttackController : MonoBehaviour
     float AttackCDTimer = 0f;
     void OnAttack() // Check the mouse ckilck
     {
-        if ( Time.time < AttackCDTimer )
+        if (Time.time < AttackCDTimer)
         {
             Debug.Log("Attack is cooling!");
             return;
@@ -102,17 +105,17 @@ public class CharacterBasicAttackController : MonoBehaviour
         Collider[] detectedcolliders = Physics.OverlapSphere(AttackPointTrans.position, AttackRangeRadius);
         foreach (Collider item in detectedcolliders)
         {
-            if ( item.gameObject.tag == "Monster")
+            if (item.gameObject.tag == "Monster")
             {
-                Vector2 damageinfo = BattleValueCal.PlayerDamageCalculate(AttackType.Physics,0);
+                Vector2 damageinfo = BattleValueCal.PlayerDamageCalculate(AttackType.Physics, 0);
                 item.gameObject.GetComponent<Monster_StatusAndUIController>().beAttacked(damageinfo);
                 //Debug.Log("Attacked Enemy! Name:" + item.gameObject.name);
 
                 HitPauseManager.HitPauseStopTime(HitPauseStopDuration, HitPauseRestoreTime);
 
-                if ( DefaultHitEffectPrefab != null )
+                if (DefaultHitEffectPrefab != null)
                 {
-                    StartCoroutine(WaitSpawnPrefab(item,damageinfo));
+                    StartCoroutine(WaitSpawnPrefab(item, damageinfo));
                 }
             }
         }
@@ -121,14 +124,14 @@ public class CharacterBasicAttackController : MonoBehaviour
     IEnumerator WaitSpawnPrefab(Collider item, Vector2 damageinfo) // Wait until hit pause effect end, then run the hit effect prefab.
     {
         Vector3 closestpoint = item.ClosestPoint(transform.position); // Sometime when hit effec end, monster collider is already destryoed.
-        while ( Time.timeScale != 1f)
+        while (Time.timeScale != 1f)
         {
             yield return null;
         }
         Transform trans = Instantiate(DefaultHitEffectPrefab, closestpoint, Quaternion.identity).transform;
         trans.LookAt(transform);
 
-        if ( damageinfo.x==1 ) // mean this hit is critical
+        if (damageinfo.x == 1) // mean this hit is critical
         {
             trans.localScale = new Vector3(2f, 2f, 2f);
         }
@@ -138,7 +141,7 @@ public class CharacterBasicAttackController : MonoBehaviour
     float InvincibleTimer = 0f;
     public void PlayerBeAttack(int damage)
     {
-        if (Time.time < InvincibleTimer)
+        if (Time.time < InvincibleTimer || Is_Invinsible)
         {
             // Debug.Log("Player is invincible now!");
             return;

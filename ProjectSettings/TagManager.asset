@@ -7,6 +7,9 @@ TagManager:
   - Shootable
   - CinemachineTarget
   - NPC
+  - Monster
+  - FxTemporaire
+  - Projectile
   layers:
   - Default
   - TransparentFX

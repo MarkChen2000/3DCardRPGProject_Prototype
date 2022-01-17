@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 8502482666884809365}
   - component: {fileID: 7208345681487756868}
   - component: {fileID: 2458957380101570554}
+  - component: {fileID: 7628421741164473342}
   m_Layer: 0
   m_Name: BattleCard_Template
   m_TagString: Untagged
@@ -103,7 +104,7 @@ RectTransform:
   m_GameObject: {fileID: 1468260221481990438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 7846770716950959469}
   m_Father: {fileID: 0}
@@ -141,6 +142,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _CardData: {fileID: 0}
   HoldNum: 0
+--- !u!225 &7628421741164473342
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468260221481990438}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1803709678613259828
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,7 +1145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 481c4702977564f98bab76240250cd92, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

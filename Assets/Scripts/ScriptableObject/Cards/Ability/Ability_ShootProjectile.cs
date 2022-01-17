@@ -13,9 +13,12 @@ public class Ability_ShootProjectile: CardAbility
 
     public override void ActivateCardAbility(Vector3 mousePosition)
     {
+        GetScripts();
+
         //Debug.Log("Activate Shooting Projectile "+name);
 
-        base.ActivateCardAbility(mousePosition);
+        SpawnActivateSpellsEffect();
+        SpawnConsistEffect();
 
         GameObject projectile = Instantiate(ProjectilePrefab,Player_Trans.position,Quaternion.identity);
 
@@ -27,6 +30,5 @@ public class Ability_ShootProjectile: CardAbility
         pc.Damage = Projectile_Damage;
         pc.speed = Projectile_Speed;
         pc.lifeTime = Projectile_LifeTime;
-
     }
 }

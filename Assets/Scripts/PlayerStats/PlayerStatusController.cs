@@ -31,8 +31,10 @@ public class PlayerStatusController : MonoBehaviour
     [HideInInspector] public float currentSP;
     [HideInInspector] public int Money = 0;
 
-    private StatusUIManager _StatusUIManager;
-
+    StatusUIManager _StatusUIManager;
+    GameStateController GameStateCon;
+    EquipmentSlotController EuipmentSlotCon;
+    SoundEffectManager SoundEffectCon;
 
     // Start is called before the first frame update
     void Awake()
@@ -43,6 +45,10 @@ public class PlayerStatusController : MonoBehaviour
         InitializeLoadinData();
 
         _StatusUIManager = GameObject.Find("BattleUI").GetComponent<StatusUIManager>();
+        GameStateCon = FindObjectOfType<GameStateController>();
+        EuipmentSlotCon = FindObjectOfType<EquipmentSlotController>();
+        SoundEffectCon = FindObjectOfType<SoundEffectManager>();
+
     }
 
     public void SaveandLoadPlayerStatus(bool SorL)
@@ -148,6 +154,8 @@ public class PlayerStatusController : MonoBehaviour
     {
         currentHP -= damage;
         _StatusUIManager.UpdateOneStatusDisplay(StatusType.HP);
+        SoundEffectCon.SoundPlayPlayerHurt();
+
 
         if ( currentHP <= 0 )
         {
@@ -162,87 +170,23 @@ public class PlayerStatusController : MonoBehaviour
         _StatusUIManager.UpdateAllStatusDisplay();
     }
 
-    public void Spells_RestoreValue(SpellsRestoreType type,int restore_amount)
+    public void ResetAllStatusValue()
     {
-        switch ( type )
-        {
-            case SpellsRestoreType.HP:
-                RestoreHP(restore_amount);
-                break;
-            case SpellsRestoreType.Mana:
-                RestoreMana(restore_amount);
-                break;
-        }
+        currentPW = basePW;
+        currentMP = baseMP;
+        currentManaRT = baseManaRT;
+        currentSP = baseSP;
+        EuipmentSlotCon.AddEquipBonusValuetoPlayerStatus();
     }
 
-    public IEnumerator RestoringMana() 
-    {
-        while ( true ) // every frame check the mana is leas then max value.
-        {
-            while ( currentMana < currentMaxMana )
-            {
-                yield return new WaitForSeconds(currentManaRT); // after wait for RT then restore 1 mana.
-                RestoreMana(1);
-            }
-            yield return null;
-        }
-    }
-
-    public void Spells_TemporaryBuff(SpellsBuffType type, float buffvalue, int duration)
-    {
-        int disparity = 0;
-        switch (type)
-        {
-            case SpellsBuffType.PW:
-                disparity = Mathf.RoundToInt(currentPW * buffvalue);
-                currentPW += disparity;
-                break;
-            case SpellsBuffType.MP:
-                disparity = Mathf.RoundToInt(currentMP * buffvalue);
-                currentMP += disparity;
-                break;
-            case SpellsBuffType.RT:
-                disparity = (int)buffvalue;
-                currentManaRT -= disparity;
-                break;
-            case SpellsBuffType.SP:
-                disparity = (int)buffvalue;
-                currentSP += disparity;
-                break;
-        }
-        Debug.Log("Buff " + type.ToString() + " by " + disparity);
-        StartCoroutine(WaitforBuffEnd(type, duration, disparity));
-    }
-
-    IEnumerator WaitforBuffEnd(SpellsBuffType type, int duraion, int disparity)
-    {
-        yield return new WaitForSeconds(duraion);
-        switch (type)
-        {
-            case SpellsBuffType.PW:
-                currentPW -= disparity;
-                break;
-            case SpellsBuffType.MP:
-                currentMP -= disparity;
-                break;
-            case SpellsBuffType.RT:
-                currentManaRT += disparity;
-                break;
-            case SpellsBuffType.SP:
-                currentSP -= disparity;
-                break;
-        }
-        Debug.Log("Return buff " + type.ToString() + " by " + disparity);
-    }
-
-    void RestoreMana(int restoreamount)
+    public void RestoreMana(int restoreamount)
     {
         Debug.Log("Restore Mana:"+ restoreamount);
         currentMana = (int)Mathf.Clamp(currentMana + restoreamount, 0, currentMaxMana);
         _StatusUIManager.UpdateOneStatusDisplay(StatusType.Mana);
     }
 
-    void RestoreHP(int restoreamount)
+    public void RestoreHP(int restoreamount)
     {
         Debug.Log("Restore HP:" + restoreamount);
         //Debug.Log("CurrentHP:" + currentHP + " CurrentMaxHP:" + currentMaxHP + " RestoreAmount:" + restoreamount);
@@ -257,9 +201,15 @@ public class PlayerStatusController : MonoBehaviour
         _StatusUIManager.UpdateOneStatusDisplay(StatusType.Money);
     }
 
-    void PlayerDead() // Reload the scene.
+    void PlayerDead() 
     {
-        SceneManager.LoadScene("Scene_Field");
+        //Punishment
+        Money = Mathf.RoundToInt(Money / 2);
+        Debug.Log("Player Defeated! Lose half of money! Remain: " + Money);
+        _StatusUIManager.UpdateOneStatusDisplay(StatusType.Money);
+
+        GameStateCon.EnterState(GameState.RestartMenu);
+        //SceneManager.LoadScene("Scene_Field");
     }
 
 }

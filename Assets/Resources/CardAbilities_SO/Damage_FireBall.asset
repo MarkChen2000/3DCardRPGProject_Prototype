@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ccc6bd2be21e74bb7d8ea7e446075e, type: 3}
+  m_Name: Damage_FireBall
+  m_EditorClassIdentifier: 
+  Using_RangeDetect: 1
+  ActivateRange: 15
+  ActivateEffectPrefab: {fileID: 7704250334678431516, guid: aa32c92229732f440bd2fe54e323eedd,
+    type: 3}
+  ActivateEffectLifeTime: 1
+  ConsistEffectPrefab: {fileID: 0}
+  ConsistEffectLifetime: 3
+  ProjectilePrefab: {fileID: 1335089577986768023, guid: 4f865126bb788134584ef42509c6fbe6,
+    type: 3}
+  Projectile_Damage: 6
+  Projectile_Speed: 10
+  Projectile_LifeTime: 3

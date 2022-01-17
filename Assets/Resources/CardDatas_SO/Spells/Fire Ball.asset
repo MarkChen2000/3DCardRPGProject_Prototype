@@ -15,7 +15,7 @@ MonoBehaviour:
   CardID: 0
   Card_ImageSprite: {fileID: 21300000, guid: 3b7ed903b4c0842739c371a85ad4740b, type: 3}
   CardName: Fire Ball
-  CardDescription: Spawn a Fireball that deal basic 6 dmamges.
+  CardDescription: Shoot a Fireball that deal basic 6 dmamges.
   _CardType: 0
   CardCost: 4
   Ability: {fileID: 11400000, guid: dc7e822066bc4c943ab4bbd3aa0d1d98, type: 2}

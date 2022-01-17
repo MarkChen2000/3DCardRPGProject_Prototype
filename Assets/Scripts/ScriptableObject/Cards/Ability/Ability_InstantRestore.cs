@@ -12,8 +12,10 @@ public class Ability_InstantRestore : CardAbility
     {
         //Debug.Log("Activate InstantRestore " + name);
 
-        base.ActivateCardAbility(mousePosition);
+        GetScripts();
+        SpawnActivateSpellsEffect();
+        SpawnConsistEffect();
 
-        PlayerStatus_Con.Spells_RestoreValue(RestoreType, RestoreAmount);
+        _SpellsBattleManager.Spells_RestoreValue(RestoreType, RestoreAmount);
     }
 }

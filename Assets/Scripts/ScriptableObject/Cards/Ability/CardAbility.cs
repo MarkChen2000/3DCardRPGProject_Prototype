@@ -15,11 +15,17 @@ public enum SpellsBuffType
 public class CardAbility : ScriptableObject
 {
     protected Transform Player_Trans;
-    protected PlayerStatusController PlayerStatus_Con;
+    protected SpellsBattleManager _SpellsBattleManager;
+    protected PlayerSpellsEffectController PlayerSpellsEffectCon;
+    protected BattleUIManager _BattleUIManager;
 
-    public GameObject SpellsActivateEffectPrefab;
-    public float ActivateEffectLifeTime = 3f;
+    public bool Using_RangeDetect = false; // the spells is range type
+    public float ActivateRange = 10f;
 
+    public GameObject ActivateEffectPrefab;
+    public float ActivateEffectLifeTime = 1f;
+    public GameObject ConsistEffectPrefab;
+    public float ConsistEffectLifetime = 3f;
 
     void OnEnable()
     {
@@ -33,16 +39,48 @@ public class CardAbility : ScriptableObject
         // Debug.Log("Enable" + name);
     }
 
-    public virtual void ActivateCardAbility(Vector3 direction)
+    protected void GetScripts() // all the inherited abilities have to use this function to access the scripts instances.
+                                // For reducing the performance cost of getting components, using SpellsBattleManager to access component together. 
     {
-        Player_Trans = GameObject.Find("Player").transform;
-        PlayerStatus_Con = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
+        _SpellsBattleManager = FindObjectOfType<SpellsBattleManager>();
+        Player_Trans = _SpellsBattleManager.Player.transform;
+        PlayerSpellsEffectCon = _SpellsBattleManager.PlayerSpellsEffectCon;
+        _BattleUIManager = _SpellsBattleManager._BattleUIManager;
+    }
 
-        GameObject prefab;
-        if (SpellsActivateEffectPrefab != null)
+    public bool CheckInActivateRange(Vector3 mousePosition)
+    {
+        if ( Using_RangeDetect )
         {
-            prefab = Instantiate(SpellsActivateEffectPrefab, Player_Trans.position, Quaternion.identity);
-            prefab.GetComponent<PrefabSelfDestroyController>().lifeTime = ActivateEffectLifeTime;
+            GetScripts();
+            if (Vector3.Distance(mousePosition, Player_Trans.position) > ActivateRange)
+            {
+                _BattleUIManager.SpawnHandCardPopupInfo("Out of card activate range!", mousePosition);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public virtual void ActivateCardAbility(Vector3 mousePosition)
+    {
+        GetScripts();
+
+        // these function should be override.
+    }
+
+    protected void SpawnActivateSpellsEffect()
+    {
+        if (ActivateEffectPrefab != null)
+        {
+            PlayerSpellsEffectCon.SpawnSpellsActivateEffect(ActivateEffectPrefab, ActivateEffectLifeTime);
         }
     }
+
+    protected void SpawnConsistEffect()
+    {
+        if (ConsistEffectPrefab != null)
+            PlayerSpellsEffectCon.SpawnSpellsConsistEffect(ConsistEffectPrefab, ConsistEffectLifetime);
+    }
+
 }

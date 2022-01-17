@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Monster003
   m_EditorClassIdentifier: 
   MonsterName: Quick_Stone
-  lv: 1
-  max_hp: 700
-  attack: 30
+  lv: 3
+  max_hp: 1500
+  attack: 50
   defense: 0
-  Drop_Exp: 40
-  DropMoney: 50
+  Drop_Exp: 25
+  DropMoney: 25
   DropCard: {fileID: 0}

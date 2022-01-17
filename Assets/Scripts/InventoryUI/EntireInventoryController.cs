@@ -45,14 +45,7 @@ public class EntireInventoryController : MonoBehaviour
     {
         if (Can_TurnOnInv && Input.GetKeyDown(KeyCode.I)) 
         {
-            if (Canvas_Inventory.enabled == true)
-            {
-                SwitchInventoryOnOff(false);
-            }
-            else
-            {
-                SwitchInventoryOnOff(true);
-            }
+            SwitchInventory();
         }
     }
 
@@ -63,6 +56,12 @@ public class EntireInventoryController : MonoBehaviour
         InventoryCon.SaveandLoadInvCardList(SorL);
         EquipmentCon.SaveandLoadEquipSlot(SorL);
         DeckCon.SaveandLoadCardDeck(SorL);
+    }
+
+    public void SwitchInventory() // public for inv button
+    {
+        if (Canvas_Inventory.enabled == true) SwitchInventoryOnOff(false);
+        else SwitchInventoryOnOff(true);
     }
 
     void SwitchInventoryOnOff(bool OnOff) // true mean on, false mean off.

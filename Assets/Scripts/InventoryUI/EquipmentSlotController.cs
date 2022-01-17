@@ -196,7 +196,7 @@ public class EquipmentSlotController : MonoBehaviour
         TMP_PlayerPW.text = "PW: " + PlayerStatusCon.currentPW + " (x" + EquipmentBonusPW + ")";
         TMP_PlayerMP.text = "MP: " + PlayerStatusCon.currentMP + " (x" + EquipmentBonusMP + ")" ;
         TMP_PlayerManaRT.text = "Mana Recovery: " + PlayerStatusCon.currentManaRT  + " (-" + EquipmentBonusRT + ")s";
-        TMP_PlayerSP.text = "SPD: " + PlayerStatusCon.currentSP + " (x(+" + EquipmentBonusSP + "-" + Armor_DSP +")%)";
+        TMP_PlayerSP.text = "SPD: " + PlayerStatusCon.currentSP + " (+" + EquipmentBonusSP + "-" + Armor_DSP +")";
         if (Weapon_AP==0) TMP_WeaponAPnCR.text = "Weapon AP/CR: " + 1 + "/" + Weapon_CR + "%";
         else TMP_WeaponAPnCR.text = "Weapon AP/CR: " + Weapon_AP + "/" + Weapon_CR + "%";
         TMP_ArmorDPnDSP.text = "Armor DP: " + Armor_DP ;

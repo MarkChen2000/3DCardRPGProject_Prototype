@@ -12,9 +12,11 @@ public class Ability_TemporaryBuff : CardAbility
 
     public override void ActivateCardAbility(Vector3 direction)
     {
-        base.ActivateCardAbility(direction);
+        GetScripts();
+        SpawnActivateSpellsEffect();
+        SpawnConsistEffect();
 
-        PlayerStatus_Con.Spells_TemporaryBuff(BuffType, BuffValue, BuffDuration);
+        _SpellsBattleManager.Spells_TemporaryBuff(BuffType, BuffValue, BuffDuration);
     }
 
 }

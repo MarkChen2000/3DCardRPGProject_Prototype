@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e6abd8d9591694f8e8853581c1eb2b, type: 3}
+  m_Name: IRestore_Healing Beam
+  m_EditorClassIdentifier: 
+  Using_RangeDetect: 0
+  ActivateRange: 5
+  ActivateEffectPrefab: {fileID: 7704250334678431516, guid: 3791bdabfaa6fc0429980c8829ab3ea6,
+    type: 3}
+  ActivateEffectLifeTime: 1
+  ConsistEffectPrefab: {fileID: 100004, guid: d0f7382bead65a44da3d57fdf4abbf9f, type: 3}
+  ConsistEffectLifetime: 1
+  RestoreType: 0
+  RestoreAmount: 5

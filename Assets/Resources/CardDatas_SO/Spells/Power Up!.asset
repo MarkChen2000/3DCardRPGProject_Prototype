@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardID: 5
   Card_ImageSprite: {fileID: 21300000, guid: d331b25b16dcd428ab5cc24b44327aa2, type: 3}
-  CardName: Power Up!
-  CardDescription: Promote player's Power value by 20%, continue 30 secs.
+  CardName: Power Up
+  CardDescription: Promote player's PW by 10%, continue 30 secs.
   _CardType: 0
   CardCost: 3
   Ability: {fileID: 11400000, guid: 0991cdce84763684989775c3c7e53079, type: 2}

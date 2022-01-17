@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BattleDeckDisplayController : MonoBehaviour
 {
-    CardBattleController CardBattleCon;
+    HandCardBattleController HandCardBattleCon;
 
     public GameObject BattleDeckTemplatePrefab;
 
@@ -36,10 +36,10 @@ public class BattleDeckDisplayController : MonoBehaviour
 
     public void SpawnTemplateAndDisplay()
     {
-        for (int i = 0; i < CardBattleCon.BattleCardList.Count ; i++)
+        for (int i = 0; i < HandCardBattleCon.BattleCardList.Count ; i++)
         {
             DeckCard_DataLoaderAndDisplay template = Instantiate(BattleDeckTemplatePrefab, Trans_DeckCardGridGroup).GetComponent<DeckCard_DataLoaderAndDisplay>();
-            template.DisplaytoTemplate(CardBattleCon.BattleCardList[i]);
+            template.DisplaytoTemplate(HandCardBattleCon.BattleCardList[i]);
         }
     }
 

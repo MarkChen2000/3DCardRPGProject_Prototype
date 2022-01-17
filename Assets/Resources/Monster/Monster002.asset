@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Monster002
   m_EditorClassIdentifier: 
   MonsterName: Heavy_Turtle
-  lv: 1
-  max_hp: 1500
-  attack: 75
-  defense: 10
-  Drop_Exp: 100
-  DropMoney: 80
+  lv: 5
+  max_hp: 3000
+  attack: 150
+  defense: 50
+  Drop_Exp: 50
+  DropMoney: 50
   DropCard: {fileID: 0}

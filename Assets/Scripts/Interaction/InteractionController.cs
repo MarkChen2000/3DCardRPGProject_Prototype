@@ -9,20 +9,21 @@ public enum InteractionType
 
 public class InteractionController : MonoBehaviour
 {
-    private InteractionUIController InteractionUICon;
-    private ShopSystemAndUIController ShopSystemCon;
-    private CharacterBasicAttackController Player_BasicAttackCon;
-    private CharacterMovementController Player_MoveCon;
-    private GameStateChangeUIController GameStateChangeUICon;
+    InteractionUIController InteractionUICon;
+    ShopSystemAndUIController ShopSystemCon;
+    CharacterBasicAttackController Player_BasicAttackCon;
+    CharacterMovementController Player_MoveCon;
+    GameStateChangeUIController GameStateChangeUICon;
+    EntireInventoryController InvCon;
 
     public bool Is_Interacting = false;
-    private bool Is_Dialoging = false;
-    private bool Is_Transacting = false;
-    private bool Is_ChangingGameState = false;
+    bool Is_Dialoging = false;
+    bool Is_Transacting = false;
+    bool Is_ChangingGameState = false;
 
-    private bool CurrentConversationState; // it mean player is in the dialogue of before or after interaction.
+    bool CurrentConversationState; // it mean player is in the dialogue of before or after interaction.
 
-    private InteractionType CurrentInteractionType;
+    InteractionType CurrentInteractionType;
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class InteractionController : MonoBehaviour
         GameStateChangeUICon = GetComponent<GameStateChangeUIController>();
         Player_BasicAttackCon = GameObject.Find("Player").GetComponent<CharacterBasicAttackController>();
         Player_MoveCon = GameObject.Find("Player").GetComponent<CharacterMovementController>();
+        InvCon = FindObjectOfType<EntireInventoryController>();
     }
 
     private void Update()
@@ -98,6 +100,7 @@ public class InteractionController : MonoBehaviour
     {
         Is_Interacting = true;
         Player_MoveCon.Can_Control = false;
+        InvCon.Can_TurnOnInv = false;
     }
 
     public void PlayerEndInteraction()
@@ -106,6 +109,7 @@ public class InteractionController : MonoBehaviour
         Is_ChangingGameState = false;
         Is_Transacting = false;
         Player_MoveCon.Can_Control = true;
+        InvCon.Can_TurnOnInv = true;
         InteractionUICon.HideAllInteractionUI();
     }
 
@@ -113,7 +117,7 @@ public class InteractionController : MonoBehaviour
     {
         if (template.StringTextList.Count == 0)
         {
-            Debug.Log("There is no Text in the Conversation!");
+            //Debug.Log("There is no Text in the Conversation!");
             return;
         }
 

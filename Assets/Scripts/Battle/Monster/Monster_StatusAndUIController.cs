@@ -20,9 +20,12 @@ public class Monster_StatusAndUIController : MonoBehaviour
     private PlayerStatusLevelupSystem PlayerLevelupSystem;
     private PlayerStatusController PlayerStatusCon;
     private Monster_BehaviorController Monster_BehaviorCon;
+    GameStateController GameStateCon;
+    SoundEffectManager SoundEffectCon;
+
 
     public MonsterStatus _MonsterStatus;
-    private int currentHP;
+    [HideInInspector] public int currentHP;
 
 
     // Start is called before the first frame update
@@ -46,6 +49,8 @@ public class Monster_StatusAndUIController : MonoBehaviour
         PlayerLevelupSystem = GameObject.Find("PlayerManager").GetComponent<PlayerStatusLevelupSystem>();
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         Monster_BehaviorCon = GetComponent<Monster_BehaviorController>();
+        GameStateCon = FindObjectOfType<GameStateController>();
+        SoundEffectCon = FindObjectOfType<SoundEffectManager>();
 
     }
 
@@ -69,10 +74,16 @@ public class Monster_StatusAndUIController : MonoBehaviour
 
     public void beAttacked(Vector2 damageinfo)
     {
+        if (this.Monster_BehaviorCon.monsterType != 4)
+        {
+            StartCoroutine(ChangeSpeed());
+        }
+
         int damage = (int)damageinfo.y;
         damage = BattleValueCal.EnemyTakeDamageCalculate(damage);
 
         _BattleUIManager.SpawnPopupDamageUI(damageinfo, UIDisplaySpot);
+        SoundEffectCon.SoundPlayMonsterHurt();
 
         updateStatus(damage);
 
@@ -104,7 +115,25 @@ public class Monster_StatusAndUIController : MonoBehaviour
         if (DeathEffectPrefab != null)
             Instantiate(DeathEffectPrefab, transform.position, Quaternion.identity);
 
+        _BattleUIManager.SpawnPopupDropUI(_MonsterStatus.DropMoney, _MonsterStatus.Drop_Exp, UIDisplaySpot);
+
         DestroyDisplayUI();
+        this.Monster_BehaviorCon.CancelInvoke("Summon_servant");
+
+        if (gameObject.name == "BOSS ")
+            GameStateCon.EnterState(GameState.GameOverMenu);
+
+        Destroy(this.gameObject);
+
+    }
+
+    public void Despawn()
+    {
+        //_BattleUIManager.SpawnPopupDropUI(_MonsterStatus.DropMoney, _MonsterStatus.Drop_Exp, UIDisplaySpot);
+
+        DestroyDisplayUI();
+        this.Monster_BehaviorCon.CancelInvoke("Summon_servant");
+        
         Destroy(this.gameObject);
     }
 
@@ -135,6 +164,14 @@ public class Monster_StatusAndUIController : MonoBehaviour
     public void SpawnDisplayUI()
     {
         CurrentPrefab = Instantiate(HealthUI_Prefab, Trans_DisplayUICanvas);
+        if (_MonsterStatus.MonsterName.Contains("BOSS"))
+        {
+            CurrentPrefab.transform.localScale = new Vector3(2f, 2f, 2f);
+        }
+        else if (_MonsterStatus.MonsterName.Contains("King Slime"))
+        {
+            CurrentPrefab.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        }
         CurrentSlider = CurrentPrefab.transform.GetChild(0).GetComponent<Slider>();
         CurrentHPText = CurrentPrefab.transform.GetChild(1).GetComponent<TMP_Text>();
         CurrentLVandName = CurrentPrefab.transform.GetChild(2).GetComponent<TMP_Text>();
@@ -171,4 +208,13 @@ public class Monster_StatusAndUIController : MonoBehaviour
         }
     }
 
+
+    private IEnumerator ChangeSpeed()
+    {
+        int temp_Speed = this.Monster_BehaviorCon.speed;
+        this.Monster_BehaviorCon.speed = 0;
+        yield return new WaitForSeconds(1f);
+        this.Monster_BehaviorCon.speed = temp_Speed;
+
+    }
 }

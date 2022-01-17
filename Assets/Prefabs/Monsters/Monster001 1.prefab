@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 2289590919644430543}
   - component: {fileID: 5311282867873447959}
   - component: {fileID: -4771529511841370645}
+  - component: {fileID: 6746839478074796824}
   m_Layer: 0
   m_Name: Monster001 1
   m_TagString: Monster
@@ -192,6 +193,7 @@ MonoBehaviour:
   DeathEffectPrefab: {fileID: 1096352044232144, guid: 6d481c7378310634fb7888ce73947e6b,
     type: 3}
   _MonsterStatus: {fileID: 11400000, guid: fc2b1e0c3e6b283409187f706e59062a, type: 2}
+  currentHP: 0
 --- !u!114 &2289590919644430543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,9 +209,17 @@ MonoBehaviour:
   speed: 2
   attackInterval: 0.5
   monsterType: 1
-  bulletPrefab: {fileID: 143491689319156946, guid: da8ec8b0921abe6429aec22c187dc148,
+  bulletPrefab: {fileID: 4413861887558877131, guid: 2802fb02e9b22194ea19ca6bd1be84d9,
     type: 3}
+  current_hp_percentage: 0
   OnAttackMode: 0
+  slimePrefab: {fileID: 1749953604448350833}
+  turtlePrefab: {fileID: 1749953604448350833, guid: f4f66cc974ca2b84ca339b0c920f9811,
+    type: 3}
+  stonePrefab: {fileID: 1317406871972886187, guid: 6e5a1e75f0be61444b187733ae5dbfa1,
+    type: 3}
+  SummoningPointList: []
+  BulletPrefabList: []
 --- !u!64 &5311282867873447959
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -237,6 +247,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &6746839478074796824
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749953604448350833}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &3874397733604169333
 GameObject:
   m_ObjectHideFlags: 0

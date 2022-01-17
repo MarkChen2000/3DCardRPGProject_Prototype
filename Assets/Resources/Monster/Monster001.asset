@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MonsterName: Slime
   lv: 1
-  max_hp: 100
-  attack: 25
-  defense: 5
-  Drop_Exp: 20
-  DropMoney: 25
+  max_hp: 200
+  attack: 20
+  defense: 0
+  Drop_Exp: 10
+  DropMoney: 10
   DropCard: {fileID: 0}

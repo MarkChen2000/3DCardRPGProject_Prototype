@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e6abd8d9591694f8e8853581c1eb2b, type: 3}
+  m_Name: IRestore_Mana Unlock
+  m_EditorClassIdentifier: 
+  Using_RangeDetect: 0
+  ActivateRange: 5
+  ActivateEffectPrefab: {fileID: 1502869141874036319, guid: 84545da12a3252e43a9833e1fad6b7e6,
+    type: 3}
+  ActivateEffectLifeTime: 1
+  ConsistEffectPrefab: {fileID: 100000, guid: 901168c169f9fd94e9219d92dd99427d, type: 3}
+  ConsistEffectLifetime: 2
+  RestoreType: 1
+  RestoreAmount: 2

@@ -7,7 +7,10 @@ public enum GameState
     MainMenu, // After game start, will show the mainmenu first.
     Prepare, // When player in village, prepare for next combat.
     Combat, // When player in the combat, he can not change the equipment and deck card.
-    Tutorial // not doing anything now.
+    Tutorial, // not doing anything now.
+    RestartMenu, // restart mean player was defeat.
+    BossFight,
+    GameOverMenu // Gameover mean victory.
 }
 
 public class GameStateController : MonoBehaviour
@@ -17,27 +20,33 @@ public class GameStateController : MonoBehaviour
 
     public Transform CombatZoneSpawnPoint;
     public Transform PrepareZoneSpawnPoint;
+    public Transform RespawnPoint;
+    public Transform BossZoneTeleportPoint;
     public GameObject Player;
 
     PlayerStatusController PlayerStatusCon;
     EntireInventoryController EntireInvCon;
-    CardBattleController CardBattleCon;
+    HandCardBattleController HandCardBattleCon;
     MenuUIManager _MenuUIManager;
     BattleUIManager _BattleUIManager;
     CharacterMovementController PlayerMovementCon;
-    EntireInventoryController InvCon;
+    CharacterBasicAttackController PlayerBasicAttackCon;
+    SpellsBattleManager _SpellsBattleManager;
+    PlayerSpellsEffectController PlayerSpellsEffectCon;
     BgmManager BgmCon;
 
     private void Awake()
     {
         PlayerStatusCon = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         EntireInvCon = GameObject.Find("InventoryAndUIManager").GetComponent<EntireInventoryController>();
-        CardBattleCon = GameObject.Find("BattleUI").GetComponent<CardBattleController>();
+        HandCardBattleCon = GameObject.Find("BattleUI").GetComponent<HandCardBattleController>();
         _MenuUIManager = FindObjectOfType<MenuUIManager>();
         _BattleUIManager = FindObjectOfType<BattleUIManager>();
         PlayerMovementCon = FindObjectOfType<CharacterMovementController>();
-        InvCon = FindObjectOfType<EntireInventoryController>();
-	    BgmCon = GameObject.Find("BgmManager").GetComponent<BgmManager>();
+        PlayerBasicAttackCon = FindObjectOfType<CharacterBasicAttackController>();
+        _SpellsBattleManager = FindObjectOfType<SpellsBattleManager>();
+        PlayerSpellsEffectCon = GameObject.Find("Player").GetComponent<PlayerSpellsEffectController>();
+        BgmCon = GameObject.Find("BgmManager").GetComponent<BgmManager>();
     }
 
     // Start is called before the first frame update
@@ -60,8 +69,16 @@ public class GameStateController : MonoBehaviour
             case GameState.Prepare:
                 EnterVillage();
                 break;
+            case GameState.RestartMenu:
+                EnterRestartMenu();
+                break;
+            case GameState.BossFight:
+                EnterBossFight();
+                break;
+            case GameState.GameOverMenu:
+                EnterGameOverMenu();
+                break;
         }
-
     }
 
     void EnterMainMenu()
@@ -70,10 +87,11 @@ public class GameStateController : MonoBehaviour
 
         _BattleUIManager.SwitchUpStatusUIOnOff(false);
         _MenuUIManager.SwitchMainMenuOnOff(true);
+        EntireInvCon.Can_TurnOnInv = false;
 
+        Player.transform.position = RespawnPoint.position;
+        PlayerBasicAttackCon.Is_Invinsible = true;
         PlayerMovementCon.Can_Control = false;
-
-        InvCon.Can_TurnOnInv = false;
 
         BgmCon.BgmPlayMainMenu();
     }
@@ -83,11 +101,13 @@ public class GameStateController : MonoBehaviour
         CurrentGameState = GameState.Prepare;
 
         _BattleUIManager.SwitchUpStatusUIOnOff(true);
-        _MenuUIManager.SwitchMainMenuOnOff(false);
+        EntireInvCon.Can_TurnOnInv = true;
 
+        PlayerStatusCon.RefillAllStatusValue();
+
+        Player.transform.position = RespawnPoint.position;
+        PlayerBasicAttackCon.Is_Invinsible = true;
         PlayerMovementCon.Can_Control = true;
-
-        InvCon.Can_TurnOnInv = true;
 
         BgmCon.BgmPlayPrepare();
     }
@@ -96,15 +116,20 @@ public class GameStateController : MonoBehaviour
     {
         CurrentGameState = GameState.Prepare;
 
-        Player.transform.position = PrepareZoneSpawnPoint.position;
-
         EntireInvCon.SwitchInventoryBarrierOnOff(false);
+        EntireInvCon.Can_TurnOnInv = true;
 
-        StopCoroutine(PlayerStatusCon.RestoringMana());
+        StopCoroutine(_SpellsBattleManager.RestoringMana());
+        _SpellsBattleManager.ResetAllTemporaryBuff();
+        PlayerSpellsEffectCon.ClearAllSpellsConsistEffect();
 
         PlayerStatusCon.RefillAllStatusValue();
+        HandCardBattleCon.LeaveCombat();
 
-        CardBattleCon.LeaveCombat();
+        Player.transform.position = PrepareZoneSpawnPoint.position;
+        PlayerBasicAttackCon.Is_Invinsible = true;
+        PlayerMovementCon.Can_Control = true;
+
 	    BgmCon.BgmPlayPrepare();
     }
 
@@ -112,18 +137,70 @@ public class GameStateController : MonoBehaviour
     {
         CurrentGameState = GameState.Combat;
 
-        Player.transform.position = CombatZoneSpawnPoint.position;
-
         EntireInvCon.SwitchInventoryBarrierOnOff(true);
+        EntireInvCon.Can_TurnOnInv = true;
 
-        StopCoroutine(PlayerStatusCon.RestoringMana()); // just in case the coroutine doesn't stop.
-        StartCoroutine(PlayerStatusCon.RestoringMana());
+        StopCoroutine(_SpellsBattleManager.RestoringMana()); // just in case the coroutine doesn't stop.
+        StartCoroutine(_SpellsBattleManager.RestoringMana());
+        _SpellsBattleManager.ResetAllTemporaryBuff();
+        PlayerSpellsEffectCon.ClearAllSpellsConsistEffect();
 
         PlayerStatusCon.RefillAllStatusValue();
+        HandCardBattleCon.EnterCombatInitialize();
 
-        CardBattleCon.EnterCombatInitialize();
+        Player.transform.position = CombatZoneSpawnPoint.position;
+        PlayerBasicAttackCon.Is_Invinsible = false;
+        PlayerMovementCon.Can_Control = true;
+
 	    BgmCon.BgmPlayCombat();
     }
 
+    void EnterBossFight() // should only enter from combat state.
+    {
+        CurrentGameState = GameState.BossFight;
+
+        Player.transform.position = BossZoneTeleportPoint.position;
+
+        BgmCon.BgmPlayBossFight();
+    }
+
+    void EnterRestartMenu()
+    {
+        CurrentGameState = GameState.RestartMenu;
+
+        StartCoroutine(_MenuUIManager.StartFadeInRestartMenu());
+        EntireInvCon.Can_TurnOnInv = false;
+
+        StopCoroutine(_SpellsBattleManager.RestoringMana());
+        _SpellsBattleManager.ResetAllTemporaryBuff();
+        PlayerSpellsEffectCon.ClearAllSpellsConsistEffect();
+
+        HandCardBattleCon.LeaveCombat();
+
+        PlayerBasicAttackCon.Is_Invinsible = true;
+        PlayerMovementCon.Can_Control = false;
+
+        BgmCon.BgmPlayRestartMenu();
+    }
+
+
+    void EnterGameOverMenu() 
+    {
+        CurrentGameState = GameState.GameOverMenu;
+
+        StartCoroutine(_MenuUIManager.StartFadeInGameOverMenu());
+        EntireInvCon.Can_TurnOnInv = false;
+
+        StopCoroutine(_SpellsBattleManager.RestoringMana());
+        _SpellsBattleManager.ResetAllTemporaryBuff();
+        PlayerSpellsEffectCon.ClearAllSpellsConsistEffect();
+
+        HandCardBattleCon.LeaveCombat();
+
+        PlayerBasicAttackCon.Is_Invinsible = true;
+        PlayerMovementCon.Can_Control = false;
+
+        BgmCon.BgmPlayGameOver();
+    }
 
 }

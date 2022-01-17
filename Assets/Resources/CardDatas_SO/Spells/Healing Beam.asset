@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4108816d3f02347860c670d28bfcfc, type: 3}
+  m_Name: Healing Beam
+  m_EditorClassIdentifier: 
+  CardID: 0
+  Card_ImageSprite: {fileID: 21300000, guid: 41b28ae84fe0947ae9d0c26096b94a12, type: 3}
+  CardName: Healing Beam
+  CardDescription: Restore player basic 5 HP.
+  _CardType: 0
+  CardCost: 3
+  Ability: {fileID: 11400000, guid: 2b2bb49a137aaaa47beb241bf0185dc2, type: 2}
+  CardLv: 0
+  _EquipmentType: 0
+  EquipmentPrefab: {fileID: 0}
+  EquipmentBonusHP: 0
+  EquipmentBonusPW: 0
+  EquipmentBonusMP: 0
+  EquipmentBonusRT: 0
+  EquipmentBonusSP: 0
+  WeaponAP: 0
+  WeaponCR: 0
+  _ArmorType: 0
+  ArmorDP: 1
+  ArmorDSP: 0

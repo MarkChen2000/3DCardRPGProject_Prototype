@@ -15,7 +15,7 @@ MonoBehaviour:
   CardID: 0
   Card_ImageSprite: {fileID: 21300000, guid: 07566b2051051429e8bf37e0b99c63d5, type: 3}
   CardName: Heal Potion
-  CardDescription: Restore player 50 HP.
+  CardDescription: Restore player basic 3 HP.
   _CardType: 0
   CardCost: 2
   Ability: {fileID: 11400000, guid: e1a7c8bb10ae1cf4880ee1d5a5f243d4, type: 2}

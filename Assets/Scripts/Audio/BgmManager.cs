@@ -10,6 +10,8 @@ public class BgmManager : MonoBehaviour
     [SerializeField] private AudioClip clipBgmPrepare;
     [SerializeField] private AudioClip clipBgmCombat;
     [SerializeField] private AudioClip clipBgmRestart; // When player dead.
+    [SerializeField] private AudioClip clipBgmBossFight;
+    [SerializeField] private AudioClip clipBgmGameOver;
 
     // Start is called before the first frame update
     void Awake()
@@ -33,6 +35,26 @@ public class BgmManager : MonoBehaviour
     public void BgmPlayCombat()
     {
         audioSource.clip = clipBgmCombat;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    public void BgmPlayRestartMenu()
+    {
+        audioSource.clip = clipBgmRestart;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    public void BgmPlayBossFight()
+    {
+        audioSource.clip = clipBgmBossFight;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+    public void BgmPlayGameOver()
+    {
+        audioSource.clip = clipBgmGameOver;
         audioSource.loop = true;
         audioSource.Play();
     }

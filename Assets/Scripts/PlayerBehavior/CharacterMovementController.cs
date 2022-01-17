@@ -5,6 +5,8 @@ public class CharacterMovementController : MonoBehaviour
 {
     PlayerStatusController PlayerStatus_Con;
     PlayerAnimationController PlayerAnimation_Con;
+    CharacterBasicAttackController PlayerBasicAttackCon;
+    SoundEffectManager SoundEffectCon;
 
     [Tooltip("According to this camera direction, define which direction is forward.")]
     public Transform Trans_Camera;
@@ -44,6 +46,8 @@ public class CharacterMovementController : MonoBehaviour
 
         player_controller = GetComponent<CharacterController>();
         PlayerAnimation_Con = GetComponent<PlayerAnimationController>();
+        PlayerBasicAttackCon = FindObjectOfType<CharacterBasicAttackController>();
+        SoundEffectCon = FindObjectOfType<SoundEffectManager>();
 
         PlayerStatus_Con = GameObject.Find("PlayerManager").GetComponent<PlayerStatusController>();
         RunningSmokeEffectSpot_Trans = transform.GetChild(3).transform;
@@ -171,6 +175,7 @@ public class CharacterMovementController : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0f, Last_FacingAngle, 0f);
         PlayerAnimation_Con.OnDodgeAnim();
+        SoundEffectCon.SoundPlayPlayerRoll();
 
         player_controller.detectCollisions = false;
         Is_Dodging = true;
@@ -198,4 +203,5 @@ public class CharacterMovementController : MonoBehaviour
     {
         staringdurationtimer = wait_sec;
     }
+
 }

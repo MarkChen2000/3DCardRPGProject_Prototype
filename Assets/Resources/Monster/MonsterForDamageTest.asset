@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: MonsterForDamageTest
   m_EditorClassIdentifier: 
   MonsterName: BOSS
-  lv: 1
-  max_hp: 10000
-  attack: 200
-  defense: 50
-  Drop_Exp: 1500
-  DropMoney: 1000
+  lv: 10
+  max_hp: 50000
+  attack: 500
+  defense: 200
+  Drop_Exp: 5000
+  DropMoney: 2000
   DropCard: {fileID: 0}
